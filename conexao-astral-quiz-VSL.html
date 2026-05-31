@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Conexão Astral — O que o cosmos revela sobre você</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════
+   RESET + BASE
+══════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100%;overflow-x:hidden;background:#07031A}
+body{font-family:'DM Sans',sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+
+/* ══════════════════════════════════
+   COSMOS BG — fixed star field
+══════════════════════════════════ */
+.cosmos{
+  position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%,   rgba(88,28,220,.28) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%,  rgba(192,132,252,.12) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 60%,  rgba(124,58,237,.15) 0%,transparent 60%),
+    #07031A;
+  pointer-events:none;
+}
+.cosmos::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 50% 50%, rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 15% 55%, rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 20%, rgba(192,132,252,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 15%, rgba(255,255,255,.6) 0%,transparent 100%);
+  background-size:400px 400px, 300px 300px, 500px 500px, 350px 350px, 450px 450px,
+    280px 280px, 420px 420px, 320px 320px, 380px 380px, 260px 260px;
+  animation:twinkle 8s ease-in-out infinite alternate;
+}
+@keyframes twinkle{0%{opacity:.6}100%{opacity:1}}
+
+/* ══════════════════════════════════
+   PROGRESS
+══════════════════════════════════ */
+.prog{
+  position:fixed;top:0;left:0;right:0;height:3px;
+  background:rgba(255,255,255,.08);z-index:200;
+}
+.prog-fill{
+  height:100%;width:0;
+  background:linear-gradient(90deg,#7C3AED,#C084FC,#F472B6);
+  transition:width .6s cubic-bezier(.4,0,.2,1);
+}
+.prog-pct{
+  position:fixed;top:10px;right:16px;
+  font-size:11px;font-weight:700;color:rgba(192,132,252,.7);
+  letter-spacing:1px;z-index:200;display:none;
+}
+
+/* ══════════════════════════════════
+   SCREENS — full viewport
+══════════════════════════════════ */
+.screen{
+  position:relative;z-index:1;
+  min-height:100vh;width:100%;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:60px 24px 40px;
+  text-align:center;
+}
+.screen.active{display:flex}
+.screen.slide-right{animation:slideR .45s cubic-bezier(.4,0,.2,1) both}
+.screen.slide-left{animation:slideL .45s cubic-bezier(.4,0,.2,1) both}
+@keyframes slideR{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideL{from{opacity:0;transform:translateX(-48px)}to{opacity:1;transform:translateX(0)}}
+
+.inner{max-width:540px;width:100%}
+
+/* ══════════════════════════════════
+   TYPOGRAPHY
+══════════════════════════════════ */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(192,132,252,.1);
+  border:1px solid rgba(192,132,252,.3);
+  border-radius:100px;padding:7px 18px;
+  font-size:11px;font-weight:700;color:#C084FC;
+  letter-spacing:2.5px;text-transform:uppercase;
+  margin-bottom:24px;
+}
+
+.headline{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,6vw,52px);
+  font-weight:900;line-height:1.1;
+  color:#fff;margin-bottom:18px;
+}
+.headline em{
+  font-style:italic;
+  background:linear-gradient(135deg,#C084FC 0%,#F472B6 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.headline .gold{
+  background:linear-gradient(135deg,#F5C842,#E8A827);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.sub{
+  font-size:clamp(15px,2.5vw,18px);
+  color:#C4B5D8;line-height:1.75;
+  margin-bottom:28px;
+}
+.sub strong{color:#fff}
+
+.hook-text{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(18px,3vw,26px);
+  font-style:italic;color:#E8D5FF;
+  line-height:1.6;margin-bottom:28px;
+}
+
+/* ══════════════════════════════════
+   QUESTION STYLE
+══════════════════════════════════ */
+.q-label{
+  font-size:11px;font-weight:700;
+  color:#A855F7;letter-spacing:3px;
+  text-transform:uppercase;margin-bottom:14px;display:block;
+}
+.q-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,5vw,36px);
+  font-weight:700;color:#fff;
+  line-height:1.2;margin-bottom:10px;
+}
+.q-sub{
+  font-size:14px;color:#9580B0;
+  line-height:1.65;margin-bottom:28px;
+}
+
+/* REVEAL HOOK — copy before question */
+.reveal-hook{
+  background:rgba(192,132,252,.07);
+  border-left:3px solid #A855F7;
+  border-radius:0 12px 12px 0;
+  padding:16px 20px;
+  margin-bottom:24px;
+  text-align:left;
+}
+.rh-text{
+  font-size:14px;color:#E8D5FF;
+  line-height:1.75;font-style:italic;
+}
+.rh-text strong{color:#C084FC;font-style:normal}
+
+/* OPTIONS */
+.opts{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.opt{
+  background:rgba(255,255,255,.04);
+  border:1.5px solid rgba(192,132,252,.18);
+  border-radius:16px;
+  padding:18px 20px;
+  cursor:pointer;
+  display:flex;align-items:center;gap:14px;
+  text-align:left;
+  transition:all .22s ease;
+  position:relative;overflow:hidden;
+}
+.opt::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(192,132,252,.04));
+  opacity:0;transition:opacity .22s;
+}
+.opt:hover{border-color:rgba(192,132,252,.5);transform:translateX(5px)}
+.opt:hover::before{opacity:1}
+.opt.sel{
+  border-color:#C084FC;
+  background:rgba(168,85,247,.14);
+  transform:translateX(5px);
+}
+.opt.sel::before{opacity:1}
+.opt-e{font-size:24px;flex-shrink:0;line-height:1}
+.opt-t{font-size:15px;color:#F0E8FF;font-weight:500;line-height:1.4}
+.opt-ck{
+  margin-left:auto;flex-shrink:0;
+  width:24px;height:24px;border-radius:50%;
+  border:2px solid rgba(192,132,252,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;transition:all .2s;
+}
+.opt.sel .opt-ck{background:#A855F7;border-color:#A855F7;color:#fff}
+.opt.sel .opt-ck::after{content:'✓'}
+
+/* INPUTS */
+.inp{
+  width:100%;
+  background:rgba(255,255,255,.06);
+  border:1.5px solid rgba(192,132,252,.25);
+  border-radius:13px;
+  padding:16px 18px;color:#fff;
+  font-family:'DM Sans',sans-serif;font-size:16px;
+  outline:none;margin-bottom:12px;display:block;
+  transition:border-color .25s,background .25s;
+}
+.inp::placeholder{color:#5A4878}
+.inp:focus{border-color:#A855F7;background:rgba(168,85,247,.08)}
+
+/* BUTTONS */
+.btn{
+  width:100%;
+  background:linear-gradient(135deg,#A855F7,#7C3AED);
+  color:#fff;border:none;border-radius:13px;
+  padding:18px 24px;
+  font-family:'DM Sans',sans-serif;
+  font-size:17px;font-weight:700;
+  cursor:pointer;
+  transition:transform .2s,box-shadow .25s;
+  animation:glow 2.5s ease-in-out infinite;
+  position:relative;overflow:hidden;
+}
+.btn::after{
+  content:'';position:absolute;
+  top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+  transition:left .5s;
+}
+.btn:hover::after{left:100%}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(124,58,237,.55)}
+.btn:disabled{opacity:.5;animation:none;cursor:not-allowed}
+
+.btn-secondary{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.12);
+  color:#9580B0;
+  margin-top:10px;
+  animation:none;
+}
+.btn-secondary:hover{background:rgba(255,255,255,.05);transform:none;box-shadow:none}
+
+@keyframes glow{
+  0%,100%{box-shadow:0 0 0 0 rgba(124,58,237,.5)}
+  50%{box-shadow:0 0 0 12px rgba(124,58,237,0)}
+}
+
+/* ══════════════════════════════════
+   LOADING / CALCULATION SCREEN
+══════════════════════════════════ */
+.calc-orb{
+  width:96px;height:96px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#7C3AED,#C084FC);
+  margin:0 auto 28px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:42px;
+  box-shadow:0 0 60px rgba(124,58,237,.5);
+  animation:orbit 1.8s linear infinite;
+}
+@keyframes orbit{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+.calc-steps{list-style:none;margin:24px 0;text-align:left;max-width:300px;margin:24px auto}
+.cs{
+  display:flex;align-items:center;gap:12px;
+  padding:8px 0;font-size:14px;color:#9580B0;
+  transition:color .4s;
+}
+.cs.done{color:#86EFAC}
+.cs.active{color:#C084FC}
+.cs-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#2E1858;flex-shrink:0;transition:background .4s;
+}
+.cs.done .cs-dot{background:#86EFAC}
+.cs.active .cs-dot{background:#C084FC;animation:blink .8s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ══════════════════════════════════
+   RESULT SCREEN
+══════════════════════════════════ */
+.result-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(134,239,172,.1);
+  border:1px solid rgba(134,239,172,.3);
+  border-radius:100px;padding:8px 20px;
+  font-size:12px;font-weight:700;
+  color:#86EFAC;letter-spacing:1.5px;
+  text-transform:uppercase;margin-bottom:24px;
+}
+
+.planet-chips{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  gap:8px;margin:20px 0;
+}
+.pchip{
+  background:#1C1035;
+  border:1px solid rgba(192,132,252,.25);
+  border-radius:100px;
+  padding:6px 14px;font-size:13px;
+  font-weight:600;color:#E8D5FF;
+}
+.pchip strong{color:#C084FC}
+
+/* LOCKED REVEAL CARDS */
+.reveal-cards{margin:24px 0;text-align:left}
+.rcard{
+  background:#130828;
+  border:1px solid rgba(192,132,252,.15);
+  border-radius:18px;overflow:hidden;
+  margin-bottom:12px;
+  animation:fadeUp .5s ease both;
+}
+.rcard:nth-child(2){animation-delay:.1s}
+.rcard:nth-child(3){animation-delay:.2s}
+.rcard:nth-child(4){animation-delay:.3s}
+
+.rcard-head{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.rcard-ico{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,rgba(168,85,247,.3),rgba(124,58,237,.2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.rcard-title{font-size:15px;font-weight:700;color:#fff}
+.rcard-badge{
+  margin-left:auto;
+  background:#1C1035;
+  border:1px solid rgba(192,132,252,.2);
+  border-radius:100px;padding:3px 10px;
+  font-size:10px;color:#A855F7;font-weight:700;
+}
+.rcard-body{padding:16px 20px}
+.rcard-preview{
+  font-size:14px;color:#C4B5D8;line-height:1.75;
+  position:relative;overflow:hidden;max-height:66px;
+}
+.rcard-preview::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:44px;
+  background:linear-gradient(transparent,#130828);
+}
+.rcard-lock{
+  padding:12px 20px;
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:#5A4878;
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.rcard-lock span{color:#A855F7;font-weight:700}
+
+/* THE OFFER */
+.offer-box{
+  background:linear-gradient(135deg,#130828,#1C1035);
+  border:2px solid #A855F7;
+  border-radius:24px;
+  padding:32px 24px;
+  margin-top:24px;
+  position:relative;overflow:hidden;
+}
+.offer-box::before{
+  content:'';position:absolute;
+  top:-60px;left:50%;transform:translateX(-50%);
+  width:280px;height:280px;
+  background:radial-gradient(circle,rgba(168,85,247,.15),transparent 70%);
+  pointer-events:none;
+}
+
+.offer-tag{
+  display:inline-block;
+  background:#F472B6;color:#fff;
+  font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:7px 20px;border-radius:100px;
+  margin-bottom:18px;
+}
+.offer-h{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,4vw,32px);
+  font-weight:700;color:#fff;
+  line-height:1.2;margin-bottom:8px;
+}
+.offer-h em{font-style:italic;color:#C084FC}
+
+.offer-what{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;padding:18px 20px;
+  margin:18px 0;text-align:left;
+}
+.ow-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);
+  font-size:14px;color:#E8D5FF;line-height:1.5;
+}
+.ow-item:last-child{border:none;padding-bottom:0}
+.ow-ck{color:#A855F7;flex-shrink:0;margin-top:1px;font-size:15px}
+
+/* PRICE */
+.price-from{font-size:14px;color:#5A4878;text-decoration:line-through;margin-bottom:4px}
+.price-big{
+  font-family:'Playfair Display',serif;
+  font-size:72px;font-weight:700;
+  color:#C084FC;line-height:1;
+  margin-bottom:6px;
+}
+.price-big sup{font-size:28px;vertical-align:super}
+.price-cents{font-size:34px}
+.price-pix{
+  background:rgba(192,132,252,.1);
+  border:1px solid rgba(192,132,252,.2);
+  border-radius:10px;
+  padding:10px;font-size:13px;
+  color:#C084FC;font-weight:600;
+  margin:14px 0 20px;
+}
+
+/* COUNTDOWN */
+.timer{
+  display:flex;justify-content:center;
+  gap:10px;margin-bottom:20px;
+}
+.tu{
+  background:#07031A;
+  border:1px solid rgba(192,132,252,.2);
+  border-radius:11px;
+  padding:12px 16px;min-width:64px;text-align:center;
+}
+.tun{
+  display:block;
+  font-family:'Playfair Display',serif;
+  font-size:32px;font-weight:700;
+  color:#C084FC;line-height:1;
+}
+.tul{font-size:10px;color:#5A4878;letter-spacing:1px;text-transform:uppercase}
+
+/* ORDER BUMP */
+.order-bump{
+  border:2px dashed rgba(245,200,66,.4);
+  border-radius:14px;
+  padding:18px;margin-bottom:18px;
+  background:rgba(245,200,66,.03);
+  display:flex;gap:12px;
+  align-items:flex-start;
+  text-align:left;cursor:pointer;
+}
+.ob-ck{
+  width:22px;height:22px;border-radius:6px;
+  border:2px solid #F5C842;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:12px;
+  background:#F5C842;color:#07031A;font-weight:700;
+  transition:all .2s;
+}
+.ob-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px}
+.ob-title span{color:#F5C842}
+.ob-desc{font-size:12px;color:#9580B0}
+
+.btn-buy{
+  display:block;width:100%;
+  background:linear-gradient(135deg,#A855F7,#7C3AED);
+  color:#fff;border:none;border-radius:14px;
+  padding:20px;
+  font-family:'DM Sans',sans-serif;
+  font-size:18px;font-weight:700;
+  cursor:pointer;text-align:center;
+  text-decoration:none;
+  transition:transform .2s,box-shadow .25s;
+  animation:glow 2.5s ease-in-out infinite;
+}
+.btn-buy:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(124,58,237,.6)}
+
+.guar{
+  margin-top:14px;font-size:12px;
+  color:#5A4878;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+
+/* SOCIAL PROOF MINI */
+.sp-row{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;margin-bottom:20px;
+  font-size:13px;color:#9580B0;
+}
+.sp-stars{color:#F5C842;letter-spacing:2px;font-size:14px}
+.sp-dot{width:4px;height:4px;background:#3B2070;border-radius:50%}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.fade-in{animation:fadeIn .5s ease both}
+
+/* MOBILE */
+@media(max-width:480px){
+  .price-big{font-size:56px}
+  .rcard-preview{max-height:52px}
+}
+</style>
+</head>
+<body>
+
+<div class="cosmos"></div>
+<div class="prog"><div class="prog-fill" id="pf"></div></div>
+<div class="prog-pct" id="pp"></div>
+
+<!-- ════════════════════════════════════════════
+     TELA 0 — VSL HOOK
+════════════════════════════════════════════ -->
+<div class="screen active" id="s0">
+<div class="inner">
+  <div class="eyebrow">🌌 Revelação Cósmica</div>
+  <h1 class="headline">
+    O cosmos registrou tudo<br>sobre você no dia em que<br>você <em>nasceu.</em>
+  </h1>
+  <p class="hook-text">
+    "Seus padrões de amor. Seu bloqueio financeiro. Sua missão de vida. Sua alma gêmea. <strong style="color:#fff;font-style:normal">Tudo está escrito.</strong>"
+  </p>
+  <p class="sub">
+    Responda <strong>8 perguntas</strong> — e em 2 minutos você descobre o que estava reservado para você desde sempre.
+  </p>
+
+  <div class="sp-row">
+    <span class="sp-stars">★★★★★</span>
+    <span class="sp-dot"></span>
+    <span>52.000+ almas reveladas</span>
+    <span class="sp-dot"></span>
+    <span>97% de satisfação</span>
+  </div>
+
+  <button class="btn" onclick="go(1)">
+    🔮 QUERO SABER O QUE FOI ESCRITO SOBRE MIM →
+  </button>
+  <p style="margin-top:14px;font-size:12px;color:#5A4878">⏱️ 2 minutos · Gratuito · Sem compromisso</p>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA 1 — Q1: MAIOR DOR (NLP gatilho)
+════════════════════════════════════════════ -->
+<div class="screen" id="s1">
+<div class="inner">
+  <span class="q-label">Pergunta 1 de 8</span>
+  <h2 class="q-title">O que mais pesa na sua vida neste momento?</h2>
+  <p class="q-sub">Seja honesta. O cosmos já sabe — agora é você quem precisa nomear.</p>
+
+  <div class="reveal-hook">
+    <p class="rh-text">Cada uma dessas respostas ativa uma área específica do seu mapa. <strong>Sua escolha já começa a revelar seu padrão mais profundo.</strong></p>
+  </div>
+
+  <div class="opts">
+    <div class="opt" onclick="pick(this,'dor','amor')">
+      <div class="opt-e">💔</div>
+      <div class="opt-t">Amor que dói — sempre o mesmo ciclo, sempre a mesma dor</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'dor','proposito')">
+      <div class="opt-e">🧭</div>
+      <div class="opt-t">Sensação de estar no lugar errado — sem saber qual é o certo</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'dor','dinheiro')">
+      <div class="opt-e">💸</div>
+      <div class="opt-t">Dinheiro que não fica — bloqueio invisível que ninguém explica</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'dor','tudo')">
+      <div class="opt-e">🌀</div>
+      <div class="opt-t">Tudo acima — parece que os mesmos padrões se repetem sempre</div>
+      <div class="opt-ck"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA 2 — Q2: O QUE MAIS DESEJA (desejo)
+════════════════════════════════════════════ -->
+<div class="screen" id="s2">
+<div class="inner">
+  <span class="q-label">Pergunta 2 de 8</span>
+  <h2 class="q-title">Se o cosmos pudesse te revelar <em>uma coisa</em> agora — qual seria?</h2>
+  <p class="q-sub">Essa escolha acende a parte mais poderosa da sua análise.</p>
+
+  <div class="opts">
+    <div class="opt" onclick="pick(this,'desejo','almagemea')">
+      <div class="opt-e">💞</div>
+      <div class="opt-t">As características exatas da minha alma gêmea — e como reconhecê-la</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'desejo','missao')">
+      <div class="opt-e">🌟</div>
+      <div class="opt-t">Minha missão nesta vida — o que eu vim fazer aqui</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'desejo','ramo')">
+      <div class="opt-e">🚀</div>
+      <div class="opt-t">O ramo de atuação onde minha alma prospera sem esforço</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'desejo','futuro')">
+      <div class="opt-e">🔮</div>
+      <div class="opt-t">O que vem por aí — o que os próximos 12 meses reservam para mim</div>
+      <div class="opt-ck"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA 3 — NOME + CELULAR (personalização)
+════════════════════════════════════════════ -->
+<div class="screen" id="s3">
+<div class="inner">
+  <span class="q-label">Pergunta 3 de 8</span>
+  <h2 class="q-title">Para gerar <em>sua</em> análise — como você se chama?</h2>
+  <p class="q-sub">A partir de agora, tudo que aparecer será escrito especialmente para você.</p>
+
+  <div class="reveal-hook">
+    <p class="rh-text">Com seu nome, transformamos uma análise genérica em um documento que <strong>ninguém mais no mundo vai ter.</strong></p>
+  </div>
+
+  <input class="inp" type="text" id="fnome" placeholder="Seu primeiro nome" oninput="save('nome',this.value)">
+  <input class="inp" type="tel" id="fcel" placeholder="WhatsApp (para te avisar quando estiver pronto)" oninput="save('celular',this.value)" style="margin-top:0">
+
+  <button class="btn" onclick="nextInp('fnome',4)">CONTINUAR →</button>
+  <p style="margin-top:10px;font-size:12px;color:#5A4878">🔒 Seus dados são privados e protegidos</p>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA 4 — ELEMENT / ENERGIA (identidade)
+════════════════════════════════════════════ -->
+<div class="screen" id="s4">
+<div class="inner">
+  <span class="q-label">Pergunta 4 de 8</span>
+  <h2 class="q-title" id="q4title">Qual dessas frases ressoa<br>com a sua alma?</h2>
+  <p class="q-sub">Seu elemento cósmico está se revelando aqui.</p>
+
+  <div class="opts">
+    <div class="opt" onclick="pick(this,'elemento','fogo')">
+      <div class="opt-e">🔥</div>
+      <div class="opt-t">Sou guiada pelo fogo — intensa, apaixonada, movida por propósito</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'elemento','agua')">
+      <div class="opt-e">🌊</div>
+      <div class="opt-t">Sou guiada pela água — intuitiva, empática, profundamente sensível</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'elemento','ar')">
+      <div class="opt-e">💨</div>
+      <div class="opt-t">Sou guiada pelo ar — mental, comunicativa, movida por ideias</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'elemento','terra')">
+      <div class="opt-e">🌿</div>
+      <div class="opt-t">Sou guiada pela terra — prática, constante, enraizada no real</div>
+      <div class="opt-ck"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA 5 — DATA DE NASCIMENTO (dado do mapa)
+════════════════════════════════════════════ -->
+<div class="screen" id="s5">
+<div class="inner">
+  <span class="q-label">Pergunta 5 de 8</span>
+  <h2 class="q-title">Quando você chegou<br>a este plano?</h2>
+  <p class="q-sub">Sua data de nascimento é o código que o cosmos usou para criar o seu mapa único.</p>
+
+  <div class="reveal-hook">
+    <p class="rh-text">Com apenas essa data, calculamos a posição exata do Sol, da Lua e de 8 planetas no momento em que você nasceu. <strong>Nenhuma outra pessoa no mundo nasceu no mesmo configuração que você.</strong></p>
+  </div>
+
+  <input class="inp" type="date" id="fdata" oninput="save('data',this.value)">
+
+  <button class="btn" onclick="nextInp('fdata',6)">CALCULAR MEU MAPA →</button>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA 6 — ALMA GÊMEA / AMOR (maior desejo)
+════════════════════════════════════════════ -->
+<div class="screen" id="s6">
+<div class="inner">
+  <span class="q-label">Pergunta 6 de 8</span>
+  <h2 class="q-title">O que sua alma<br>mais busca em <em>amor</em>?</h2>
+  <p class="q-sub">Vênus no seu mapa revela o perfil exato de quem foi feito para você.</p>
+
+  <div class="opts">
+    <div class="opt" onclick="pick(this,'amor','transformacao')">
+      <div class="opt-e">🔥</div>
+      <div class="opt-t">Uma conexão que transforme — amor que desperta e evolui</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'amor','profundidade')">
+      <div class="opt-e">🌊</div>
+      <div class="opt-t">Profundidade e lealdade — alguém que me entenda no silêncio</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'amor','leveza')">
+      <div class="opt-e">🌸</div>
+      <div class="opt-t">Leveza e cumplicidade — crescer juntos sem perder a liberdade</div>
+      <div class="opt-ck"></div>
+    </div>
+    <div class="opt" onclick="pick(this,'amor','proposito')">
+      <div class="opt-e">⭐</div>
+      <div class="opt-t">Conexão de propósito — alguém que caminhe comigo na missão</div>
+      <div class="opt-ck"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA 7 — CIDADE (dado do mapa)
+════════════════════════════════════════════ -->
+<div class="screen" id="s7">
+<div class="inner">
+  <span class="q-label">Pergunta 7 de 8</span>
+  <h2 class="q-title">Onde você deu<br>seu primeiro respiro?</h2>
+  <p class="q-sub">A cidade de nascimento define as 12 Casas do seu mapa — as 12 áreas da sua vida.</p>
+
+  <input class="inp" type="text" id="fcidade" placeholder="Cidade e estado — ex: São Paulo, SP" oninput="save('cidade',this.value)">
+
+  <button class="btn" onclick="nextInp('fcidade',8)">CONTINUAR →</button>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA 8 — EMAIL (entrega)
+════════════════════════════════════════════ -->
+<div class="screen" id="s8">
+<div class="inner">
+  <span class="q-label">Última — Pergunta 8 de 8</span>
+  <h2 class="q-title">Para onde enviamos<br>a sua <em>revelação</em>?</h2>
+  <p class="q-sub">Seu Mapa Astral + Numerologia será entregue aqui — guarde bem esse e-mail.</p>
+
+  <div class="reveal-hook">
+    <p class="rh-text">Você está a um passo de descobrir o que o cosmos e os números revelam sobre <strong id="nomeprev">você</strong>. O que vem a seguir vai te surpreender.</p>
+  </div>
+
+  <input class="inp" type="email" id="femail" placeholder="Seu melhor e-mail" oninput="save('email',this.value)">
+
+  <button class="btn" onclick="nextInp('femail','calc')">
+    🌌 VER O QUE FOI ESCRITO SOBRE MIM →
+  </button>
+  <p style="margin-top:12px;font-size:12px;color:#5A4878">🔒 Privado · Sem spam · Cancelamento imediato</p>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA CALC — CALCULANDO O MAPA
+════════════════════════════════════════════ -->
+<div class="screen" id="scalc">
+<div class="inner">
+  <div class="calc-orb">🌌</div>
+  <h2 class="headline" style="font-size:28px" id="calcTitle">Calculando seu mapa<br><em>cósmico...</em></h2>
+
+  <ul class="calc-steps">
+    <li class="cs done" id="cs1"><div class="cs-dot"></div>Posições planetárias calculadas</li>
+    <li class="cs active" id="cs2"><div class="cs-dot"></div>Analisando Sol, Lua e Ascendente</li>
+    <li class="cs" id="cs3"><div class="cs-dot"></div>Lendo Vênus, Marte e Júpiter</li>
+    <li class="cs" id="cs4"><div class="cs-dot"></div>Calculando Numerologia</li>
+    <li class="cs" id="cs5"><div class="cs-dot"></div>Identificando alma gêmea e missão</li>
+    <li class="cs" id="cs6"><div class="cs-dot"></div>Gerando previsão 12 meses</li>
+  </ul>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TELA RESULTADO + OFERTA
+════════════════════════════════════════════ -->
+<div class="screen" id="sresult">
+<div class="inner">
+
+  <!-- MICRO RESULTADO PERSONALIZADO -->
+  <div class="result-badge">✦ Mapa identificado ✦</div>
+
+  <h2 class="headline" style="font-size:clamp(24px,5vw,38px)">
+    <span id="rNome">Seu</span> mapa revela<br>algo <em>extraordinário</em>
+  </h2>
+
+  <div class="planet-chips" id="rPlanetas"></div>
+
+  <p class="sub" style="margin-bottom:8px" id="rTeaser">
+    Sua configuração cósmica é rara. O cosmos guardou revelações sobre você que vão mudar a forma como você se vê.
+  </p>
+
+  <!-- SEÇÕES BLOQUEADAS — cada uma aumenta o desejo -->
+  <div class="reveal-cards">
+
+    <div class="rcard">
+      <div class="rcard-head">
+        <div class="rcard-ico">💞</div>
+        <div class="rcard-title" id="rcAlmaTitle">Sua Alma Gêmea</div>
+        <div class="rcard-badge">VÊNUS</div>
+      </div>
+      <div class="rcard-body">
+        <div class="rcard-preview" id="rcAlmaText">
+          Seu Vênus revela características exatas da pessoa que foi feita para você. O signo, o elemento, a forma de amar — e o padrão que você precisa liberar para essa conexão acontecer...
+        </div>
+      </div>
+      <div class="rcard-lock">🔒 &nbsp;<span>Desbloqueie</span>&nbsp; para ver as características da sua alma gêmea</div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-head">
+        <div class="rcard-ico">🚀</div>
+        <div class="rcard-title">Seu Ramo com Futuro</div>
+        <div class="rcard-badge">CASA 10</div>
+      </div>
+      <div class="rcard-body">
+        <div class="rcard-preview">
+          A Casa 10 do seu mapa revela exatamente em qual área sua alma foi programada para prosperar. Não é sobre esforço — é sobre alinhamento cósmico com o que você veio fazer...
+        </div>
+      </div>
+      <div class="rcard-lock">🔒 &nbsp;<span>Desbloqueie</span>&nbsp; para ver seu ramo de atuação cósmico</div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-head">
+        <div class="rcard-ico">🔢</div>
+        <div class="rcard-title">Sua Numerologia Completa</div>
+        <div class="rcard-badge">NÚMEROS</div>
+      </div>
+      <div class="rcard-body">
+        <div class="rcard-preview">
+          Seu Caminho de Vida, Número da Expressão, Alma e Destino — os quatro números que juntos formam sua impressão digital numérica e revelam o código da sua missão...
+        </div>
+      </div>
+      <div class="rcard-lock">🔒 &nbsp;<span>Desbloqueie</span>&nbsp; para ver seu mapa numerológico</div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-head">
+        <div class="rcard-ico">🔮</div>
+        <div class="rcard-title">Previsão — Próximos 12 Meses</div>
+        <div class="rcard-badge">TRÂNSITOS</div>
+      </div>
+      <div class="rcard-body">
+        <div class="rcard-preview">
+          Os planetas estão em movimento constante — e alguns deles estão prestes a ativar áreas cruciais do seu mapa. O que vem por aí em amor, dinheiro e missão...
+        </div>
+      </div>
+      <div class="rcard-lock">🔒 &nbsp;<span>Desbloqueie</span>&nbsp; para ver sua previsão completa</div>
+    </div>
+
+  </div>
+
+  <!-- A OFERTA -->
+  <div class="offer-box">
+    <div class="offer-tag">🔥 Acesso imediato por tempo limitado</div>
+
+    <h3 class="offer-h">Desbloqueie tudo que<br>o cosmos revelou sobre<br><em id="ofNome">você</em></h3>
+
+    <div class="offer-what">
+      <div class="ow-item"><div class="ow-ck">✓</div>🌌 Mapa Astral Completo — Sol, Lua, Ascendente, Vênus, Marte</div>
+      <div class="ow-item"><div class="ow-ck">✓</div>💞 Características exatas da sua alma gêmea</div>
+      <div class="ow-item"><div class="ow-ck">✓</div>🚀 O ramo de atuação com futuro para o seu perfil cósmico</div>
+      <div class="ow-item"><div class="ow-ck">✓</div>🌟 Seus talentos e aptidões ocultos revelados</div>
+      <div class="ow-item"><div class="ow-ck">✓</div>🔢 Mapa Numerológico — Caminho de Vida, Expressão, Alma, Destino</div>
+      <div class="ow-item"><div class="ow-ck">✓</div>🔮 Previsão completa dos próximos 12 meses</div>
+      <div class="ow-item"><div class="ow-ck">✓</div>📩 Entregue por e-mail em até 10 minutos</div>
+    </div>
+
+    <!-- URGÊNCIA -->
+    <div class="timer">
+      <div class="tu"><span class="tun" id="tm">14</span><span class="tul">min</span></div>
+      <div class="tu"><span class="tun" id="ts">59</span><span class="tul">seg</span></div>
+    </div>
+    <p style="font-size:12px;color:#5A4878;margin-bottom:16px;margin-top:-8px">⚠️ Esta oferta expira quando o contador zerar</p>
+
+    <div class="price-from">Valor real: R$497,70</div>
+    <div class="price-big"><sup>R$</sup>47<span class="price-cents">,90</span></div>
+    <div class="price-pix">⚡ Pix instantâneo &nbsp;|&nbsp; 💳 3x de R$17,30 sem juros</div>
+
+    <!-- ORDER BUMP -->
+    <div class="order-bump" onclick="toggleBump(this)">
+      <div class="ob-ck" id="obck">✓</div>
+      <div>
+        <div class="ob-title">➕ Adicionar: <span>Mapa de Compatibilidade</span> — por +R$17,90</div>
+        <div class="ob-desc">Veja se a pessoa que você ama tem contrato de alma com você</div>
+      </div>
+    </div>
+
+    <a href="https://pay.cakto.com.br/67mzr3r_889561" class="btn-buy" id="btnBuy">
+      🌌 DESBLOQUEAR MINHA ANÁLISE CÓSMICA →
+    </a>
+
+    <div class="guar">🛡️ 7 dias de garantia · Sem risco · Acesso em 10 minutos</div>
+
+    <!-- SOCIAL PROOF FINAL -->
+    <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.05)">
+      <div class="sp-row" style="margin-bottom:8px">
+        <span class="sp-stars">★★★★★</span>
+        <span style="font-size:13px;color:#9580B0">52.000+ análises entregues</span>
+      </div>
+      <p style="font-size:13px;color:#9580B0;font-style:italic;line-height:1.6">
+        "Chorei de alívio. Não era eu que era errada — era que eu nunca tinha tido essa informação." — Camila R., SP
+      </p>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+// ── STATE ──
+const R = {};
+let cur = 0;
+const TOTAL = 8;
+
+function save(k,v){ R[k]=v; localStorage.setItem('quizDados',JSON.stringify(R)); }
+
+// ── NAVIGATION ──
+function go(next, dir='right'){
+  const cur_el = document.querySelector('.screen.active');
+  if(cur_el){
+    cur_el.classList.remove('active','slide-right','slide-left');
+  }
+
+  const next_el = document.getElementById(next === 'calc' ? 'scalc' : (next === 'result' ? 'sresult' : 's'+next));
+  if(!next_el) return;
+
+  next_el.classList.add('active', dir==='right' ? 'slide-right' : 'slide-left');
+  window.scrollTo(0,0);
+
+  if(typeof next === 'number'){
+    const pct = Math.round((next/TOTAL)*100);
+    document.getElementById('pf').style.width = pct+'%';
+    document.getElementById('pp').textContent = next+'/'+TOTAL;
+    document.getElementById('pp').style.display = 'block';
+    if(next > 0) document.getElementById('prog').style.display = 'block';
+  }
+
+  if(next === 'calc') startCalc();
+  if(next === 'result') buildResult();
+
+  // Personalize Q4 with name
+  if(next === 4 && R.nome){
+    document.getElementById('q4title').innerHTML = `<em>${R.nome}</em>, qual dessas frases ressoa com a sua alma?`;
+  }
+  if(next === 8 && R.nome){
+    document.getElementById('nomeprev').textContent = R.nome;
+  }
+}
+
+// ── OPTION PICK ──
+function pick(el, key, val){
+  document.querySelectorAll(`#s${getCurScreen()} .opt`).forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  save(key, val);
+  setTimeout(()=>{
+    const screens = {'dor':1,'desejo':2,'elemento':4,'amor':6};
+    const nextMap = {1:2, 2:3, 4:5, 6:7};
+    const cn = getCurScreen();
+    go(nextMap[cn] || cn+1);
+  }, 420);
+}
+
+function getCurScreen(){
+  const a = document.querySelector('.screen.active');
+  if(!a) return 0;
+  const id = a.id;
+  if(id==='scalc') return 'calc';
+  if(id==='sresult') return 'result';
+  return parseInt(id.replace('s',''));
+}
+
+// ── INPUT NAV ──
+function nextInp(fieldId, nextScreen){
+  const el = document.getElementById(fieldId);
+  if(!el || !el.value.trim()){
+    el.focus();
+    el.style.borderColor='#F472B6';
+    el.style.animation='shake .3s ease';
+    setTimeout(()=>{el.style.borderColor='';el.style.animation='';},800);
+    return;
+  }
+  save(fieldId.replace('f',''), el.value.trim());
+  go(nextScreen);
+}
+
+// ── PLANET CALCS ──
+function calcSiglo(ds){
+  if(!ds) return {n:'Gêmeos',s:'♊'};
+  const [y,m,d] = ds.split('-').map(Number);
+  const t = [[12,22,1,19,'Capricórnio','♑'],[1,20,2,18,'Aquário','♒'],
+    [2,19,3,20,'Peixes','♓'],[3,21,4,19,'Áries','♈'],[4,20,5,20,'Touro','♉'],
+    [5,21,6,20,'Gêmeos','♊'],[6,21,7,22,'Câncer','♋'],[7,23,8,22,'Leão','♌'],
+    [8,23,9,22,'Virgem','♍'],[9,23,10,22,'Libra','♎'],[10,23,11,21,'Escorpião','♏'],
+    [11,22,12,21,'Sagitário','♐']];
+  for(const [m1,d1,m2,d2,n,s] of t) if((m===m1&&d>=d1)||(m===m2&&d<=d2)) return{n,s};
+  return{n:'Capricórnio',s:'♑'};
+}
+function calcLua(ds){
+  if(!ds) return 'Escorpião';
+  const [y,m,d] = ds.split('-').map(Number);
+  const L=['Áries','Touro','Gêmeos','Câncer','Leão','Virgem','Libra','Escorpião','Sagitário','Capricórnio','Aquário','Peixes'];
+  return L[Math.abs(Math.floor((Math.floor((new Date(y,m-1,d)-new Date(2000,0,1))/86400000)%354)/29.5*12))%12];
+}
+function calcAsc(hs){
+  if(!hs) return 'Câncer';
+  const [h,mi] = (hs||'12:00').split(':').map(Number);
+  const L=['Áries','Touro','Gêmeos','Câncer','Leão','Virgem','Libra','Escorpião','Sagitário','Capricórnio','Aquário','Peixes'];
+  return L[Math.floor((h*60+mi)/120)%12];
+}
+
+// ── CALCULATION ANIMATION ──
+function startCalc(){
+  document.getElementById('pf').style.width = '90%';
+  if(R.nome) document.getElementById('calcTitle').innerHTML = `Lendo o cosmos de<br><em>${R.nome}...</em>`;
+
+  const steps = ['cs2','cs3','cs4','cs5','cs6'];
+  let i=0;
+  const iv = setInterval(()=>{
+    if(i>0){ const p=document.getElementById(steps[i-1]); if(p){p.className='cs done';} }
+    if(i<steps.length){ const c=document.getElementById(steps[i]); if(c){c.className='cs active';} }
+    i++;
+    if(i>steps.length){ clearInterval(iv); setTimeout(()=>go('result'),600); }
+  }, 900);
+}
+
+// ── BUILD RESULT ──
+function buildResult(){
+  document.getElementById('pf').style.width = '100%';
+  document.getElementById('pp').textContent = '✓';
+
+  const nome = R.nome || 'Você';
+  const sol  = calcSiglo(R.data);
+  const lua  = calcLua(R.data);
+  const asc  = calcAsc(R.hora);
+
+  document.getElementById('rNome').textContent = nome+',';
+  document.getElementById('ofNome').textContent = nome;
+
+  document.getElementById('rPlanetas').innerHTML = `
+    <div class="pchip">☀️ Sol: <strong>${sol.n} ${sol.s}</strong></div>
+    <div class="pchip">🌙 Lua: <strong>${lua}</strong></div>
+    <div class="pchip">↑ Asc: <strong>${asc}</strong></div>
+  `;
+
+  document.getElementById('rTeaser').innerHTML = `
+    <strong style="color:#fff">${nome}</strong>, sua combinação de Sol em <strong style="color:#C084FC">${sol.n}</strong> com Lua em <strong style="color:#C084FC">${lua}</strong> cria um perfil cósmico raro — com revelações sobre amor, missão e destino que a maioria das pessoas nunca vai conhecer.
+  `;
+
+  document.getElementById('rcAlmaTitle').textContent = `Sua Alma Gêmea, ${nome}`;
+  document.getElementById('rcAlmaText').textContent = `Com Vênus no seu mapa e seu elemento ${R.elemento || 'cósmico'}, você atrai um perfil muito específico de pessoa. As características estão detalhadas aqui — junto com o padrão que precisa ser liberado para essa conexão finalmente acontecer...`;
+
+  // Update buy link with data
+  const btn = document.getElementById('btnBuy');
+  const p = new URLSearchParams();
+  if(R.email) p.set('email',R.email);
+  if(R.nome)  p.set('nome',R.nome);
+  if(R.celular) p.set('phone',R.celular);
+  btn.href = `https://pay.cakto.com.br/67mzr3r_889561?${p.toString()}`;
+
+  localStorage.setItem('quizDados',JSON.stringify({...R,sol:sol.n,lua,asc}));
+  startTimer();
+}
+
+// ── COUNTDOWN ──
+function startTimer(){
+  let end = +localStorage.getItem('quizTimer')||0;
+  if(!end||end<Date.now()){ end=Date.now()+14*60000; localStorage.setItem('quizTimer',end); }
+  function tick(){
+    const d=Math.max(0,end-Date.now());
+    document.getElementById('tm').textContent=String(Math.floor(d/60000)).padStart(2,'0');
+    document.getElementById('ts').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');
+    if(d>0) setTimeout(tick,1000);
+  }
+  tick();
+}
+
+// ── ORDER BUMP ──
+function toggleBump(el){
+  const ck=document.getElementById('obck');
+  const on=ck.textContent==='✓';
+  ck.textContent=on?'':'✓';
+  ck.style.background=on?'transparent':'#F5C842';
+  ck.style.color=on?'transparent':'#07031A';
+}
+
+// ── ENTER KEY ──
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter') return;
+  const btn=document.querySelector('.screen.active .btn:not(.btn-secondary)');
+  if(btn&&!btn.disabled) btn.click();
+});
+</script>
+</body>
+</html>
