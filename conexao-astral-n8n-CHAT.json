@@ -1,0 +1,161 @@
+{
+  "name": "💬 Conexão Astral — Chat Automático WhatsApp",
+  "nodes": [
+
+    {
+      "id": "chat-1-webhook",
+      "name": "📱 Receber Mensagem WhatsApp",
+      "type": "n8n-nodes-base.webhook",
+      "position": [240, 400],
+      "parameters": {
+        "path": "conexao-astral-chat",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      }
+    },
+
+    {
+      "id": "chat-2-extrair",
+      "name": "📦 Extrair Mensagem e Telefone",
+      "type": "n8n-nodes-base.set",
+      "position": [460, 400],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "name": "telefone",   "value": "={{ $json.phone || $json.from }}", "type": "string" },
+            { "name": "mensagem",   "value": "={{ ($json.text?.message || $json.body || '').toLowerCase().trim() }}", "type": "string" },
+            { "name": "nome",       "value": "={{ $json.senderName || $json.pushName || 'querida' }}", "type": "string" }
+          ]
+        }
+      }
+    },
+
+    {
+      "id": "chat-3-classificar",
+      "name": "🤖 Claude — Classificar Intenção",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [680, 400],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key",         "value": "={{ $env.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type",      "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-20250514\",\n  \"max_tokens\": 800,\n  \"messages\": [{\n    \"role\": \"user\",\n    \"content\": \"Você é o assistente da Conexão Astral — especialista em mapa astral e numerologia. Analise a mensagem e responda de forma acolhedora, espiritual e direta.\\n\\nNome da pessoa: {{ $json.nome }}\\nMensagem: {{ $json.mensagem }}\\n\\nClassifique a intenção em uma dessas categorias e responda adequadamente:\\n- COMPRA: quer comprar ou saber o preço\\n- ENTREGA: pergunta sobre quando recebe o mapa\\n- DADOS: quer saber quais dados precisa informar\\n- DUVIDA_PRODUTO: quer entender o que é o produto\\n- RESULTADO: quer saber mais sobre o que vai descobrir\\n- GARANTIA: pergunta sobre garantia ou reembolso\\n- RECLAMACAO: insatisfeita ou com problema\\n- OUTRO: qualquer outra mensagem\\n\\nRetorne EXATAMENTE neste formato JSON (sem markdown):\\n{\\n  \\\"categoria\\\": \\\"CATEGORIA_AQUI\\\",\\n  \\\"resposta\\\": \\\"Mensagem personalizada e acolhedora para enviar via WhatsApp. Use emojis com moderação. Máximo 3 parágrafos curtos. Mencione o nome da pessoa. Tom espiritual e acolhedor.\\\"\\n}\"\n  }]\n}"
+      }
+    },
+
+    {
+      "id": "chat-4-parse",
+      "name": "🔍 Extrair Resposta do Claude",
+      "type": "n8n-nodes-base.code",
+      "position": [900, 400],
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.content[0].text;\nlet parsed;\ntry {\n  parsed = JSON.parse(raw);\n} catch(e) {\n  parsed = {\n    categoria: 'OUTRO',\n    resposta: 'Olá! 🌌 Obrigada por entrar em contato com a Conexão Astral. Estamos aqui para ajudar! Como posso te auxiliar hoje?'\n  };\n}\n\nconst nome = $('📦 Extrair Mensagem e Telefone').first().json.nome;\nconst telefone = $('📦 Extrair Mensagem e Telefone').first().json.telefone;\n\nreturn [{ json: {\n  categoria: parsed.categoria,\n  resposta: parsed.resposta,\n  telefone,\n  nome\n}}];"
+      }
+    },
+
+    {
+      "id": "chat-5-enviar",
+      "name": "📤 Enviar Resposta WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1120, 400],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/{{ $env.ZAPI_INSTANCE }}/token/{{ $env.ZAPI_TOKEN }}/send-text",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Client-Token", "value": "={{ $env.ZAPI_CLIENT_TOKEN }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"phone\": \"{{ $json.telefone }}\",\n  \"message\": \"{{ $json.resposta }}\"\n}"
+      }
+    },
+
+    {
+      "id": "chat-6-if-compra",
+      "name": "🛍️ É intenção de compra?",
+      "type": "n8n-nodes-base.if",
+      "position": [1120, 580],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false },
+          "conditions": [{
+            "leftValue": "={{ $json.categoria }}",
+            "rightValue": "COMPRA",
+            "operator": { "type": "string", "operation": "equals" }
+          }]
+        }
+      }
+    },
+
+    {
+      "id": "chat-7-link-compra",
+      "name": "🔗 Enviar Link de Compra",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1340, 480],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/{{ $env.ZAPI_INSTANCE }}/token/{{ $env.ZAPI_TOKEN }}/send-text",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Client-Token", "value": "={{ $env.ZAPI_CLIENT_TOKEN }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"phone\": \"{{ $json.telefone }}\",\n  \"message\": \"✨ Aqui está o link para garantir sua Conexão Astral:\\n\\n👉 https://pay.cakto.com.br/67mzr3r_889561\\n\\n💰 Por apenas *R$47,90* você recebe:\\n• Mapa Astral Completo\\n• Mapa Numerológico\\n• Previsão 12 meses\\n• Características da sua alma gêmea\\n\\n🛡️ Garantia de 7 dias. Qualquer dúvida, estou aqui! 💜\"\n}"
+      }
+    },
+
+    {
+      "id": "chat-8-webhook-resp",
+      "name": "✅ Confirmar Recebimento",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [1560, 400],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{ \"status\": \"ok\" }"
+      }
+    }
+
+  ],
+
+  "connections": {
+    "📱 Receber Mensagem WhatsApp": {
+      "main": [[{ "node": "📦 Extrair Mensagem e Telefone", "type": "main", "index": 0 }]]
+    },
+    "📦 Extrair Mensagem e Telefone": {
+      "main": [[{ "node": "🤖 Claude — Classificar Intenção", "type": "main", "index": 0 }]]
+    },
+    "🤖 Claude — Classificar Intenção": {
+      "main": [[{ "node": "🔍 Extrair Resposta do Claude", "type": "main", "index": 0 }]]
+    },
+    "🔍 Extrair Resposta do Claude": {
+      "main": [[
+        { "node": "📤 Enviar Resposta WhatsApp", "type": "main", "index": 0 },
+        { "node": "🛍️ É intenção de compra?", "type": "main", "index": 0 }
+      ]]
+    },
+    "🛍️ É intenção de compra?": {
+      "main": [
+        [{ "node": "🔗 Enviar Link de Compra", "type": "main", "index": 0 }],
+        [{ "node": "✅ Confirmar Recebimento", "type": "main", "index": 0 }]
+      ]
+    },
+    "📤 Enviar Resposta WhatsApp": {
+      "main": [[{ "node": "✅ Confirmar Recebimento", "type": "main", "index": 0 }]]
+    }
+  }
+}

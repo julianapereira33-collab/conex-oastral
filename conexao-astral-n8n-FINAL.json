@@ -1,0 +1,185 @@
+{
+  "name": "🌌 Conexão Astral — Funil Completo",
+  "nodes": [
+
+    {
+      "id": "1-webhook-entrada",
+      "name": "🎯 Receber Dados Pós-Compra",
+      "type": "n8n-nodes-base.webhook",
+      "position": [240, 400],
+      "parameters": {
+        "path": "conexao-astral",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "conexao-astral-main"
+    },
+
+    {
+      "id": "2-set-dados",
+      "name": "📦 Organizar Dados do Cliente",
+      "type": "n8n-nodes-base.set",
+      "position": [480, 400],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "name": "nome",           "value": "={{ $json.nome }}",              "type": "string" },
+            { "name": "email",          "value": "={{ $json.email }}",             "type": "string" },
+            { "name": "celular",        "value": "={{ $json.celular || '' }}",      "type": "string" },
+            { "name": "data_nasc",      "value": "={{ $json.data_nascimento }}",    "type": "string" },
+            { "name": "hora_nasc",      "value": "={{ $json.hora_nascimento || 'não informado' }}", "type": "string" },
+            { "name": "tem_hora",       "value": "={{ $json.tem_hora || 'nao' }}", "type": "string" },
+            { "name": "cidade_nasc",    "value": "={{ $json.cidade_nascimento }}", "type": "string" },
+            { "name": "pedido_id",      "value": "={{ $json.pedido || $json.order_id || 'N/A' }}", "type": "string" },
+            { "name": "fonte",          "value": "={{ $json.fonte || 'site' }}",   "type": "string" },
+            { "name": "timestamp",      "value": "={{ $now.format('dd/MM/yyyy HH:mm') }}", "type": "string" }
+          ]
+        }
+      }
+    },
+
+    {
+      "id": "3-claude-mapa",
+      "name": "🌌 Claude AI — Gerar Mapa Astral + Numerologia",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [720, 400],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key",          "value": "={{ $env.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version",  "value": "2023-06-01" },
+            { "name": "content-type",       "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-20250514\",\n  \"max_tokens\": 4000,\n  \"messages\": [{\n    \"role\": \"user\",\n    \"content\": \"Você é a maior especialista em Astrologia e Numerologia do Brasil. Gere uma análise completa, profunda e 100% personalizada para:\\n\\nNome: {{ $json.nome }}\\nData de nascimento: {{ $json.data_nasc }}\\nHorário: {{ $json.hora_nasc }} ({{ $json.tem_hora }})\\nCidade: {{ $json.cidade_nasc }}\\n\\nCrie a análise com as seguintes seções em HTML formatado para e-mail:\\n\\n1. ESSÊNCIA CÓSMICA — Sol, Lua e Ascendente\\n2. ALMA GÊMEA — Características exatas segundo Vênus e Marte\\n3. RAMO COM FUTURO — Área de atuação que sua alma prospera\\n4. TALENTOS E APTIDÕES — O que o cosmos revela sobre seus dons\\n5. MAPA NUMEROLÓGICO — Caminho de Vida, Expressão, Alma e Destino\\n6. PROPÓSITO DE VIDA — Sua missão nesta encarnação\\n7. PREVISÃO 12 MESES — O que amor, dinheiro e carreira reservam\\n8. AFIRMAÇÃO PESSOAL — Uma frase poderosa escrita só para {{ $json.nome }}\\n\\nUse linguagem poética, profunda e cósmica. Mencione o nome da pessoa com frequência. Seja específica. Retorne SOMENTE o HTML das seções, sem DOCTYPE, sem head, sem body tags.\"\n  }]\n}"
+      }
+    },
+
+    {
+      "id": "4-extrair-mapa",
+      "name": "📝 Extrair Texto do Mapa",
+      "type": "n8n-nodes-base.set",
+      "position": [960, 400],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "mapa_html",
+              "value": "={{ $json.content[0].text }}",
+              "type": "string"
+            },
+            {
+              "name": "nome_cliente",
+              "value": "={{ $('📦 Organizar Dados do Cliente').item.json.nome }}",
+              "type": "string"
+            },
+            {
+              "name": "email_cliente",
+              "value": "={{ $('📦 Organizar Dados do Cliente').item.json.email }}",
+              "type": "string"
+            },
+            {
+              "name": "celular_cliente",
+              "value": "={{ $('📦 Organizar Dados do Cliente').item.json.celular }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+
+    {
+      "id": "5-email-cliente",
+      "name": "📩 E-mail para o Cliente — Entrega do Mapa",
+      "type": "n8n-nodes-base.gmail",
+      "position": [1200, 280],
+      "parameters": {
+        "operation": "send",
+        "sendTo": "={{ $json.email_cliente }}",
+        "subject": "🌌 {{ $json.nome_cliente }}, sua Conexão Astral chegou!",
+        "emailType": "html",
+        "message": "=<!DOCTYPE html><html><head><meta charset='UTF-8'><style>body{background:#0D0720;margin:0;padding:0;font-family:Georgia,serif}.wrap{max-width:600px;margin:0 auto;background:#0D0720;padding:0}.header{background:linear-gradient(135deg,#1C1035,#2E1058);padding:40px 36px;text-align:center;border-bottom:1px solid #3B2070}.logo{font-size:13px;font-weight:700;color:#C084FC;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}.h1{font-family:Georgia,serif;font-size:32px;font-weight:700;color:#FFFFFF;line-height:1.2;margin-bottom:10px}.h1 em{color:#C084FC;font-style:italic}.sub{font-size:15px;color:#C4B5D8;line-height:1.6}.body{padding:36px}.greeting{font-size:18px;color:#FFFFFF;margin-bottom:20px;line-height:1.6}.mapa-wrap{background:#1C1035;border-radius:16px;padding:32px;border:1px solid #2E1858;margin:24px 0}.mapa-content{font-size:15px;color:#F0E8FF;line-height:1.9}.section-title{font-family:Georgia,serif;font-size:20px;color:#C084FC;margin:28px 0 12px;font-style:italic}.footer{background:#130A28;border-top:1px solid #2E1858;padding:28px 36px;text-align:center}.footer-txt{font-size:13px;color:#7A5FA0;line-height:1.7}</style></head><body><div class='wrap'><div class='header'><div class='logo'>✦ Conexão Astral ✦</div><h1 class='h1'><em>{{ $json.nome_cliente }}</em>,<br>sua análise chegou 🌌</h1><p class='sub'>O cosmos e os números revelaram tudo sobre você.</p></div><div class='body'><p class='greeting'>Olá, <strong style='color:#C084FC'>{{ $json.nome_cliente }}</strong>! 💜<br><br>Sua análise completa está aqui — <strong style='color:#FFFFFF'>Mapa Astral + Numerologia</strong> escritos exclusivamente para você. Leia com calma, em um momento seu, sem pressa.<br><br>O que você vai descobrir:</p><div style='background:#130A28;border-radius:12px;padding:20px;margin:20px 0'><p style='font-size:14px;color:#F0E8FF;line-height:1.9;margin:0'>✨ Sua essência cósmica — Sol, Lua e Ascendente<br>💞 As características da sua alma gêmea<br>🚀 O ramo de atuação com futuro para o seu perfil<br>🌟 Seus talentos e aptidões ocultos<br>🔢 Seu Mapa Numerológico completo<br>🧭 Seu propósito de vida<br>🔮 Previsão dos próximos 12 meses</p></div><div class='mapa-wrap'><div class='mapa-content'>{{ $json.mapa_html }}</div></div><div style='background:linear-gradient(135deg,#1C1035,#2E1058);border-radius:12px;padding:24px;text-align:center;margin:24px 0'><p style='font-family:Georgia,serif;font-size:18px;font-style:italic;color:#C084FC;margin:0'>\"O universo conspirou para que você chegasse até aqui.<br>Agora é hora de viver o que foi escrito para você.\"</p></div></div><div class='footer'><p class='footer-txt'>Dúvidas? Responda este e-mail — estamos aqui. 💜<br><strong style='color:#C4B5D8'>Equipe Conexão Astral</strong><br><span style='color:#4A3A60'>© 2025 Conexão Astral · Todos os direitos reservados</span></p></div></div></body></html>"
+      }
+    },
+
+    {
+      "id": "6-email-wellington",
+      "name": "📋 E-mail para Wellington — Dados do Pedido",
+      "type": "n8n-nodes-base.gmail",
+      "position": [1200, 520],
+      "parameters": {
+        "operation": "send",
+        "sendTo": "={{ $env.WELLINGTON_EMAIL }}",
+        "subject": "🌌 Novo pedido — {{ $('📦 Organizar Dados do Cliente').item.json.nome }}",
+        "emailType": "html",
+        "message": "=<div style='background:#0D0720;color:#fff;padding:32px;font-family:sans-serif;max-width:520px;border-radius:16px'><h2 style='color:#C084FC;margin-bottom:20px'>🌌 Novo Pedido — Conexão Astral</h2><table style='width:100%;border-collapse:collapse'><tr><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#C4B5D8;font-size:14px;width:40%'>Nome</td><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#fff;font-weight:700'>{{ $('📦 Organizar Dados do Cliente').item.json.nome }}</td></tr><tr><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#C4B5D8;font-size:14px'>E-mail</td><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#fff'>{{ $('📦 Organizar Dados do Cliente').item.json.email }}</td></tr><tr><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#C4B5D8;font-size:14px'>WhatsApp</td><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#fff'>{{ $('📦 Organizar Dados do Cliente').item.json.celular || 'Não informado' }}</td></tr><tr><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#C4B5D8;font-size:14px'>Data de nascimento</td><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#fff'>{{ $('📦 Organizar Dados do Cliente').item.json.data_nasc }}</td></tr><tr><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#C4B5D8;font-size:14px'>Horário</td><td style='padding:12px 0;border-bottom:1px solid #2E1858;color:#fff'>{{ $('📦 Organizar Dados do Cliente').item.json.hora_nasc }} ({{ $('📦 Organizar Dados do Cliente').item.json.tem_hora }})</td></tr><tr><td style='padding:12px 0;color:#C4B5D8;font-size:14px'>Cidade</td><td style='padding:12px 0;color:#fff'>{{ $('📦 Organizar Dados do Cliente').item.json.cidade_nasc }}</td></tr></table><p style='margin-top:24px;background:#1C1035;border-radius:10px;padding:14px;font-size:13px;color:#7A5FA0'>Pedido: <strong style='color:#C4B5D8'>{{ $('📦 Organizar Dados do Cliente').item.json.pedido_id }}</strong><br>Recebido em: <strong style='color:#C4B5D8'>{{ $('📦 Organizar Dados do Cliente').item.json.timestamp }}</strong><br>Fonte: {{ $('📦 Organizar Dados do Cliente').item.json.fonte }}</p></div>"
+      }
+    },
+
+    {
+      "id": "7-whatsapp-confirmacao",
+      "name": "💬 WhatsApp — Confirmação para o Cliente",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1200, 660],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.z-api.io/instances/{{ $env.ZAPI_INSTANCE }}/token/{{ $env.ZAPI_TOKEN }}/send-text",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Client-Token", "value": "={{ $env.ZAPI_CLIENT_TOKEN }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"phone\": \"{{ $json.celular_cliente }}\",\n  \"message\": \"🌌 Olá, *{{ $json.nome_cliente }}*!\\n\\nSua *Conexão Astral* está sendo gerada agora! ✨\\n\\n Seu Mapa Astral + Numerologia chegará no seu e-mail em até 10 minutos.\\n\\nQualquer dúvida, estamos aqui! 💜\\n\\n_Equipe Conexão Astral_\"\n}"
+      }
+    },
+
+    {
+      "id": "8-resposta-webhook",
+      "name": "✅ Responder Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [1440, 400],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"success\": true, \"message\": \"Mapa gerado e enviado para {{ $('📦 Organizar Dados do Cliente').item.json.email }}\" }"
+      }
+    }
+
+  ],
+
+  "connections": {
+    "🎯 Receber Dados Pós-Compra": {
+      "main": [[{ "node": "📦 Organizar Dados do Cliente", "type": "main", "index": 0 }]]
+    },
+    "📦 Organizar Dados do Cliente": {
+      "main": [[{ "node": "🌌 Claude AI — Gerar Mapa Astral + Numerologia", "type": "main", "index": 0 }]]
+    },
+    "🌌 Claude AI — Gerar Mapa Astral + Numerologia": {
+      "main": [[{ "node": "📝 Extrair Texto do Mapa", "type": "main", "index": 0 }]]
+    },
+    "📝 Extrair Texto do Mapa": {
+      "main": [[
+        { "node": "📩 E-mail para o Cliente — Entrega do Mapa", "type": "main", "index": 0 },
+        { "node": "📋 E-mail para Wellington — Dados do Pedido", "type": "main", "index": 0 },
+        { "node": "💬 WhatsApp — Confirmação para o Cliente", "type": "main", "index": 0 }
+      ]]
+    },
+    "📩 E-mail para o Cliente — Entrega do Mapa": {
+      "main": [[{ "node": "✅ Responder Webhook", "type": "main", "index": 0 }]]
+    }
+  },
+
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  }
+}
