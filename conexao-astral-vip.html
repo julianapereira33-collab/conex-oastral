@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conexão Astral — Presente dos Céus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05020F;--violet:#7C3AED;--violet2:#A78BFA;
+  --rose:#F472B6;--gold:#FCD34D;--gold2:#F59E0B;--teal:#2DD4BF;
+  --text:#F3F0FF;--muted:#9CA3AF;
+  --border:rgba(167,139,250,.2);
+  --display:'Playfair Display',Georgia,serif;--body:'Inter',system-ui,sans-serif;
+}
+html{font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#gc{position:fixed;inset:0;z-index:0;pointer-events:none}
+.neb{position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(80px)}
+.n1{width:600px;height:400px;top:-100px;left:-150px;background:radial-gradient(ellipse,rgba(252,211,77,.2) 0%,transparent 70%);animation:nf 12s ease-in-out infinite}
+.n2{width:500px;height:500px;top:30%;right:-150px;background:radial-gradient(ellipse,rgba(124,58,237,.18) 0%,transparent 70%);animation:nf 15s ease-in-out infinite reverse}
+.n3{width:400px;height:300px;bottom:10%;left:5%;background:radial-gradient(ellipse,rgba(244,114,182,.12) 0%,transparent 70%);animation:nf 18s ease-in-out infinite}
+@keyframes nf{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,-15px) scale(1.04)}66%{transform:translate(-15px,20px) scale(.97)}}
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fi{animation:fadeUp .6s ease both}.fi2{animation:fadeUp .6s .1s ease both}.fi3{animation:fadeUp .6s .2s ease both}.fi4{animation:fadeUp .6s .3s ease both}
+.w{max-width:540px;margin:0 auto;padding:0 1.25rem}
+.topbar{display:flex;justify-content:center;padding:1.5rem 0 0}
+.logo{font-family:var(--display);font-weight:700;font-size:1.1rem;background:linear-gradient(135deg,var(--gold),var(--rose),var(--violet2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.04em}
+/* PRESENTE HERO */
+.gift-hero{text-align:center;padding:2.5rem 0 2rem}
+.gift-icon{font-size:4rem;margin-bottom:1rem;display:block;animation:giftPulse 2s ease-in-out infinite}
+@keyframes giftPulse{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}}
+.gift-tag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(252,211,77,.12);border:1px solid rgba(252,211,77,.3);border-radius:50px;padding:.45rem 1.1rem;font-size:.75rem;font-weight:600;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem}
+.gift-hero h1{font-family:var(--display);font-size:clamp(1.9rem,7vw,2.8rem);font-weight:900;line-height:1.1;margin-bottom:1rem}
+.gift-hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.gift-hero h1 span{background:linear-gradient(135deg,var(--violet2),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.gift-sub{font-size:1rem;color:var(--muted);line-height:1.7;max-width:420px;margin:0 auto 1.5rem}
+.gift-box{background:linear-gradient(135deg,rgba(252,211,77,.08),rgba(244,114,182,.06));border:1.5px solid rgba(252,211,77,.2);border-radius:18px;padding:1.5rem;margin-bottom:1.75rem;text-align:center}
+.gift-box p{font-size:1.05rem;color:var(--text);line-height:1.7;font-style:italic}
+.gift-box strong{color:var(--gold)}
+/* FORM */
+.fhero{text-align:center;padding:2rem 0 1.75rem}
+.fhero h2{font-family:var(--display);font-size:clamp(1.4rem,5vw,1.9rem);font-weight:700;line-height:1.2;margin-bottom:.65rem}
+.fhero h2 em{font-style:italic;background:linear-gradient(135deg,var(--gold),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.fhero p{font-size:.9rem;color:var(--muted);line-height:1.55}
+.fbox{background:rgba(10,6,24,.85);border:1px solid var(--border);border-radius:20px;padding:1.75rem 1.5rem;margin-bottom:1.25rem}
+.ff{margin-bottom:1.6rem}.ff:last-child{margin-bottom:0}
+.fl{display:block;font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.45rem}
+.fh{font-size:.78rem;color:rgba(156,163,175,.65);font-style:italic;margin-bottom:.4rem;line-height:1.3}
+.fcols{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}
+@media(max-width:420px){.fcols{grid-template-columns:1fr}}
+.inp{width:100%;background:rgba(124,58,237,.05);border:1px solid rgba(252,211,77,.15);border-radius:10px;padding:.8rem 1rem;font-family:var(--body);font-size:.97rem;color:var(--text);outline:none;transition:border-color .2s;-webkit-appearance:none}
+.inp:focus{border-color:var(--gold);background:rgba(252,211,77,.04)}
+.inp::placeholder{color:rgba(156,163,175,.35)}
+.inp.err{border-color:var(--rose)}
+.htog{display:flex;align-items:center;gap:.6rem;margin-top:.7rem;cursor:pointer}
+.htog input{accent-color:var(--gold);width:15px;height:15px}
+.htog span{font-size:.8rem;color:var(--muted);font-style:italic}
+.fnote{text-align:center;font-size:.78rem;color:rgba(156,163,175,.55);margin-top:.85rem;line-height:1.45}
+/* LOADING */
+#s3{display:none;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:3rem 1.25rem}
+#s3.active{display:flex}
+.lportal{width:130px;height:130px;margin:0 auto 2.5rem;position:relative}
+.lr{position:absolute;border-radius:50%;border:2px solid transparent}
+.lr:nth-child(1){inset:0;border-top-color:var(--gold);animation:spin 1.2s linear infinite}
+.lr:nth-child(2){inset:14px;border-top-color:var(--rose);animation:spin .9s linear infinite reverse}
+.lr:nth-child(3){inset:28px;border-top-color:var(--violet2);animation:spin 1.6s linear infinite}
+.lc{position:absolute;inset:44px;border-radius:50%;background:radial-gradient(circle,var(--gold2),var(--rose));display:flex;align-items:center;justify-content:center;font-size:1.4rem;animation:giftPulse 1.5s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lh{font-family:var(--display);font-size:1.6rem;font-weight:700;margin-bottom:.65rem}
+.lp{font-size:.9rem;color:var(--muted);max-width:280px;line-height:1.6}
+.lbw{width:100%;max-width:280px;margin:2rem auto 0}
+.lbb{height:6px;border-radius:10px;background:rgba(252,211,77,.12);overflow:hidden}
+.lbf{height:100%;border-radius:10px;width:0%;background:linear-gradient(90deg,var(--gold2),var(--rose));transition:width .4s ease}
+.lmsg{font-size:.8rem;color:var(--muted);margin-top:.7rem;font-style:italic}
+/* BOTÃO */
+.bcta{display:block;width:100%;background:linear-gradient(135deg,var(--gold2) 0%,var(--rose) 100%);color:#fff;border:none;border-radius:50px;padding:1.1rem 2rem;cursor:pointer;font-family:var(--body);font-size:1rem;font-weight:600;letter-spacing:.02em;box-shadow:0 8px 32px rgba(245,158,11,.4);transition:all .25s;text-decoration:none;text-align:center}
+.bcta:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(245,158,11,.5)}
+.bgh{display:block;width:100%;background:transparent;border:1px solid rgba(252,211,77,.2);border-radius:50px;padding:.9rem;cursor:pointer;font-family:var(--body);font-size:.88rem;color:var(--muted);transition:all .2s;margin-top:.75rem;text-align:center}
+.bgh:hover{border-color:var(--gold);color:var(--gold)}
+/* TELA 4 — CONFIRMAÇÃO */
+#s4{padding-bottom:5rem}
+.conf-wrap{text-align:center;padding:3rem 0 2rem}
+.conf-icon{font-size:4rem;margin-bottom:1.25rem;display:block;animation:giftPulse 2s ease-in-out infinite}
+.conf-wrap h2{font-family:var(--display);font-size:clamp(1.6rem,5vw,2.2rem);font-weight:900;line-height:1.15;margin-bottom:.75rem}
+.conf-name{background:linear-gradient(135deg,var(--gold),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.conf-sub{font-size:1rem;color:var(--muted);line-height:1.65;max-width:400px;margin:0 auto 2rem}
+.steps-box{background:rgba(10,6,24,.8);border:1px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1.5rem}
+.step-item{display:flex;align-items:flex-start;gap:.9rem;padding:.85rem 0;border-bottom:1px solid rgba(167,139,250,.08)}
+.step-item:last-child{border-bottom:none}
+.step-n{width:30px;height:30px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--gold2),var(--rose));display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#fff}
+.step-txt{font-size:.9rem;color:var(--muted);line-height:1.5}
+.step-txt strong{color:var(--text);display:block;margin-bottom:.1rem}
+.closing{font-family:var(--display);font-size:1.15rem;font-style:italic;color:var(--muted);text-align:center;line-height:1.65;max-width:360px;margin:2rem auto;padding:1.5rem;border:1px solid rgba(252,211,77,.15);border-radius:16px}
+.closing em{color:var(--gold)}
+</style>
+</head>
+<body>
+<canvas id="gc"></canvas>
+<div class="neb n1"></div><div class="neb n2"></div><div class="neb n3"></div>
+
+<!-- ══ TELA 1 — PRESENTE DOS CÉUS ══ -->
+<div class="screen active" id="s1">
+<div class="w">
+  <div class="topbar fi"><span class="logo">✦ Conexão Astral</span></div>
+  <div class="gift-hero fi">
+    <span class="gift-icon">🎁</span>
+    <div class="gift-tag">✦ Presente dos Céus</div>
+    <h1>Preparei algo<br><em>especial para você</em><br>com muito <span>amor ✨</span></h1>
+    <p class="gift-sub">Você vai receber um <strong style="color:var(--gold)">Mapa Astral & Numerologia Completo</strong> — inteiramente gratuito. Uma leitura profunda da sua essência, propósito, amor e destino.</p>
+  </div>
+  <div class="gift-box fi2">
+    <p>Esse mapa foi preparado para você com intenção e carinho.<br>É um presente do universo — e da nossa conexão especial.<br><strong>Preencha seus dados e receba em até 10 minutos.</strong></p>
+  </div>
+  <div class="fi3" style="text-align:center">
+    <button class="bcta" onclick="goTo('s2')">🌟 Quero meu presente →</button>
+    <div style="margin-top:1rem;font-size:.78rem;color:var(--muted)">✦ 100% gratuito · Sem cartão · Sem compromisso</div>
+  </div>
+  <div style="height:3rem"></div>
+</div>
+</div>
+
+<!-- ══ TELA 2 — FORMULÁRIO ══ -->
+<div class="screen" id="s2">
+<div class="w">
+  <div class="topbar fi"><span class="logo">✦ Conexão Astral</span></div>
+  <div class="fhero fi">
+    <h2>Seus dados para<br><em>gerar sua leitura</em></h2>
+    <p style="margin-top:.65rem">O universo precisa saber <strong style="color:var(--text)">quando e onde você chegou</strong> para revelar o que está escrito sobre você 🌌</p>
+  </div>
+  <form class="fbox fi2" id="mForm" novalidate>
+    <div class="ff">
+      <label class="fl" for="fn">Seu nome completo</label>
+      <p class="fh">Seu nome carrega uma vibração numerológica única</p>
+      <input class="inp" type="text" id="fn" placeholder="Como aparece no seu documento" autocomplete="name">
+    </div>
+    <div class="ff">
+      <label class="fl" for="fd">Sua data de nascimento</label>
+      <p class="fh">Define sua posição nos astros e seu número do destino</p>
+      <input class="inp" type="date" id="fd">
+    </div>
+    <div class="fcols">
+      <div class="ff">
+        <label class="fl" for="fci">Cidade onde nasceu</label>
+        <p class="fh">Define as 12 áreas da sua vida</p>
+        <input class="inp" type="text" id="fci" placeholder="Ex: Botucatu">
+      </div>
+      <div class="ff">
+        <label class="fl" for="fes">Estado</label>
+        <p class="fh"> </p>
+        <input class="inp" type="text" id="fes" placeholder="Ex: SP">
+      </div>
+    </div>
+    <div class="ff">
+      <label class="fl" for="fho">Hora em que nasceu</label>
+      <p class="fh">Revela como sua energia se apresenta ao mundo</p>
+      <input class="inp" type="time" id="fho">
+      <label class="htog" for="fnh"><input type="checkbox" id="fnh" onchange="togH(this)"><span>Não sei minha hora de nascimento</span></label>
+    </div>
+    <div class="fcols">
+      <div class="ff">
+        <label class="fl" for="fem">Seu e-mail</label>
+        <p class="fh">Para onde enviamos sua leitura</p>
+        <input class="inp" type="email" id="fem" placeholder="seuemail@email.com" autocomplete="email">
+      </div>
+      <div class="ff">
+        <label class="fl" for="fwp">WhatsApp</label>
+        <p class="fh">Para avisar quando estiver pronto</p>
+        <input class="inp" type="tel" id="fwp" placeholder="(14) 98830-0203">
+      </div>
+    </div>
+  </form>
+  <div class="fi3">
+    <button class="bcta" onclick="submitForm()">🎁 Gerar minha leitura gratuita →</button>
+    <p class="fnote">🔒 Seus dados são 100% seguros e usados apenas para gerar sua leitura</p>
+    <button class="bgh" onclick="goTo('s1')">← Voltar</button>
+  </div>
+  <div style="height:3rem"></div>
+</div>
+</div>
+
+<!-- ══ TELA 3 — LOADING ══ -->
+<div class="screen" id="s3">
+  <div class="lportal"><div class="lr"></div><div class="lr"></div><div class="lr"></div><div class="lc">🎁</div></div>
+  <div class="lh" id="lh">Preparando seu presente...</div>
+  <div class="lp" id="lp">Os astros estão traçando os padrões únicos escritos no momento do seu nascimento</div>
+  <div class="lbw"><div class="lbb"><div class="lbf" id="lbf"></div></div><div class="lmsg" id="lmsg">Calculando seu número de destino...</div></div>
+</div>
+
+<!-- ══ TELA 4 — CONFIRMAÇÃO ══ -->
+<div class="screen" id="s4">
+<div class="w">
+  <div class="topbar fi"><span class="logo">✦ Conexão Astral</span></div>
+  <div class="conf-wrap fi">
+    <span class="conf-icon">✨</span>
+    <h2>Sua leitura foi<br><span class="conf-name" id="cNome">enviada</span> com<br>muito amor! 🌌</h2>
+    <p class="conf-sub">O universo falou. Seu Mapa Astral & Numerologia Completo está sendo preparado e chegará no seu e-mail em instantes.</p>
+  </div>
+  <div class="steps-box fi2">
+    <div class="step-item"><div class="step-n">1</div><div class="step-txt"><strong>Confirmação no e-mail</strong>Você receberá uma confirmação agora. Verifique também o spam.</div></div>
+    <div class="step-item"><div class="step-n">2</div><div class="step-txt"><strong>Mapa sendo gerado</strong>Nosso sistema está cruzando seus dados astrológicos e numerológicos.</div></div>
+    <div class="step-item"><div class="step-n">3</div><div class="step-txt"><strong>Entrega em até 10 minutos</strong>Sua leitura completa chega por e-mail. Salve para reler sempre que precisar.</div></div>
+    <div class="step-item" id="semHoraStep" style="display:none"><div class="step-n">✦</div><div class="step-txt"><strong>Sobre a hora de nascimento</strong>Se quiser enriquecer ainda mais sua leitura, descubra sua hora de nascimento na certidão e nos avise!</div></div>
+  </div>
+  <div class="closing fi3">
+    <em>"Que esse mapa seja luz no seu caminho.<br>Com amor e gratidão,<br>Conexão Astral ✦"</em>
+  </div>
+</div>
+</div>
+
+<script>
+const WEBHOOK='https://juinfo.app.n8n.cloud/webhook/conexao-astral';
+
+(function(){const c=document.getElementById('gc'),ctx=c.getContext('2d');function r(){c.width=innerWidth;c.height=innerHeight}r();window.addEventListener('resize',r);const s=[];for(let i=0;i<180;i++)s.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.4+.2,a:Math.random()*.8+.1,da:(Math.random()-.5)*.007,col:['#FCD34D','#F472B6','#A78BFA','#ffffff'][Math.floor(Math.random()*4)]});function d(){ctx.clearRect(0,0,c.width,c.height);s.forEach(s=>{s.a+=s.da;if(s.a>.9||s.a<.08)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.globalAlpha=s.a;ctx.fillStyle=s.col;ctx.fill()});ctx.globalAlpha=1;requestAnimationFrame(d)}d()})();
+
+function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function togH(cb){const el=document.getElementById('fho');el.style.display=cb.checked?'none':'block';if(cb.checked)el.value=''}
+function emailOk(v){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
+
+function submitForm(){
+  const nome=document.getElementById('fn').value.trim();
+  const data=document.getElementById('fd').value;
+  const cidade=document.getElementById('fci').value.trim();
+  const estado=document.getElementById('fes').value.trim();
+  const hora=document.getElementById('fho').value;
+  const semH=document.getElementById('fnh').checked;
+  const email=document.getElementById('fem').value.trim();
+  const wpp=document.getElementById('fwp').value.trim();
+  let ok=true;
+  [['fn',nome.length>1],['fd',data!=''],['fci',cidade.length>1],['fes',estado.length>0],['fem',emailOk(email)]].forEach(([id,v])=>{
+    document.getElementById(id).classList.toggle('err',!v);if(!v)ok=false;
+  });
+  if(!ok){document.querySelector('.inp.err')?.scrollIntoView({behavior:'smooth',block:'center'});return}
+  const dados={funil:'conexao-astral-vip-gratuito',nome_completo:nome,email,whatsapp:wpp||'',data_nascimento:data,cidade_nascimento:cidade,estado_nascimento:estado,hora_nascimento:semH?'não informada':(hora||'não informada'),compra_compatibilidade:false,order_id:'VIP_'+Date.now(),timestamp:new Date().toISOString()};
+  localStorage.setItem('ca_vip',JSON.stringify(dados));
+  fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(dados)}).catch(()=>{});
+  startLoading(nome,semH);
+}
+
+function startLoading(nome,semH){
+  goTo('s3');
+  const msgs=['Calculando seu número de destino...','Mapeando sua posição nos astros...','Interpretando sua configuração natal...','Cruzando astrologia com numerologia...','Finalizando seu presente...'];
+  const bar=document.getElementById('lbf'),msg=document.getElementById('lmsg'),lh=document.getElementById('lh'),lp=document.getElementById('lp');
+  let pct=0,step=0;
+  const iv=setInterval(()=>{
+    pct+=Math.random()*20+5;if(pct>100)pct=100;
+    bar.style.width=pct+'%';
+    if(step<msgs.length){msg.textContent=msgs[step];step++}
+    if(pct>=50){lh.textContent='Seu presente está quase pronto...';lp.textContent='Os astros estão selando sua leitura com carinho'}
+    if(pct>=100){clearInterval(iv);setTimeout(()=>showConf(nome,semH),600)}
+  },500);
+}
+
+function showConf(nome,semH){
+  const pn=nome.split(' ')[0];
+  document.getElementById('cNome').textContent=pn;
+  if(semH)document.getElementById('semHoraStep').style.display='flex';
+  goTo('s4');
+}
+</script>
+</body>
+</html>
