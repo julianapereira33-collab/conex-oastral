@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conexão Astral — Descubra Seu Mapa do Destino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06031A;--card:#0E0927;
+  --v:#8B5CF6;--v2:#A78BFA;--v3:#6D28D9;--v4:#C4B5FD;
+  --r:#F472B6;--r2:#EC4899;
+  --g:#FBBF24;--g2:#F59E0B;--g3:#FDE68A;
+  --tl:#34D399;
+  --tx:#F5F0FF;--mu:#B8ADDB;--fa:#6B5FA0;
+  --bd:rgba(167,139,250,.18);
+  --dp:'Playfair Display',Georgia,serif;
+  --fn:'Nunito',system-ui,sans-serif;
+}
+html{font-size:16px}
+body{background:var(--bg);color:var(--tx);font-family:var(--fn);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#cvs{position:fixed;inset:0;z-index:0;pointer-events:none}
+.nb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;animation:nf 16s ease-in-out infinite}
+.nb1{width:800px;height:600px;top:-200px;left:-250px;background:radial-gradient(ellipse,rgba(109,40,217,.28),transparent 70%)}
+.nb2{width:700px;height:700px;top:20%;right:-250px;background:radial-gradient(ellipse,rgba(244,114,182,.2),transparent 70%);animation-delay:-5s;animation-direction:reverse}
+.nb3{width:600px;height:400px;bottom:-100px;left:0;background:radial-gradient(ellipse,rgba(251,191,36,.1),transparent 70%);animation-delay:-10s}
+@keyframes nf{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-15px) scale(1.03)}}
+.sc{display:none;position:relative;z-index:1;min-height:100vh}
+.sc.on{display:block}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.a1{animation:up .5s ease both}.a2{animation:up .5s .09s ease both}
+.a3{animation:up .5s .18s ease both}.a4{animation:up .5s .27s ease both}
+.a5{animation:up .5s .36s ease both}.a6{animation:up .5s .45s ease both}
+.w{max-width:580px;margin:0 auto;padding:0 1.2rem}
+.hdr{padding:1.4rem 0 1rem;text-align:center;border-bottom:1px solid rgba(167,139,250,.1)}
+.logo{font-family:var(--dp);font-weight:700;font-size:1.2rem;
+  background:linear-gradient(135deg,#A78BFA,#F472B6,#FBBF24);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ═══ HERO IMAGE HIPERREALISTA ═══ */
+.hero-img-wrap{
+  position:relative;width:100%;max-width:420px;margin:0 auto;
+  padding-top:2rem;padding-bottom:.5rem;
+}
+.hero-canvas-wrap{
+  position:relative;width:320px;height:320px;margin:0 auto;
+}
+#heroCanvas{width:320px;height:320px;border-radius:50%;display:block}
+.hero-glow{
+  position:absolute;inset:-20px;border-radius:50%;
+  background:radial-gradient(circle,rgba(139,92,246,.35) 0%,rgba(244,114,182,.2) 40%,transparent 70%);
+  animation:glowPulse 3s ease-in-out infinite;
+  filter:blur(15px);
+}
+@keyframes glowPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+.hero-ring{
+  position:absolute;inset:-12px;border-radius:50%;
+  border:1px solid rgba(167,139,250,.3);
+  animation:ringRotate 25s linear infinite;
+}
+.hero-ring::before{
+  content:'✦';position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  color:var(--g);font-size:.9rem;
+}
+.hero-ring2{
+  position:absolute;inset:-28px;border-radius:50%;
+  border:.5px solid rgba(251,191,36,.2);
+  animation:ringRotate 40s linear infinite reverse;
+}
+.hero-ring2::before{content:'★';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);color:var(--r);font-size:.8rem}
+@keyframes ringRotate{to{transform:rotate(360deg)}}
+.zodiac-belt{
+  position:absolute;inset:-55px;border-radius:50%;
+  animation:ringRotate 60s linear infinite;
+  pointer-events:none;
+}
+.z-sign{
+  position:absolute;font-size:1rem;opacity:.5;
+  transform-origin:160px 160px;
+}
+
+.badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(251,191,36,.1);
+  border:1px solid rgba(251,191,36,.28);border-radius:50px;padding:.4rem 1rem;
+  font-size:.8rem;font-weight:700;color:var(--g);letter-spacing:.04em}
+
+.h1{font-family:var(--dp);font-size:clamp(1.9rem,7vw,2.85rem);font-weight:900;line-height:1.1;text-align:center;margin-bottom:1rem}
+.gd{background:linear-gradient(135deg,var(--g),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.vl{background:linear-gradient(135deg,var(--v2),var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hsub{font-size:1.08rem;color:var(--mu);text-align:center;line-height:1.72;max-width:460px;margin:0 auto 1.75rem}
+
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.75rem}
+.pcard{background:linear-gradient(135deg,rgba(109,40,217,.13),rgba(244,114,182,.07));
+  border:1px solid rgba(167,139,250,.18);border-radius:14px;
+  padding:.95rem 1rem;display:flex;align-items:flex-start;gap:.6rem;
+  transition:transform .2s,border-color .2s}
+.pcard:hover{transform:translateY(-2px);border-color:rgba(167,139,250,.36)}
+.pem{font-size:1.3rem;line-height:1;flex-shrink:0;margin-top:.05rem}
+.ptxt{font-size:.88rem;color:var(--tx);line-height:1.35;font-weight:600}
+
+.promise{background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(244,114,182,.06));
+  border:1px solid rgba(167,139,250,.2);border-radius:16px;
+  padding:1.35rem 1.2rem;margin-bottom:1.75rem;text-align:center}
+.promise p{font-size:1.05rem;color:var(--tx);line-height:1.72}
+.promise strong{color:var(--g)}
+
+.free-line{font-size:.8rem;color:var(--tl);font-weight:700;letter-spacing:.05em;margin-bottom:.65rem;text-align:center}
+.sp-bar{display:flex;align-items:center;justify-content:center;gap:.75rem;margin-top:1rem;flex-wrap:wrap}
+.sp-avs{display:flex}
+.sp-av{width:30px;height:30px;border-radius:50%;margin-left:-8px;
+  border:2px solid var(--bg);background:linear-gradient(135deg,var(--v),var(--r));
+  display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff}
+.sp-av:first-child{margin-left:0}
+.sp-txt{font-size:.82rem;color:var(--mu)}.sp-txt strong{color:var(--tx)}
+.trust{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-top:.85rem}
+.ti{font-size:.78rem;color:var(--mu);display:flex;align-items:center;gap:.3rem}
+.dep{background:rgba(139,92,246,.07);border:1px solid rgba(167,139,250,.11);
+  border-radius:12px;padding:.9rem 1rem;display:flex;gap:.7rem;text-align:left;margin-top:.85rem}
+.dav{width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--v),var(--r));
+  display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff}
+.dtxt{font-size:.82rem;color:var(--mu);line-height:1.5}
+.dtxt strong{color:var(--tx);display:block;font-size:.84rem;margin-bottom:.12rem}
+
+/* FORM */
+.fhdr{text-align:center;padding:2.5rem 0 2rem}
+.fhdr h2{font-family:var(--dp);font-size:clamp(1.5rem,5vw,2rem);font-weight:700;line-height:1.2;margin-bottom:.7rem}
+.fhdr h2 em{font-style:italic;background:linear-gradient(135deg,var(--v2),var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.fhdr p{font-size:.97rem;color:var(--mu);line-height:1.6}
+.fbox{background:rgba(14,9,39,.88);border:1px solid var(--bd);border-radius:20px;padding:1.75rem 1.5rem;margin-bottom:1.2rem}
+.ff{margin-bottom:1.7rem}.ff:last-child{margin-bottom:0}
+.fl{display:block;font-size:1.08rem;font-weight:700;letter-spacing:.01em;color:var(--v2);margin-bottom:.3rem}
+.fh{font-size:.92rem;color:var(--fa);font-style:italic;margin-bottom:.5rem;line-height:1.45}
+.inp{width:100%;background:rgba(139,92,246,.07);border:1.5px solid rgba(167,139,250,.16);
+  border-radius:10px;padding:.82rem 1rem;font-family:var(--fn);font-size:1rem;
+  color:var(--tx);outline:none;transition:border-color .2s,background .2s;-webkit-appearance:none}
+.inp:focus{border-color:var(--v2);background:rgba(139,92,246,.11)}
+.inp::placeholder{color:rgba(167,139,250,.28)}
+.inp.err{border-color:var(--r2)}
+.fcols{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}
+@media(max-width:440px){.fcols{grid-template-columns:1fr}}
+.htog{display:flex;align-items:center;gap:.65rem;margin-top:.72rem;cursor:pointer}
+.htog input{accent-color:var(--v2);width:15px;height:15px}
+.htog span{font-size:.84rem;color:var(--mu);font-style:italic}
+.fnote{text-align:center;font-size:.8rem;color:var(--fa);margin-top:.88rem;line-height:1.5}
+
+/* TELA NOME + VÍDEO */
+.vidph{width:100%;max-width:420px;aspect-ratio:16/9;margin:0 auto .8rem;border-radius:16px;
+  background:#000;display:block;object-fit:cover}
+.vid-wrap{position:relative;width:100%;max-width:420px;margin:0 auto .8rem}
+.vid-cap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.82));
+  border-radius:0 0 16px 16px;padding:.7rem .9rem .6rem;font-size:1rem;color:#fff;
+  line-height:1.45;text-align:center;min-height:3.2rem;display:flex;align-items:flex-end;justify-content:center}
+.vid-snd{position:absolute;top:.6rem;right:.6rem;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.25);
+  border-radius:50px;padding:.3rem .75rem;font-size:.8rem;color:#fff;cursor:pointer;z-index:9}
+.namein{font-size:1.25rem!important;text-align:center;padding:1.1rem 1rem!important}
+.welcoming{font-family:var(--dp);font-size:clamp(1.6rem,6vw,2.1rem);font-weight:700;text-align:center;margin-bottom:.9rem;line-height:1.25}
+
+/* ÁREAS */
+.areacard{display:flex;align-items:center;gap:.8rem;background:linear-gradient(135deg,rgba(109,40,217,.13),rgba(244,114,182,.07));
+  border:1.5px solid rgba(167,139,250,.18);border-radius:14px;padding:1rem 1.1rem;margin-bottom:.7rem;
+  cursor:pointer;transition:border-color .2s,background .2s}
+.areacard.sel{border-color:var(--g);background:linear-gradient(135deg,rgba(251,191,36,.14),rgba(244,114,182,.08))}
+.areaem{font-size:1.4rem;flex-shrink:0}
+.areatxt{font-size:1.05rem;font-weight:700;color:var(--tx)}
+.areacheck{margin-left:auto;font-size:1.2rem;color:var(--g);opacity:0}
+.areacard.sel .areacheck{opacity:1}
+
+/* CONTATO NA TELA DE CARREGAMENTO */
+.lcontato{width:100%;max-width:320px;margin:1.6rem auto 0;text-align:left}
+.datecols{display:grid;grid-template-columns:1fr 1.6fr 1.2fr;gap:.5rem}
+
+/* CONFIRMAÇÃO DE NOME */
+.nmchip{display:inline-flex;align-items:center;gap:.5rem;background:rgba(52,211,153,.08);
+  border:1px solid rgba(52,211,153,.25);border-radius:50px;padding:.5rem 1.1rem;
+  font-size:.95rem;color:var(--tl);font-weight:700;margin:0 auto 1.4rem;max-width:100%}
+
+/* DÚVIDAS / FAQ */
+.faqtitle{font-family:var(--dp);font-size:clamp(1.3rem,4.5vw,1.65rem);font-weight:700;text-align:center;margin:1.8rem 0 1rem}
+.faqitem{border-bottom:1px solid rgba(167,139,250,.12);padding:.85rem 0}
+.faqitem:last-child{border-bottom:none}
+.faqq{font-size:.95rem;font-weight:700;color:var(--tx);margin-bottom:.3rem;display:flex;gap:.5rem}
+.faqa{font-size:.88rem;color:var(--mu);line-height:1.6}
+
+/* LOADING */
+#sl{display:none;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:3rem 1.2rem}
+#sl.on{display:flex}
+.lp2{width:130px;height:130px;margin:0 auto 2.25rem;position:relative}
+.lr{position:absolute;border-radius:50%;border:2.5px solid transparent}
+.lr:nth-child(1){inset:0;border-top-color:var(--v2);animation:spin 1.1s linear infinite}
+.lr:nth-child(2){inset:14px;border-top-color:var(--r);animation:spin .85s linear infinite reverse}
+.lr:nth-child(3){inset:28px;border-top-color:var(--g);animation:spin 1.5s linear infinite}
+.lc{position:absolute;inset:43px;border-radius:50%;
+  background:radial-gradient(circle,var(--v),var(--r));
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+  animation:hb 1.5s ease-in-out infinite}
+@keyframes hb{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lh2{font-family:var(--dp);font-size:1.65rem;font-weight:700;margin-bottom:.6rem}
+.lpt{font-size:.95rem;color:var(--mu);max-width:290px;line-height:1.6}
+.lbw{width:100%;max-width:290px;margin:1.75rem auto 0}
+.lbb{height:6px;border-radius:10px;background:rgba(139,92,246,.14);overflow:hidden}
+.lbf{height:100%;border-radius:10px;width:0%;background:linear-gradient(90deg,var(--v),var(--r),var(--g));transition:width .4s ease}
+.lms{font-size:.85rem;color:var(--mu);margin-top:.7rem;font-style:italic;min-height:1.2rem}
+
+/* RESULT */
+#sr{padding-bottom:4rem}
+.rhead{text-align:center;padding:2.25rem 0 1.75rem}
+.rhead h2{font-family:var(--dp);font-size:clamp(1.45rem,5vw,1.95rem);font-weight:700;line-height:1.2;margin-bottom:.55rem}
+.nm{background:linear-gradient(135deg,var(--g),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.rhead p{font-size:.97rem;color:var(--mu);line-height:1.6}
+.rhead p strong{color:var(--v2)}
+
+.rcard{background:linear-gradient(145deg,rgba(14,9,39,.96),rgba(22,12,55,.92));
+  border:1px solid rgba(167,139,250,.16);border-radius:20px;overflow:hidden;
+  margin-bottom:.9rem;position:relative}
+.rcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;
+  background:linear-gradient(90deg,var(--v),var(--r),var(--g))}
+.rh2{padding:1.1rem 1.35rem .9rem;display:flex;align-items:center;gap:.9rem;
+  border-bottom:1px solid rgba(167,139,250,.07)}
+.rnum{width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--v3),var(--r2));
+  display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:700;color:#fff}
+.rtit{font-size:1.03rem;font-weight:700;color:var(--tx);line-height:1.2}
+.rsub{font-size:.76rem;color:var(--mu);margin-top:.1rem}
+.rbody{padding:1.1rem 1.35rem}
+.rbody p{font-size:.96rem;color:rgba(245,240,255,.84);line-height:1.75;margin-bottom:.7rem}
+.rbody p:last-child{margin-bottom:0}
+.rhook{display:flex;align-items:flex-start;gap:.55rem;
+  background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.16);
+  border-radius:10px;padding:.82rem .95rem;margin-top:.7rem}
+.hico{font-size:.95rem;flex-shrink:0;margin-top:.1rem}
+.htxt2{font-size:.86rem;color:var(--g);line-height:1.55;font-style:italic}
+
+/* ═══ CADEADO URGÊNCIA ═══ */
+.lkcard{background:rgba(8,5,22,.85);border:1.5px solid rgba(251,191,36,.22);
+  border-radius:20px;margin-bottom:.9rem;position:relative;overflow:hidden}
+.lkblur{filter:blur(5px);opacity:.2;user-select:none;pointer-events:none;padding:1.35rem}
+.lkblur p{font-size:.88rem;color:var(--mu);line-height:1.6}
+.lkover{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.45rem;padding:1.2rem;
+  text-align:center;background:rgba(6,3,26,.5)}
+.lkico{font-size:2.1rem;margin-bottom:.1rem;animation:jiggle 3s ease-in-out infinite}
+@keyframes jiggle{0%,85%,100%{transform:rotate(0)}87%{transform:rotate(-10deg)}90%{transform:rotate(10deg)}93%{transform:rotate(-6deg)}96%{transform:rotate(6deg)}}
+.lktit{font-family:var(--dp);font-size:1.05rem;font-weight:700;line-height:1.25;max-width:285px;
+  background:linear-gradient(135deg,var(--g),var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lksub{font-size:.83rem;color:var(--mu);max-width:260px;line-height:1.4}
+.urg-row{display:flex;align-items:center;justify-content:center;gap:.6rem;margin:.38rem 0}
+.urg-de{font-size:.85rem;color:var(--fa);text-decoration:line-through}
+.urg-por{font-size:1.2rem;font-weight:800;color:var(--g)}
+.urg-msg{font-size:.78rem;color:var(--r);font-style:italic;font-weight:700}
+.lkbtn{display:inline-flex;align-items:center;gap:.4rem;
+  background:linear-gradient(135deg,var(--g2),var(--r2));
+  color:#fff;border:none;border-radius:50px;padding:.65rem 1.5rem;
+  font-size:.86rem;font-weight:800;cursor:pointer;margin-top:.55rem;font-family:var(--fn);
+  box-shadow:0 4px 18px rgba(245,158,11,.38);transition:transform .2s}
+.lkbtn:hover{transform:translateY(-2px)}
+
+/* ═══ OFERTA — NOVA COPY DE ALTO IMPACTO ═══ */
+.obox{
+  background:linear-gradient(160deg,rgba(14,9,39,.97),rgba(28,10,55,.95));
+  border:1.5px solid rgba(167,139,250,.22);border-radius:24px;
+  padding:2rem 1.4rem;margin-top:.9rem;position:relative;overflow:hidden}
+.obox::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--g),var(--v),var(--r),var(--g))}
+
+/* headline da oferta */
+.otag{display:inline-flex;align-items:center;gap:.4rem;background:rgba(251,191,36,.1);
+  border:1px solid rgba(251,191,36,.25);border-radius:50px;padding:.34rem .9rem;
+  font-size:.74rem;font-weight:700;color:var(--g);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.1rem}
+.oh{font-family:var(--dp);font-size:clamp(1.5rem,5.5vw,2rem);font-weight:900;line-height:1.12;margin-bottom:.85rem;text-align:center}
+.ohl{background:linear-gradient(135deg,var(--v2),var(--r));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* copy gancho */
+.o-hook{font-size:1.05rem;color:var(--tx);line-height:1.72;text-align:center;margin-bottom:1.4rem;font-style:italic}
+.o-hook strong{color:var(--g);font-style:normal}
+
+/* o que você vai descobrir */
+.o-section-title{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--v2);margin-bottom:.75rem;display:block}
+.olist{list-style:none;padding:0;margin-bottom:1.6rem;display:flex;flex-direction:column;gap:.5rem}
+.oitem{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .7rem;
+  background:rgba(139,92,246,.06);border:1px solid rgba(167,139,250,.1);
+  border-radius:10px;font-size:.9rem;color:var(--tx);line-height:1.4}
+.oitem-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.och{width:20px;height:20px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--v),var(--r));
+  display:flex;align-items:center;justify-content:center;font-size:.64rem;color:#fff;margin-top:.1rem}
+
+/* bloco valor percebido */
+.valor-box{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);
+  border-radius:14px;padding:1.1rem 1rem;margin-bottom:1.5rem}
+.valor-row{display:flex;align-items:center;justify-content:space-between;
+  padding:.42rem 0;border-bottom:1px solid rgba(167,139,250,.07);font-size:.88rem}
+.valor-row:last-child{border-bottom:none}
+.vr-label{color:var(--mu);display:flex;align-items:center;gap:.4rem}
+.vr-price{color:var(--fa);text-decoration:line-through;font-size:.82rem}
+.valor-total{display:flex;align-items:center;justify-content:space-between;
+  padding:.6rem 0 0;font-weight:700}
+.vt-label{color:var(--tx);font-size:.95rem}
+.vt-total{color:var(--fa);text-decoration:line-through;font-size:1rem}
+
+/* preço DESTAQUE */
+.pblock{background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(244,114,182,.07));
+  border:1.5px solid rgba(167,139,250,.25);border-radius:18px;
+  padding:1.6rem;margin-bottom:1.6rem;text-align:center;position:relative;overflow:hidden}
+.pblock::before{content:'🔥 Oferta por tempo limitado';position:absolute;top:0;left:0;right:0;
+  background:linear-gradient(90deg,var(--v3),var(--r2));
+  color:#fff;font-size:.72rem;font-weight:700;padding:.35rem;letter-spacing:.06em;text-transform:uppercase}
+.pdist{padding-top:.5rem}
+.pde{font-size:.95rem;color:var(--fa);text-decoration:line-through;margin-bottom:.3rem;margin-top:.75rem}
+.plabel{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:.38rem}
+.pmain{display:flex;align-items:flex-start;justify-content:center;gap:.18rem;line-height:1;margin-bottom:.45rem}
+.pcur{font-size:1.65rem;font-weight:700;color:#fff;margin-top:.55rem}
+.pval{font-family:var(--dp);font-size:4.8rem;font-weight:900;
+  background:linear-gradient(135deg,#fff 20%,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.pcents{font-size:1.65rem;font-weight:700;color:#fff;margin-top:.55rem}
+.ppix{font-size:.9rem;color:var(--tl);font-weight:700;margin-bottom:.45rem}
+.por{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fa);margin:.55rem 0}
+.pparc{font-size:1.2rem;color:var(--v2);font-weight:700}
+.pnote2{font-size:.78rem;color:var(--fa);margin-top:.18rem}
+.economia{display:inline-flex;align-items:center;gap:.35rem;background:rgba(52,211,153,.1);
+  border:1px solid rgba(52,211,153,.25);border-radius:50px;padding:.3rem .85rem;
+  font-size:.78rem;color:var(--tl);font-weight:700;margin-top:.6rem}
+
+/* urgência FOMO */
+.urgbox{background:rgba(236,72,153,.07);border:1px solid rgba(236,72,153,.2);
+  border-radius:12px;padding:.95rem 1rem;margin:.85rem 0;
+  font-size:.87rem;color:rgba(244,114,182,.92);line-height:1.55;text-align:center;font-weight:700}
+.gar{display:flex;align-items:center;justify-content:center;gap:.5rem;
+  font-size:.83rem;color:var(--tl);margin-top:.9rem;font-weight:700}
+
+/* entrega */
+.entrega-box{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.15);
+  border-radius:12px;padding:1rem;margin:.85rem 0;display:flex;align-items:center;gap:.75rem}
+.entrega-icon{font-size:1.8rem;flex-shrink:0}
+.entrega-txt{font-size:.86rem;color:var(--mu);line-height:1.5}
+.entrega-txt strong{color:var(--tl)}
+
+/* BOTÕES */
+.btn{display:block;width:100%;background:linear-gradient(135deg,#7C3AED,#EC4899);
+  color:#fff;border:none;border-radius:50px;padding:1.12rem 2rem;cursor:pointer;
+  font-family:var(--fn);font-size:1.02rem;font-weight:800;letter-spacing:.02em;
+  box-shadow:0 8px 32px rgba(124,58,237,.42);transition:all .22s;text-decoration:none;text-align:center;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent);opacity:0;transition:opacity .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(124,58,237,.52)}
+.btn:hover::after{opacity:1}
+.btn-cta-principal{background:linear-gradient(135deg,#D97706,#EC4899)!important;
+  box-shadow:0 8px 32px rgba(217,119,6,.38)!important;font-size:1.08rem!important;padding:1.2rem 2rem!important}
+.btn-cta-principal:hover{box-shadow:0 14px 40px rgba(217,119,6,.5)!important}
+.btn-ghost{display:block;width:100%;background:transparent;border:1px solid rgba(167,139,250,.2);
+  border-radius:50px;padding:.9rem;cursor:pointer;font-family:var(--fn);font-size:.9rem;
+  font-weight:600;color:var(--fa);transition:all .2s;margin-top:.72rem;text-align:center}
+.btn-ghost:hover{border-color:var(--v2);color:var(--v2)}
+.cta-note{font-size:.8rem;color:var(--fa);margin-top:.95rem;text-align:center;line-height:1.5}
+
+@media(max-width:480px){.pgrid{grid-template-columns:1fr 1fr}.obox{padding:1.5rem 1.1rem}.pblock{padding:1.4rem}}
+@media(max-width:340px){.pgrid{grid-template-columns:1fr}}
+</style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2442322969596570');
+fbq('init', '1577968787176983');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2442322969596570&ev=PageView&noscript=1"
+/></noscript>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1577968787176983&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+<canvas id="cvs"></canvas>
+<div class="nb nb1"></div><div class="nb nb2"></div><div class="nb nb3"></div>
+
+<!-- ══════════════════════
+     TELA 0 — NOME (+ VÍDEO)
+══════════════════════ -->
+<div class="sc on" id="s0">
+<div class="hdr"><span class="logo">✦ Conexão Astral</span></div>
+<div class="w">
+  <div class="a1" style="padding-top:1.75rem">
+    <div class="vid-wrap a1">
+      <video class="vidph" id="vidEtapa1" autoplay muted playsinline
+        style="width:100%;border-radius:16px;display:block">
+        <source src="etapa1.mp4" type="video/mp4">
+      </video>
+      <button class="vid-snd" id="vidSnd" onclick="toggleSom()">🔇 Toque para som</button>
+      <div class="vid-cap" id="vidCap">Bem-vinda à Conexão Astral</div>
+    </div>
+  </div>
+  <h1 class="welcoming a2">Bem-vinda à Conexão Astral</h1>
+  <p class="hsub a2" style="margin-bottom:1.4rem">Antes de começar, como você se chama?</p>
+  <div class="a3" style="max-width:380px;margin:0 auto">
+    <input class="inp namein" type="text" id="fn0" placeholder="Nome completo" autocomplete="name">
+  </div>
+  <div class="a4" style="text-align:center;margin-top:1.4rem">
+    <button class="btn" onclick="goAreas()">Avançar →</button>
+  </div>
+  <div style="height:2rem"></div>
+</div>
+</div>
+
+<!-- ══════════════════════
+     TELA 1 — HERO
+══════════════════════ -->
+<div class="sc" id="s1">
+<div class="hdr"><span class="logo">✦ Conexão Astral</span></div>
+<div class="w">
+
+  <div class="a1" style="text-align:center;padding-top:1.75rem;margin-bottom:1.25rem">
+    <div class="badge">🔮 Revelação gratuita baseada no seu nascimento</div>
+  </div>
+
+  <p id="greetText" class="welcoming a2">Vamos revelar 3 áreas importantes da sua vida:</p>
+  <p class="hsub a2" style="margin-bottom:1rem;font-size:.95rem">Escolha até 3 que você quer descobrir agora:</p>
+
+  <div class="a3" id="areaList" style="margin-top:.4rem"></div>
+
+  <div class="a4" style="text-align:center;margin-top:1rem">
+    <button class="btn" onclick="goForm()">Avançar →</button>
+  </div>
+  <div style="height:3rem"></div>
+</div>
+</div>
+
+<!-- ══════════════════════
+     TELA 2 — FORMULÁRIO
+══════════════════════ -->
+<div class="sc" id="s2">
+<div class="hdr"><span class="logo">✦ Conexão Astral</span></div>
+<div class="w">
+  <div class="fhdr a1">
+    <h2>Você terá acesso a<br>informações personalizadas</h2>
+    <p style="margin-top:.7rem">Preencha os campos abaixo para gerar seu mapa com precisão.</p>
+  </div>
+  <form class="fbox a2" id="fForm" novalidate>
+    <div class="ff">
+      <label class="fl" for="fdt">Sua data de nascimento</label>
+      <p class="fh">Define sua posição exata nos astros</p>
+      <input class="inp" type="text" id="fdt" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10">
+    </div>
+    <div class="fcols">
+      <div class="ff"><label class="fl" for="fes">Estado</label><p class="fh">Sugestão automática — corrija se precisar</p><input class="inp" type="text" id="fes" placeholder="Ex: SP"></div>
+      <div class="ff"><label class="fl" for="fci">Cidade onde nasceu</label><p class="fh">&nbsp;</p><input class="inp" type="text" id="fci" placeholder="Ex: São Paulo"></div>
+    </div>
+    <div class="ff">
+      <label class="fl" for="fho">Hora em que nasceu</label>
+      <p class="fh">Revela seu Ascendente — como sua energia chega ao mundo</p>
+      <input class="inp" type="time" id="fho">
+      <label class="htog" for="fnh"><input type="checkbox" id="fnh" onchange="togH(this)"><span>Não sei minha hora de nascimento</span></label>
+    </div>
+  </form>
+  <div class="a3" style="padding-bottom:3rem">
+    <button class="btn" onclick="goLoading()">Avançar →</button>
+    <p class="fnote"><strong style="color:var(--tl)">🔒 Seus dados são exclusivos e estão seguros</strong><br>Usados apenas para gerar a sua revelação personalizada</p>
+    <button class="btn-ghost" onclick="show('s1')">← Voltar</button>
+  </div>
+</div>
+</div>
+
+<!-- LOADING (puro, sem formulário) -->
+<div class="sc" id="sl">
+  <div class="hero-canvas-wrap" style="width:120px;height:120px;margin:0 auto 1.5rem">
+    <canvas id="heroCanvas" width="320" height="320" style="width:120px;height:120px;border-radius:50%;display:block"></canvas>
+  </div>
+  <div class="lh2" id="lh">Consultando os astros...</div>
+  <div class="lpt" id="lp2">Seu mapa está sendo calculado com base nos seus dados únicos</div>
+  <div class="lbw"><div class="lbb"><div class="lbf" id="lbf"></div></div><div class="lms" id="lms">Mapeando sua posição nos astros...</div></div>
+</div>
+
+<!-- MAPA GERADO + CONTATO -->
+<div class="sc" id="scon">
+<div class="hdr"><span class="logo">✦ Conexão Astral</span></div>
+<div class="w">
+  <div class="fhdr a1">
+    <div style="font-size:2.2rem;margin-bottom:.7rem">✨ 🌙 ✨</div>
+    <h2>Seu mapa foi gerado!</h2>
+    <p style="margin-top:.7rem">Encontramos <strong style="color:var(--tx)">informações importantes</strong> sobre você.</p>
+  </div>
+  <div class="fbox a2">
+    <p class="fh" style="text-align:center;margin-bottom:1rem;font-size:1rem">Preencha para receber uma cópia das suas 3 revelações gratuitas:</p>
+    <div class="ff">
+      <label class="fl" for="fem">Seu melhor e-mail</label>
+      <input class="inp" type="email" id="fem" placeholder="seu@email.com" autocomplete="email">
+    </div>
+    <div class="ff">
+      <label class="fl" for="fwp">WhatsApp <span style="color:var(--fa);text-transform:none;letter-spacing:0;font-weight:400;font-size:.78rem">(opcional)</span></label>
+      <input class="inp" type="tel" id="fwp" placeholder="(00) 00000-0000">
+    </div>
+  </div>
+  <div class="a3" style="padding-bottom:3rem">
+    <button class="btn" onclick="finalSubmit()">Acessar minhas revelações →</button>
+    <p class="fnote"><strong style="color:var(--tl)">🔒 Seus dados estão protegidos</strong><br>Usados apenas para enviar sua revelação personalizada</p>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════
+     TELA 4 — RESULTADO + OFERTA
+══════════════════════ -->
+<div class="sc" id="sr">
+<div class="hdr"><span class="logo">✦ Conexão Astral</span></div>
+<div class="w">
+
+  <div class="rhead a1">
+    <div style="font-size:1.8rem;margin-bottom:.7rem">✨ 🌙 ⭐</div>
+    <h2>Liberada — <span id="rNome" class="nm">Sua</span> revelação gratuita</h2>
+    <p>Os astros revelaram muito mais coisas, mas estão <strong>liberadas 3 verdades sobre você.</strong><br>Leia com atenção — isso foi escrito só para você.</p>
+  </div>
+
+  <div id="revealCards"></div>
+
+  <!-- CTA PRÉ-OFERTA -->
+  <div class="a4" style="text-align:center;margin:2rem 0 1rem">
+    <div style="background:rgba(139,92,246,.1);border:1px solid rgba(167,139,250,.25);border-radius:16px;padding:1.4rem 1.2rem;margin-bottom:1.2rem">
+      <p style="font-size:1.1rem;font-weight:700;color:var(--tx);line-height:1.45;margin:0 0 .5rem">Tem algo muito importante<br>que você precisa saber sobre você agora!</p>
+      <p style="font-size:.95rem;color:var(--mu);margin:0">Desbloqueie o mapa completo —<br>isso pode ser a chave da sua virada</p>
+    </div>
+    <button class="btn" onclick="irOferta()" style="width:100%">Ver o mapa completo →</button>
+  </div>
+
+  <div style="height:2rem"></div>
+</div>
+</div>
+
+<!-- ══════════════════════
+     TELA OFERTA (separada)
+══════════════════════ -->
+<div class="sc" id="soferta">
+<div class="hdr"><span class="logo">✦ Conexão Astral</span></div>
+<div class="w">
+
+  <!-- HEADLINE FORTE -->
+  <div class="rhead a1" style="margin-bottom:1rem">
+    <h2 style="font-size:clamp(1.5rem,5.5vw,2rem);line-height:1.3">
+      Sua mudança começa quando<br>
+      você passa a <span class="nm">se conhecer</span>
+    </h2>
+    <p style="margin-top:.8rem;line-height:1.6">Acesse seu Mapa Completo — ele vai te mostrar coisas que farão <strong style="color:var(--tx)">todo sentido na sua vida</strong>.</p>
+  </div>
+
+  <!-- OFERTA ESPECIAL DESTAQUE -->
+  <div class="obox a2" style="background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(139,92,246,.12));border:1.5px solid rgba(251,191,36,.35);border-radius:20px;padding:1.4rem 1.2rem;margin-bottom:1.4rem;text-align:center">
+    <div class="otag" style="margin-bottom:.8rem">⭐ Oferta especial — só para você que chegou até aqui</div>
+    <div class="pblock" style="margin:0">
+      <div class="pdist">
+        <div class="pde">De R$ 397,00</div>
+        <div class="plabel">✦ Você paga apenas</div>
+        <div class="pmain">
+          <span class="pcur">R$</span>
+          <span class="pval">97</span>
+          <span class="pcents">,00</span>
+        </div>
+        <div class="ppix">💚 à vista no Pix</div>
+        <div class="por">— ou —</div>
+        <div class="pparc">10× de R$ 11,85</div>
+        <div class="pnote2">no cartão sem juros</div>
+        <div class="economia">🎉 Você economiza R$ 300,00 agora</div>
+      </div>
+    </div>
+    <a class="btn btn-cta-principal" href="https://pay.cakto.com.br/67mzr3r_889561" target="_blank" id="chkBtn" style="margin-top:1.2rem">
+      🔮 ACESSE MAPA COMPLETO AGORA →
+    </a>
+    <div class="gar" style="margin-top:.8rem">🛡️ Garantia de 7 dias — não gostou, devolvemos tudo</div>
+  </div>
+
+  <!-- O QUE ELA RECEBE -->
+  <span class="o-section-title">O que você vai receber</span>
+  <ul class="olist a3">
+    <li class="oitem"><span class="oitem-icon">🌞</span><div>Sol, Lua e Ascendente — quem você é de verdade, sem máscaras</div></li>
+    <li class="oitem"><span class="oitem-icon">💰</span><div>A raiz do seu bloqueio financeiro — e o que mudar agora</div></li>
+    <li class="oitem"><span class="oitem-icon">❤️</span><div>Por que você atrai quem atrai — e o que isso revela sobre você</div></li>
+    <li class="oitem"><span class="oitem-icon">🎯</span><div>Seu propósito de vida e missão de alma</div></li>
+    <li class="oitem"><span class="oitem-icon">🔢</span><div>Numerologia completa — destino, alma, sorte e expressão</div></li>
+    <li class="oitem"><span class="oitem-icon">📅</span><div>Previsão dos próximos 12 meses — amor, trabalho e finanças</div></li>
+    <li class="oitem"><span class="oitem-icon">⚡</span><div>Bloqueios ocultos e como dissolvê-los com espiritualidade e física quântica</div></li>
+  </ul>
+
+  <!-- CTA DEPOIS DO QUE RECEBE -->
+  <div class="a4" style="text-align:center;margin:1.4rem 0">
+    <a class="btn btn-cta-principal" href="https://pay.cakto.com.br/67mzr3r_889561" target="_blank">
+      🔮 ACESSE MAPA COMPLETO AGORA →
+    </a>
+    <div class="entrega-box" style="margin-top:.9rem">
+      <span class="entrega-icon">📩</span>
+      <div class="entrega-txt">Entrega <strong>em até 24h por e-mail</strong> — formato PDF premium, pronto para salvar e reler sempre que precisar</div>
+    </div>
+  </div>
+
+  <!-- URGÊNCIA -->
+  <div class="urgbox a5" style="text-align:center">
+    ⚠️ Essa oferta é exclusiva para quem chegou até aqui.<br>
+    <strong>Se você fechar essa página, o mapa volta a R$ 397,00.</strong>
+  </div>
+
+  <!-- PROVAS SOCIAIS -->
+  <div class="dep a6" style="margin-top:1.4rem">
+    <div class="dav">JS</div>
+    <div class="dtxt"><strong>Juliana S., 38 anos — Florianópolis</strong>"Tava perdida na carreira há 2 anos. Quando li meu mapa, entendi exatamente por quê. Em 3 meses mudei de área e me sinto no lugar certo pela primeira vez."</div>
+  </div>
+  <div class="dep">
+    <div class="dav">PM</div>
+    <div class="dtxt"><strong>Patricia M., 29 anos — Goiânia</strong>"Entendi por que sempre escolhia o tipo errado de pessoa. Agora que sei meu padrão, consigo perceber antes de me machucar. Valeu cada centavo."</div>
+  </div>
+  <div class="dep">
+    <div class="dav">MA</div>
+    <div class="dtxt"><strong>Marcela A., 44 anos — Belo Horizonte</strong>"Li meu mapa completo e chorei. Não de tristeza — de reconhecimento. Era como se alguém finalmente tivesse me visto de verdade."</div>
+  </div>
+
+  <div class="faqtitle">Dúvidas frequentes</div>
+  <div class="faqitem">
+    <div class="faqq">❓ Como vou receber meu mapa?</div>
+    <div class="faqa">Por e-mail, em até 24h, em formato PDF — pronto para salvar, imprimir ou reler sempre que quiser.</div>
+  </div>
+  <div class="faqitem">
+    <div class="faqq">❓ Funciona pra qualquer idade e qualquer signo?</div>
+    <div class="faqa">Sim. O cálculo é feito com base na sua data, horário e local exatos de nascimento — funciona para qualquer pessoa, de qualquer idade.</div>
+  </div>
+  <div class="faqitem">
+    <div class="faqq">❓ E se eu não gostar?</div>
+    <div class="faqa">Você tem garantia incondicional de 7 dias. Se não sentir que valeu a pena, devolvemos seu dinheiro, sem perguntas.</div>
+  </div>
+  <div class="faqitem">
+    <div class="faqq">❓ Meus dados estão seguros?</div>
+    <div class="faqa">Sim. Seus dados são usados exclusivamente para gerar o seu mapa pessoal e nunca são compartilhados com terceiros.</div>
+  </div>
+
+  <div style="height:3rem"></div>
+</div>
+</div>
+
+<script>
+const WH='https://juinfo.app.n8n.cloud/webhook/conexao-astral';
+const CK='https://pay.cakto.com.br/67mzr3r_889561';
+
+/* ════ CANVAS ESTRELAS ════ */
+(function(){
+  const c=document.getElementById('cvs'),ctx=c.getContext('2d');
+  function rz(){c.width=innerWidth;c.height=innerHeight}rz();
+  window.addEventListener('resize',rz);
+  const stars=[];
+  for(let i=0;i<240;i++)stars.push({
+    x:Math.random()*innerWidth,y:Math.random()*innerHeight,
+    r:Math.random()*1.7+.2,a:Math.random()*.8+.1,
+    da:(Math.random()-.5)*.007,
+    col:['#A78BFA','#F472B6','#FBBF24','#ffffff','#34D399'][Math.floor(Math.random()*5)]
+  });
+  function d(){ctx.clearRect(0,0,c.width,c.height);stars.forEach(s=>{s.a+=s.da;if(s.a>.88||s.a<.08)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.globalAlpha=s.a;ctx.fillStyle=s.col;ctx.fill()});ctx.globalAlpha=1;requestAnimationFrame(d)}
+  d();
+})();
+
+/* ════ HERO CANVAS HIPER-REALISTA ════ */
+(function(){
+  const c=document.getElementById('heroCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=320,H=320,cx=160,cy=160;
+  let t=0;
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    /* fundo escuro com profundidade */
+    const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,160);
+    bg.addColorStop(0,'rgba(40,20,80,.95)');
+    bg.addColorStop(.4,'rgba(20,8,50,.97)');
+    bg.addColorStop(1,'rgba(6,3,20,1)');
+    ctx.beginPath();ctx.arc(cx,cy,160,0,Math.PI*2);ctx.fillStyle=bg;ctx.fill();
+
+    /* galáxia espiral */
+    for(let arm=0;arm<3;arm++){
+      for(let i=0;i<120;i++){
+        const a=arm*(Math.PI*2/3)+(i*.06)+t*.005;
+        const r=i*1.15;
+        const x=cx+Math.cos(a)*r;
+        const y=cy+Math.sin(a)*r;
+        if(x<0||x>W||y<0||y>H)continue;
+        const alpha=Math.max(0,1-(r/140));
+        const hue=arm===0?270:arm===1?310:200;
+        ctx.beginPath();ctx.arc(x,y,Math.random()<.05?.9:.35,0,Math.PI*2);
+        ctx.fillStyle=`hsla(${hue},85%,${70+Math.random()*20}%,${alpha*.9})`;
+        ctx.fill();
+      }
+    }
+
+    /* núcleo brilhante */
+    const core=ctx.createRadialGradient(cx,cy,0,cx,cy,35);
+    core.addColorStop(0,'rgba(255,220,180,1)');
+    core.addColorStop(.2,'rgba(220,160,255,.9)');
+    core.addColorStop(.5,'rgba(139,92,246,.6)');
+    core.addColorStop(1,'rgba(139,92,246,0)');
+    ctx.beginPath();ctx.arc(cx,cy,35,0,Math.PI*2);ctx.fillStyle=core;ctx.fill();
+
+    /* brilho extra no centro */
+    const spark=ctx.createRadialGradient(cx,cy,0,cx,cy,10);
+    spark.addColorStop(0,'rgba(255,255,255,1)');
+    spark.addColorStop(.5,'rgba(255,240,200,.8)');
+    spark.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.beginPath();ctx.arc(cx,cy,10,0,Math.PI*2);ctx.fillStyle=spark;ctx.fill();
+
+    /* raios de luz */
+    for(let i=0;i<8;i++){
+      const angle=(i/8)*Math.PI*2+t*.01;
+      const len=20+Math.sin(t*.05+i)*8;
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(angle);
+      ctx.strokeStyle=`rgba(255,220,180,${.3+Math.sin(t*.08+i)*.15})`;
+      ctx.lineWidth=.8;
+      ctx.beginPath();ctx.moveTo(8,0);ctx.lineTo(8+len,0);ctx.stroke();
+      ctx.restore();
+    }
+
+    /* nebulosas coloridas em camadas */
+    [[cx-30,cy-20,50,'rgba(244,114,182,.12)'],[cx+25,cy+15,45,'rgba(139,92,246,.1)'],[cx-10,cy+30,40,'rgba(251,191,36,.08)']].forEach(([nx,ny,nr,nc])=>{
+      const ng=ctx.createRadialGradient(nx,ny,0,nx,ny,nr);
+      ng.addColorStop(0,nc);ng.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.beginPath();ctx.arc(nx,ny,nr,0,Math.PI*2);ctx.fillStyle=ng;ctx.fill();
+    });
+
+    /* estrelas de fundo */
+    for(let i=0;i<80;i++){
+      const sx=Math.random()*W,sy=Math.random()*H;
+      const d2=Math.sqrt((sx-cx)**2+(sy-cy)**2);
+      if(d2>152)continue;
+      ctx.beginPath();ctx.arc(sx,sy,Math.random()*.7+.2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${Math.random()*.6+.2})`;ctx.fill();
+    }
+
+    /* anéis orbitais */
+    [70,100,130,148].forEach((r,i)=>{
+      ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(167,139,250,${.08-.015*i})`;ctx.lineWidth=.6;ctx.stroke();
+    });
+
+    /* planeta/lua pequena orbitando */
+    const moonAngle=t*.02;
+    const mx=cx+Math.cos(moonAngle)*110;
+    const my=cy+Math.sin(moonAngle)*40;
+    const moonG=ctx.createRadialGradient(mx-3,my-3,0,mx,my,9);
+    moonG.addColorStop(0,'rgba(220,200,255,1)');moonG.addColorStop(.6,'rgba(180,150,230,.9)');moonG.addColorStop(1,'rgba(100,80,180,0)');
+    ctx.beginPath();ctx.arc(mx,my,9,0,Math.PI*2);ctx.fillStyle=moonG;ctx.fill();
+
+    /* segundo planeta */
+    const p2=t*.013+2.1;
+    const p2x=cx+Math.cos(p2)*90;const p2y=cy+Math.sin(p2)*35;
+    const pg=ctx.createRadialGradient(p2x-2,p2y-2,0,p2x,p2y,6);
+    pg.addColorStop(0,'rgba(251,191,36,.95)');pg.addColorStop(1,'rgba(245,158,11,0)');
+    ctx.beginPath();ctx.arc(p2x,p2y,6,0,Math.PI*2);ctx.fillStyle=pg;ctx.fill();
+
+    /* clip circular */
+    ctx.save();ctx.beginPath();ctx.arc(cx,cy,158,0,Math.PI*2);
+    ctx.strokeStyle='rgba(167,139,250,.15)';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();
+
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ════ VÍDEO ETAPA 1 — LEGENDAS + SOM ════ */
+(function(){
+  const v=document.getElementById('vidEtapa1');
+  const cap=document.getElementById('vidCap');
+  if(!v||!cap)return;
+  // legendas sincronizadas com o roteiro de 10s
+  const cues=[
+    {t:0,   txt:'Bem-vinda à Conexão Astral!'},
+    {t:2.2, txt:'Será um prazer trazer informações sobre o seu mapa astral.'},
+    {t:5.5, txt:'Me informe quais áreas você prefere saber.'},
+    {t:7.8, txt:'Assinale abaixo 👇'}
+  ];
+  v.addEventListener('timeupdate',()=>{
+    const ct=v.currentTime;
+    let txt='';
+    for(const c of cues){if(ct>=c.t)txt=c.txt;}
+    cap.textContent=txt;
+  });
+  v.addEventListener('ended',()=>{cap.textContent='';});
+})();
+function toggleSom(){
+  const v=document.getElementById('vidEtapa1'),btn=document.getElementById('vidSnd');
+  if(!v)return;
+  v.muted=!v.muted;
+  if(!v.muted){v.play();btn.textContent='🔊 Som ativado';}
+  else btn.textContent='🔇 Toque para som';
+}
+
+/* ════ NAVEGAÇÃO ════ */
+function show(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
+function togH(cb){const el=document.getElementById('fho');el.style.display=cb.checked?'none':'block';if(cb.checked)el.value=''}
+function emailOk(v){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
+
+/* ════ TELA 0 → TELA 1 ════ */
+let selectedAreas=[];
+function goAreas(){
+  const el=document.getElementById('fn0'),nome=el.value.trim();
+  el.classList.toggle('err',nome.length<2);
+  if(nome.length<2)return;
+  document.getElementById('greetText').textContent='Olá, '+nome.split(' ')[0]+'! Vamos revelar 3 áreas importantes da sua vida:';
+  show('s1');
+}
+
+/* ════ ÁREAS (5 opções, escolha até 3) ════ */
+(function(){
+  const list=[
+    {key:'dinheiro',label:'Dinheiro e abundância',emoji:'💸'},
+    {key:'amor',label:'Amor e relacionamentos',emoji:'💕'},
+    {key:'proposito',label:'Seu propósito de vida',emoji:'🌟'},
+    {key:'personalidade',label:'Sua personalidade verdadeira',emoji:'🎭'},
+    {key:'padroes',label:'Por que repete os mesmos erros',emoji:'🔄'}
+  ];
+  const wrap=document.getElementById('areaList');
+  list.forEach(a=>{
+    const c=document.createElement('div');
+    c.className='areacard';c.dataset.key=a.key;
+    c.innerHTML='<span class="areaem">'+a.emoji+'</span><span class="areatxt">'+a.label+'</span><span class="areacheck">✓</span>';
+    c.addEventListener('click',()=>{
+      const idx=selectedAreas.indexOf(a.key);
+      if(idx>-1){selectedAreas.splice(idx,1);c.classList.remove('sel')}
+      else if(selectedAreas.length<3){selectedAreas.push(a.key);c.classList.add('sel')}
+    });
+    wrap.appendChild(c);
+  });
+})();
+function goForm(){
+  if(selectedAreas.length===0)selectedAreas=['dinheiro','amor','proposito'];
+  show('s2');
+}
+
+/* ════ DATA DE NASCIMENTO (campo digitado, com máscara) ════ */
+document.getElementById('fdt').addEventListener('input',function(){
+  let v=this.value.replace(/\D/g,'').slice(0,8);
+  if(v.length>=5)v=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4);
+  else if(v.length>=3)v=v.slice(0,2)+'/'+v.slice(2);
+  this.value=v;
+});
+function dataISO(){
+  const v=document.getElementById('fdt').value;
+  const m=v.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if(!m)return'';
+  return m[3]+'-'+m[2]+'-'+m[1];
+}
+/* ════ SUGESTÃO AUTOMÁTICA DE CIDADE/ESTADO ════ */
+(function(){
+  const ctrl=new AbortController();
+  setTimeout(()=>ctrl.abort(),3500);
+  fetch('https://ipapi.co/json/',{signal:ctrl.signal}).then(r=>r.json()).then(g=>{
+    const fci=document.getElementById('fci'),fes=document.getElementById('fes');
+    if(fci&&!fci.value&&g&&g.city)fci.value=g.city;
+    if(fes&&!fes.value&&g&&g.region_code)fes.value=g.region_code;
+  }).catch(()=>{});
+})();
+
+/* ════ TELA 2 → CARREGAMENTO ════ */
+function goLoading(){
+  const data=dataISO(),cidade=document.getElementById('fci').value.trim(),estado=document.getElementById('fes').value.trim();
+  let ok=true;
+  document.getElementById('fdt').classList.toggle('err',!data);if(!data)ok=false;
+  document.getElementById('fci').classList.toggle('err',cidade.length<2);if(cidade.length<2)ok=false;
+  document.getElementById('fes').classList.toggle('err',estado.length<1);if(estado.length<1)ok=false;
+  if(!ok){document.querySelector('.err')?.scrollIntoView({behavior:'smooth',block:'center'});return}
+  show('sl');
+  startBar();
+}
+
+function startBar(){
+  const msgs=['Mapeando sua posição nos astros...','Calculando seus números do destino...','Lendo seu horóscopo pessoal...','Cruzando astros com numerologia...','Preparando suas revelações...'];
+  const bar=document.getElementById('lbf'),msg=document.getElementById('lms'),
+    lh=document.getElementById('lh'),lp=document.getElementById('lp2');
+  let pct=0,step=0;
+  const iv=setInterval(()=>{
+    pct+=Math.random()*17+4;if(pct>100)pct=100;bar.style.width=pct+'%';
+    if(step<msgs.length){msg.textContent=msgs[step];step++}
+    if(pct>=42){lh.textContent='Lendo seus astros...';lp.textContent='Sua configuração natal está sendo interpretada'}
+    if(pct>=72){lh.textContent='Quase pronto...';lp.textContent='Preparando suas 3 revelações gratuitas'}
+    if(pct>=100){clearInterval(iv);setTimeout(()=>show('scon'),500)}
+  },540);
+}
+
+/* ════ ENVIO FINAL (e-mail/whatsapp) ════ */
+function finalSubmit(){
+  const nome=document.getElementById('fn0').value.trim(),data=dataISO(),
+    cidade=document.getElementById('fci').value.trim(),estado=document.getElementById('fes').value.trim(),
+    hora=document.getElementById('fho').value,semH=document.getElementById('fnh').checked,
+    email=document.getElementById('fem').value.trim(),wpp=document.getElementById('fwp').value.trim();
+  const okEmail=emailOk(email);
+  document.getElementById('fem').classList.toggle('err',!okEmail);
+  if(!okEmail){document.getElementById('fem').scrollIntoView({behavior:'smooth',block:'center'});return}
+  const d={funil:'ca-master-v2',nome:nome,email,whatsapp:wpp,data_nascimento:data,
+    cidade_nascimento:cidade,estado_nascimento:estado,
+    hora_nascimento:semH?'Nao informado':(hora||'Nao informado'),
+    compra_compatibilidade:false,order_id:'CA'+Date.now(),timestamp:new Date().toISOString()};
+  localStorage.setItem('ca',JSON.stringify(d));
+  fetch('https://juinfo.app.n8n.cloud/webhook/captura-quiz',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{});
+  if(typeof fbq!=='undefined')fbq('track','Lead');
+  result(nome,data);
+}
+
+const AREAS_META={
+  dinheiro:{tit:'💸 Você e o Dinheiro',hico:'⚡',calc:(sg,nv)=>({...din(sg),sub:'Signo de '+sg+' e a energia financeira'})},
+  amor:{tit:'💕 Você e o Amor',hico:'🌹',calc:(sg,nv)=>({...amor(sg),sub:sg+' e os padrões afetivos'})},
+  proposito:{tit:'🌟 Seu Propósito de Vida',hico:'🔮',calc:(sg,nv)=>({...prop(nv),sub:'Número de Destino '+nv+' — sua missão de vida'})},
+  personalidade:{tit:'🎭 Sua Personalidade Verdadeira',hico:'👁️',calc:(sg,nv)=>({...pers(sg),sub:'Signo de '+sg+' — o que poucos enxergam'})},
+  padroes:{tit:'🔄 Seus Padrões e Ciclos',hico:'🔁',calc:(sg,nv)=>({...padr(sg),sub:'Signo de '+sg+' e o que se repete'})}
+};
+/* ════ CTA "QUERO O MAPA COMPLETO" → abre tela de oferta (lead quente rastreável) ════ */
+function irOferta(){
+  if(typeof fbq!=='undefined')fbq('trackCustom','QuerMapaCompleto');
+  show('soferta');
+}
+
+function result(nome,data){
+  const pn=nome.split(' ')[0];
+  document.getElementById('rNome').textContent=pn+',';
+  const d=new Date(data+'T12:00:00'),m=d.getMonth()+1,di=d.getDate();
+  const sg=signo(m,di),nv=numvida(data);
+  const wrap=document.getElementById('revealCards');
+  wrap.innerHTML='';
+  (selectedAreas.length?selectedAreas:['dinheiro','amor','proposito']).slice(0,3).forEach((key,i)=>{
+    const meta=AREAS_META[key];if(!meta)return;
+    const r=meta.calc(sg,nv);
+    const card=document.createElement('div');
+    card.className='rcard a'+(i+2);
+    card.innerHTML='<div class="rh2"><div class="rnum">'+(i+1)+'</div><div><div class="rtit">'+meta.tit+'</div><div class="rsub">'+r.sub+'</div></div></div>'+
+      '<div class="rbody"><p>'+r.t+'</p><div class="rhook"><span class="hico">'+meta.hico+'</span><span class="htxt2">'+r.h+'</span></div></div>';
+    wrap.appendChild(card);
+  });
+  const em=(()=>{try{return JSON.parse(localStorage.getItem('ca')||'{}').email||''}catch{return ''}})();
+  let url=CK;if(em)url+=(url.includes('?')?'&':'?')+'email='+encodeURIComponent(em)+'&nome='+encodeURIComponent(pn);
+  document.querySelectorAll('#soferta a[href*="cakto"]').forEach(a=>a.href=url);
+  document.querySelectorAll('#soferta a[href*="cakto"]').forEach(a=>a.addEventListener('click',()=>{if(typeof fbq!=='undefined')fbq('track','InitiateCheckout')}));
+  show('sr');
+}
+
+function signo(m,d){if((m===3&&d>=21)||(m===4&&d<=19))return'Áries';if((m===4&&d>=20)||(m===5&&d<=20))return'Touro';if((m===5&&d>=21)||(m===6&&d<=20))return'Gêmeos';if((m===6&&d>=21)||(m===7&&d<=22))return'Câncer';if((m===7&&d>=23)||(m===8&&d<=22))return'Leão';if((m===8&&d>=23)||(m===9&&d<=22))return'Virgem';if((m===9&&d>=23)||(m===10&&d<=22))return'Libra';if((m===10&&d>=23)||(m===11&&d<=21))return'Escorpião';if((m===11&&d>=22)||(m===12&&d<=21))return'Sagitário';if((m===12&&d>=22)||(m===1&&d<=19))return'Capricórnio';if((m===1&&d>=20)||(m===2&&d<=18))return'Aquário';return'Peixes'}
+function numvida(data){const n=data.replace(/\D/g,'').split('').reduce((a,c)=>a+parseInt(c),0);let s=n;while(s>9&&s!==11&&s!==22&&s!==33)s=String(s).split('').reduce((a,c)=>a+parseInt(c),0);return s}
+
+const din=sg=>({'Áries':{t:'Como Áries, você tem energia e iniciativa para gerar dinheiro — mas o problema não é ganhar. É guardar. Seu impulsionismo natural faz você gastar antes de acumular, criando a sensação constante de que nunca é suficiente.',h:'Seu mapa completo revela o período exato em que a energia financeira muda para você — e o que fazer para aproveitar essa janela.'},'Touro':{t:'Touro tem uma relação especial com dinheiro — você valoriza estabilidade e conforto. Mas existe um bloqueio emocional que sabota oportunidades exatamente quando estão mais perto.',h:'Na revelação completa você descobre qual planeta está criando esse trava financeiro e como se libertar definitivamente.'},'Gêmeos':{t:'Gêmeos tem muitas fontes de renda possíveis — mas dificuldade em focar em uma. Esse espalhamento de energia é a maior armadilha financeira do seu signo.',h:'Seu mapa revela qual área exata tem sua energia financeira mais forte — e onde concentrar seu foco agora.'},'Câncer':{t:'Câncer tem uma relação emocional com o dinheiro — você associa segurança financeira à segurança emocional. Quando algo dói no coração, as finanças refletem.',h:'A revelação completa mostra o padrão emocional que mais afeta sua vida financeira e o caminho para quebrá-lo.'},'Leão':{t:'Leão tem facilidade para atrair dinheiro — o problema é a relação com a aparência. Você gasta para parecer próspero antes de ser, criando ciclos de abundância seguidos de escassez.',h:'Seu mapa revela em qual casa está sua energia de prosperidade real — e como ativar isso sem depender da opinião dos outros.'},'Virgem':{t:'Virgem trabalha mais do que qualquer outro signo — mas costuma receber menos do que merece. Você subestima seu valor e aceita menos.',h:'Na revelação completa descobrimos onde está o nó que faz você se subvalorizar — e como cobrar o que realmente vale.'},'Libra':{t:'Libra tem facilidade para criar harmonia — mas dificuldade para tomar decisões financeiras. Você posterga, equilibra demais, e acaba perdendo oportunidades.',h:'Seu mapa revela o período em que Vênus ativa sua prosperidade — e a decisão que você está evitando que pode mudar tudo.'},'Escorpião':{t:'Escorpião tem poder intenso de regeneração financeira — você recomeça do zero quando muitos desistem. Mas existe um padrão de autossabotagem: você destrói o que construiu antes de deixar crescer.',h:'A revelação completa revela o ciclo que está influenciando sua vida financeira agora — e o que fazer nesse período.'},'Sagitário':{t:'Sagitário tem facilidade para ganhar — mas dificuldade para planejar. Você vive o presente intensamente e acaba sem reservas.',h:'Seu mapa revela quando a próxima onda de prosperidade chega — e como surfar ela da forma certa dessa vez.'},'Capricórnio':{t:'Capricórnio é o signo mais capaz de construir riqueza sólida — mas ao custo da qualidade de vida. Você trabalha enquanto os outros dormem, mas sente que nunca chega.',h:'Na revelação completa descobrimos o bloqueio que está atrasando seu merecimento — e como acelerar esse processo.'},'Aquário':{t:'Aquário tem ideias à frente do tempo — mas dificuldade em monetizá-las. O talento existe. A estratégia é o que falta.',h:'Seu mapa revela qual é o dom específico de Aquário que tem alto valor de mercado agora — e como posicioná-lo.'},'Peixes':{t:'Peixes tem sensibilidade e intuição únicas — mas tende a deixar outros decidirem pelas suas finanças. Você entrega o controle e depois sofre com as consequências.',h:'A revelação completa revela como ativar o lado pragmático do seu mapa e parar de depender dos outros.'}}[sg]||{t:'Você tem uma energia poderosa para atrair recursos — mas existe um bloqueio silencioso que sabota esse fluxo.',h:'Seu mapa revela exatamente onde está esse bloqueio — e como dissolvê-lo.'});
+
+const amor=sg=>({'Áries':{t:'Áries ama com intensidade total — ou não ama. Você se joga de cabeça e isso assusta quem não tem a mesma intensidade. Você atrai pessoas que não correspondem e sofre a solidão de ter dado tudo.',h:'Seu mapa revela o tipo de pessoa que realmente sustenta sua intensidade — e por que você continua escolhendo o oposto.'},'Touro':{t:'Touro é leal e profundo nos relacionamentos. Mas o medo de perder faz você segurar em relacionamentos que já acabaram.',h:'Na revelação completa descobrimos o padrão de apego do seu mapa — e o que os astros indicam sobre o relacionamento que você merece.'},'Gêmeos':{t:'Gêmeos precisa de estimulação mental para se manter interessado. Quando o parceiro para de surpreender, você se distancia.',h:'Seu mapa revela qual perfil mantém Gêmeos apaixonado a longo prazo — e por que você ainda não encontrou esse equilíbrio.'},'Câncer':{t:'Câncer ama com profundidade rara — mas carrega feridas antigas que distorcem como você vê o amor. Você cuida em excesso esperando receber de volta.',h:'A revelação completa revela qual ferida emocional está sendo ativada nos seus relacionamentos — e como curar isso.'},'Leão':{t:'Leão quer ser visto, admirado e amado de forma intensa. Quando não recebe esse reconhecimento, fecha o coração.',h:'Seu mapa revela como sua necessidade de reconhecimento se manifesta nos relacionamentos — e o que muda quando você começa a se dar isso.'},'Virgem':{t:'Virgem analisa tanto o parceiro que acaba se distanciando emocionalmente. Você vê os defeitos com clareza, mas tem dificuldade de expressar o que sente.',h:'Na revelação completa revelamos o que muda quando você aprende a soltar o controle emocional.'},'Libra':{t:'Libra cria harmonia — mas tem medo de conflito. Você cede demais e acaba em relacionamentos onde seus desejos ficam em segundo lugar.',h:'Seu mapa revela o tipo de amor que você realmente precisa para ser feliz.'},'Escorpião':{t:'Escorpião ama de forma total e intensa — ou não entra. O medo de ser traída criou uma armadura que impede a entrada do amor verdadeiro.',h:'A revelação completa revela como transformar esse ciclo de atração intensa e perda em relacionamentos duradouros.'},'Sagitário':{t:'Sagitário ama a liberdade tanto quanto ama a pessoa — e isso cria conflito. Você se sente sufocada rápido, mas ao mesmo tempo quer profundidade.',h:'Seu mapa revela qual configuração de relacionamento realmente funciona para você.'},'Capricórnio':{t:'Capricórnio leva o amor tão a sério quanto o trabalho. Você coloca o relacionamento em segundo lugar por anos, e quando olha para o lado, ele foi embora.',h:'Na revelação completa descobrimos em qual fase da sua vida os astros indicam maior abertura para o amor duradouro.'},'Aquário':{t:'Aquário ama a ideia da pessoa antes de amar a pessoa real. Quando a realidade aparece, a decepção é proporcional à fantasia.',h:'Seu mapa revela o que você precisa mudar para parar de se apaixonar por quem não existe.'},'Peixes':{t:'Peixes ama com devoção quase espiritual — mas essa devoção atrai quem quer ser cuidado, não quem cuida. Você dá tudo e recebe pouco.',h:'A revelação completa revela o padrão que faz você escolher pessoas que precisam ser salvas.'}}[sg]||{t:'Existe uma razão pela qual certos padrões se repetem nos seus relacionamentos. Não é azar — é uma configuração específica dos planetas.',h:'Seu mapa mostra o tipo de pessoa que é compatível com sua energia.'});
+
+const prop=nv=>({1:{t:'Seu número de destino é 1 — o número do pioneiro. Você veio para liderar e abrir caminhos. Quando segue ordens sem questionar, sente que algo está errado — porque está.',h:'Na revelação completa revelamos qual área é o palco da sua liderança — e o que está bloqueando você.'},2:{t:'Número 2 — o número da conexão. Seu propósito está ligado a unir pessoas. Mas você costuma fazer isso sacrificando a si mesma.',h:'Seu mapa revela como viver seu propósito sem se perder — e o dom que só você tem nessa área.'},3:{t:'Número 3 — o número da expressão e da criatividade. Você veio para criar e inspirar. Quando está presa em rotinas sem expressão, sente um vazio que nada preenche.',h:'Na revelação completa descobrimos qual é a forma de expressão mais poderosa para você.'},4:{t:'Número 4 — o número da construção. Você tem o dom de criar estruturas duradouras. Mas existe uma impaciência que faz você desistir antes de ver o resultado.',h:'Seu mapa revela o ciclo em que sua maior construção vai se manifestar.'},5:{t:'Número 5 — o número da liberdade e da transformação. Você veio para viver intensamente. Quando fica parada demais, sua energia adoece.',h:'A revelação completa revela qual mudança específica os astros indicam para você agora.'},6:{t:'Número 6 — o número do cuidado. Você tem um dom natural para o amor e a cura dos outros. Mas você cuida tanto dos outros que esquece de si.',h:'Seu mapa revela como equilibrar o cuidado com os outros e consigo mesma.'},7:{t:'Número 7 — o número da sabedoria interior. Você é intuitiva e profunda. Quando fica tempo demais no barulho do mundo, se perde.',h:'Na revelação completa descobrimos qual é o conhecimento que você veio trazer ao mundo.'},8:{t:'Número 8 — o número do poder e da abundância. Você veio para conquistar em grande escala. Mas existe uma crença inconsciente que bloqueia sua grandeza.',h:'Seu mapa revela como ativar a energia do 8 na sua vida sem culpa.'},9:{t:'Número 9 — o número do humanitarismo. Você veio para servir em grande escala. Mas o peso do mundo nos ombros costuma ser maior do que qualquer pessoa deve carregar.',h:'A revelação completa revela seu propósito específico — e como viver sua missão sem se destruir.'},11:{t:'Número Mestre 11 — o número da iluminação. Você tem uma sensibilidade fora do comum e capta o que outros não percebem.',h:'Na revelação completa revelamos como canalizar a energia do 11 de forma prática na sua vida.'},22:{t:'Número Mestre 22 — o número do construtor de sonhos. Você tem visão para criar algo que transcende o individual. Mas a grandeza do que pode fazer paralisa.',h:'Seu mapa revela qual é a grande construção que os astros indicam para a sua vida.'},33:{t:'Número Mestre 33 — o número do mestre do amor. Você veio para elevar e curar através do amor incondicional.',h:'A revelação completa revela como viver o nível do 33 de forma sustentável.'}}[nv]||{t:'Seu número do destino revela uma missão específica codificada nos seus astros. Cada vez que vai contra ela, sente que está fora do lugar.',h:'Na revelação completa revelamos seu Número de Caminho de Vida e o dom oculto que aguarda ser ativado.'});
+
+const pers=sg=>({'Áries':{t:'Por fora você parece confiante e decidida, mas por dentro existe uma insegurança que poucos veem — e que aparece exatamente nos momentos que mais importam.',h:'Seu mapa revela qual traço da sua personalidade está sendo mal interpretado pelas pessoas ao seu redor — e como usar isso a seu favor.'},'Touro':{t:'Você é vista como alguém estável e confiável, mas guarda uma resistência à mudança que sabota oportunidades importantes sem que você perceba.',h:'Na revelação completa descobrimos o traço escondido do seu mapa que, quando ativado, destrava sua versão mais autêntica.'},'Gêmeos':{t:'As pessoas acham que sabem quem você é, mas você tem camadas que nem você mesma explorou completamente — e isso confunde até você.',h:'Seu mapa revela qual dessas camadas está pedindo espaço pra se expressar agora.'},'Câncer':{t:'Você parece forte e cuidadora, mas carrega uma sensibilidade que esconde de quase todo mundo, por medo de ser vista como frágil.',h:'A revelação completa mostra como transformar essa sensibilidade em uma das suas maiores forças.'},'Leão':{t:'Você projeta confiança, mas existe um medo de não ser boa o suficiente que só aparece quando está sozinha com seus pensamentos.',h:'Seu mapa revela a origem desse medo — e o que fazer pra ele parar de te limitar.'},'Virgem':{t:'As pessoas acham que você tem tudo sob controle, mas a cobrança que você faz de si mesma é maior do que qualquer um imagina.',h:'Na revelação completa revelamos o que seu mapa diz sobre aceitar imperfeição sem perder excelência.'},'Libra':{t:'Você é vista como gentil e equilibrada, mas vive um conflito interno entre o que você quer e o que os outros esperam de você.',h:'Seu mapa mostra qual decisão essa dualidade está te impedindo de tomar.'},'Escorpião':{t:'Por fora parece misteriosa e no controle, mas por dentro processa emoções intensas que raramente mostra pra alguém.',h:'A revelação completa revela o que fazer com essa intensidade pra ela parar de te esgotar.'},'Sagitário':{t:'Você é vista como livre e despreocupada, mas carrega um medo de se comprometer que vem de um lugar mais profundo do que parece.',h:'Seu mapa revela a raiz desse padrão — e como ele está ligado à sua história anterior.'},'Capricórnio':{t:'As pessoas veem força e disciplina, mas raramente percebem o quanto você se cobra por trás dessa armadura.',h:'Na revelação completa descobrimos o que seu mapa indica pra aliviar essa cobrança sem perder seu foco.'},'Aquário':{t:'Você parece independente e original, mas existe um desejo de pertencimento que você raramente admite, nem pra si mesma.',h:'Seu mapa revela onde você pode encontrar esse pertencimento sem abrir mão de quem você é.'},'Peixes':{t:'Você é vista como sonhadora e gentil, mas vive absorvendo emoções dos outros sem perceber o quanto isso pesa em você.',h:'A revelação completa mostra como proteger sua energia sem perder sua sensibilidade.'}}[sg]||{t:'Existe um traço seu que poucas pessoas conseguem ver — mas que define grande parte das suas decisões mais importantes.',h:'Seu mapa revela esse traço escondido e como ele molda sua vida sem você perceber.'});
+
+const padr=sg=>({'Áries':{t:'Você começa tudo com força total e perde o fôlego no meio do caminho — repetindo o mesmo ciclo de empolgação e abandono.',h:'Seu mapa revela o que muda quando você aprende a sustentar o que começa.'},'Touro':{t:'Você se apega a situações que já não fazem sentido por medo da instabilidade que a mudança traz.',h:'Na revelação completa descobrimos o gatilho exato que mantém você presa a esse padrão.'},'Gêmeos':{t:'Você se interessa por muita coisa ao mesmo tempo e acaba não terminando nada — e isso se repete em quase todas as áreas da sua vida.',h:'Seu mapa revela qual área merece todo o seu foco agora.'},'Câncer':{t:'Você revive as mesmas mágoas do passado em situações novas, mesmo prometendo a si mesma que seria diferente dessa vez.',h:'A revelação completa mostra a origem dessa ferida e como fechar esse ciclo de verdade.'},'Leão':{t:'Você repete relações e situações onde precisa provar seu valor, em vez de simplesmente ser reconhecida por quem já é.',h:'Seu mapa revela de onde vem essa necessidade — e como ela pode parar de te guiar.'},'Virgem':{t:'Você repete o padrão de fazer tudo por todo mundo e se esquecer de si mesma até sobrar pouco no final do dia.',h:'Na revelação completa descobrimos o que seu mapa diz sobre colocar limites sem culpa.'},'Libra':{t:'Você repete relações e decisões onde evita o conflito a qualquer custo — e acaba pagando um preço maior depois.',h:'Seu mapa revela o que muda quando você escolhe a verdade em vez da paz aparente.'},'Escorpião':{t:'Você repete o ciclo de se entregar completamente e depois se fechar por medo de ser traída de novo.',h:'A revelação completa mostra como quebrar esse ciclo sem perder sua intensidade.'},'Sagitário':{t:'Você repete o padrão de fugir assim que as coisas começam a ficar sérias demais, mesmo quando é o que você diz que quer.',h:'Seu mapa revela o que está por trás dessa fuga — e o que fazer com isso.'},'Capricórnio':{t:'Você repete o padrão de adiar sua própria felicidade até terminar "mais uma coisa" — e essa lista nunca acaba.',h:'Na revelação completa descobrimos o momento exato em que esse padrão começou.'},'Aquário':{t:'Você repete o padrão de se afastar assim que alguém chega perto demais, mesmo desejando conexão profunda.',h:'Seu mapa revela como permitir intimidade sem perder sua liberdade.'},'Peixes':{t:'Você repete o padrão de escolher pessoas e situações que precisam ser salvas, em vez de escolher quem também cuida de você.',h:'A revelação completa mostra como reconhecer esse padrão antes que ele se repita de novo.'}}[sg]||{t:'Existe um ciclo se repetindo na sua vida, e o motivo é mais simples — e mais revelador — do que você imagina.',h:'Seu mapa aponta a raiz exata desse ciclo e como ele pode ser quebrado de verdade.'});
+</script>
+</body>
+</html>
