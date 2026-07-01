@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presente dos Céus ✨ | Conexão Astral</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06031A;--card:#0E0927;
+  --v:#8B5CF6;--v2:#A78BFA;--v3:#6D28D9;--v4:#C4B5FD;
+  --r:#F472B6;--r2:#EC4899;
+  --g:#FBBF24;--g2:#F59E0B;--g3:#FDE68A;
+  --tl:#34D399;
+  --tx:#F5F0FF;--mu:#B8ADDB;--fa:#6B5FA0;
+  --bd:rgba(167,139,250,.18);
+  --dp:'Fraunces',Georgia,serif;
+  --fn:'Inter',system-ui,sans-serif;
+}
+html{font-size:16px}
+body{background:var(--bg);color:var(--tx);font-family:var(--fn);font-size:1rem;line-height:1.6;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+.nb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;animation:nf 16s ease-in-out infinite}
+.nb1{width:800px;height:600px;top:-200px;left:-250px;background:radial-gradient(ellipse,rgba(217,119,6,.24),transparent 70%)}
+.nb2{width:700px;height:700px;top:20%;right:-250px;background:radial-gradient(ellipse,rgba(139,92,246,.24),transparent 70%);animation-delay:-5s;animation-direction:reverse}
+.nb3{width:600px;height:400px;bottom:-100px;left:0;background:radial-gradient(ellipse,rgba(244,114,182,.12),transparent 70%);animation-delay:-10s}
+@keyframes nf{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-15px) scale(1.03)}}
+.sc{display:none;position:relative;z-index:1;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;padding:2.2rem 1.2rem;text-align:center}
+.sc.on{display:flex}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.a1{animation:up .45s ease both}
+.w{max-width:480px;width:100%;margin:0 auto}
+
+.badge{display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,var(--g),var(--g2));color:#1a0a00;font-weight:800;font-size:.72rem;padding:.5rem 1.2rem;border-radius:50px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.4rem;box-shadow:0 6px 24px rgba(217,119,6,.35)}
+
+.h1{font-family:var(--dp);font-size:clamp(1.7rem,6.5vw,2.5rem);font-weight:900;line-height:1.15;margin-bottom:.8rem}
+.gd{background:linear-gradient(135deg,var(--g3),var(--g),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hsub{font-size:1rem;color:var(--mu);line-height:1.65;max-width:420px;margin:0 auto 1.8rem}
+
+.card{background:rgba(139,92,246,.06);border:1.5px solid var(--bd);border-radius:20px;padding:1.6rem 1.4rem;text-align:left}
+
+.fl{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--v2);margin-bottom:.4rem;display:block}
+.ff{margin-bottom:1rem}
+.inp{width:100%;background:rgba(139,92,246,.08);border:1.5px solid rgba(167,139,250,.2);border-radius:14px;padding:.9rem 1.1rem;color:var(--tx);font-family:var(--fn);font-size:1rem;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--v2)}
+.inp::placeholder{color:var(--fa)}
+.fcols{display:grid;grid-template-columns:1fr 1.4fr;gap:.6rem}
+.fnote{font-size:.76rem;color:var(--fa);text-align:center;line-height:1.5;margin-top:1rem}
+
+.btn{display:block;width:100%;background:linear-gradient(135deg,#D97706,#EC4899);color:#fff;border:none;border-radius:50px;padding:1.1rem 2rem;cursor:pointer;font-family:var(--fn);font-size:1.05rem;font-weight:800;letter-spacing:.02em;box-shadow:0 8px 32px rgba(217,119,6,.4);transition:all .22s;margin-top:.6rem}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(217,119,6,.55)}
+.btn:disabled{opacity:.6;cursor:default;transform:none}
+.err-msg{color:var(--r2);font-size:.8rem;margin-top:.35rem;display:none}
+
+.lorb{width:130px;height:130px;margin:0 auto 1.8rem;position:relative}
+.lr{position:absolute;border-radius:50%;border:1.5px solid rgba(251,191,36,.22)}
+.lr:nth-child(1){inset:0}
+.lr:nth-child(2){inset:16px}
+.lr:nth-child(3){inset:32px}
+.lr-spin{position:absolute;border-radius:50%;animation:spin linear infinite}
+.lr-spin:nth-of-type(1){inset:0;animation-duration:4s}
+.lr-spin:nth-of-type(2){inset:16px;animation-duration:6s;animation-direction:reverse}
+.lr-spin:nth-of-type(3){inset:32px;animation-duration:8s}
+.astro{position:absolute;width:8px;height:8px;border-radius:50%;top:-4px;left:50%;margin-left:-4px;box-shadow:0 0 10px 2px currentColor}
+.astro1{color:var(--g);background:var(--g)}
+.astro2{color:var(--r);background:var(--r)}
+.astro3{color:var(--v2);background:var(--v2)}
+.lc{position:absolute;inset:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#3a2610,#1a0f04 70%);box-shadow:inset -6px -6px 16px rgba(0,0,0,.5),inset 4px 4px 14px rgba(251,191,36,.28),0 0 30px rgba(217,119,6,.35);overflow:hidden}
+.lc::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,rgba(253,230,138,.5),transparent 55%);border-radius:50%;animation:pulseGlow 2.4s ease-in-out infinite}
+@keyframes pulseGlow{0%,100%{opacity:.5}50%{opacity:.9}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lh2{font-family:var(--dp);font-size:1.5rem;font-weight:900;margin-bottom:.5rem}
+.lpt{font-size:.92rem;color:var(--mu);max-width:280px;line-height:1.55;margin:0 auto}
+.lbw{width:100%;max-width:260px;margin:1.5rem auto 0}
+.lbb{height:4px;border-radius:10px;background:rgba(251,191,36,.14);overflow:hidden}
+.lbf{height:100%;border-radius:10px;width:0%;background:linear-gradient(90deg,var(--g),var(--r),var(--v));transition:width .5s ease}
+.lms{font-size:.8rem;color:var(--mu);margin-top:.6rem;font-style:italic;min-height:1.1rem}
+
+.checkring{width:84px;height:84px;border-radius:50%;background:radial-gradient(circle,rgba(251,191,36,.25),transparent 70%);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;border:1.5px solid rgba(251,191,36,.35)}
+.checkring svg{width:38px;height:38px}
+</style>
+</head>
+<body>
+
+<div class="nb nb1"></div>
+<div class="nb nb2"></div>
+<div class="nb nb3"></div>
+
+<!-- TELA 1 — FORMULÁRIO -->
+<section class="sc on" id="s1">
+  <div class="w a1">
+    <div class="badge">🎁 Presente dos Céus</div>
+    <h1 class="h1">Você foi escolhida para receber<br><span class="gd">seu Mapa Astral de presente</span></h1>
+    <p class="hsub">Sem custo, sem pegadinha — só o universo revelando algo importante sobre você. Preencha com carinho, é rapidinho.</p>
+
+    <form class="card" id="vipForm">
+      <div class="ff">
+        <label class="fl">Seu nome completo</label>
+        <input class="inp" type="text" id="fNome" placeholder="Como você se chama" required>
+      </div>
+      <div class="ff">
+        <label class="fl">E-mail</label>
+        <input class="inp" type="email" id="fEmail" placeholder="seu@email.com" required>
+      </div>
+      <div class="ff">
+        <label class="fl">WhatsApp (opcional)</label>
+        <input class="inp" type="tel" id="fWhats" placeholder="(11) 99999-9999">
+      </div>
+      <div class="ff fcols">
+        <div>
+          <label class="fl">Nascimento</label>
+          <input class="inp" type="text" id="fData" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10" required>
+        </div>
+        <div>
+          <label class="fl">Cidade de nascimento</label>
+          <input class="inp" type="text" id="fCidade" placeholder="Cidade - UF" required>
+        </div>
+      </div>
+      <div class="ff">
+        <label class="fl">Hora de nascimento (se souber)</label>
+        <input class="inp" type="text" id="fHora" placeholder="Ex: 14:30 — se não souber, deixe em branco">
+      </div>
+      <p class="err-msg" id="errMsg">Preencha nome, e-mail, data e cidade de nascimento pra continuar.</p>
+      <button type="submit" class="btn" id="btnSubmit">Quero receber meu presente ✨</button>
+      <p class="fnote">Seus dados são usados só para gerar seu mapa e nunca são compartilhados.</p>
+    </form>
+  </div>
+</section>
+
+<!-- TELA 2 — LOADING -->
+<section class="sc" id="s2">
+  <div class="w a1">
+    <div class="lorb">
+      <div class="lr"></div><div class="lr"></div><div class="lr"></div>
+      <div class="lr-spin"><div class="astro astro1"></div></div>
+      <div class="lr-spin"><div class="astro astro2"></div></div>
+      <div class="lr-spin"><div class="astro astro3"></div></div>
+      <div class="lc"></div>
+    </div>
+    <h2 class="lh2">Preparando seu presente...</h2>
+    <p class="lpt" id="lpTxt">Calculando sua posição nos astros no instante exato do seu nascimento</p>
+    <div class="lbw">
+      <div class="lbb"><div class="lbf" id="lbFill"></div></div>
+      <p class="lms" id="lMsg"></p>
+    </div>
+  </div>
+</section>
+
+<!-- TELA 3 — CONFIRMAÇÃO -->
+<section class="sc" id="s3">
+  <div class="w a1">
+    <div class="checkring">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6.5" stroke="#FBBF24" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 class="h1">Prontinho, <span class="gd" id="cNome">✨</span></h1>
+    <p class="hsub">Seu Mapa Astral &amp; Numerológico Completo está sendo preparado com todo carinho e chega no seu e-mail em poucos minutos.</p>
+    <p class="fnote">Verifique também a caixa de spam/promoções. Que essa leitura ilumine seu caminho 🌙</p>
+  </div>
+</section>
+
+<script>
+const WH_LEAD='https://juinfo.app.n8n.cloud/webhook/captura-quiz';
+const WH_MAPA='https://juinfo.app.n8n.cloud/webhook/conexao-astral';
+
+function show(id){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
+
+document.getElementById('fData').addEventListener('input',function(e){
+  let v=e.target.value.replace(/\D/g,'').slice(0,8);
+  if(v.length>=5)v=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4);
+  else if(v.length>=3)v=v.slice(0,2)+'/'+v.slice(2);
+  e.target.value=v;
+});
+
+document.getElementById('vipForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const nome=document.getElementById('fNome').value.trim();
+  const email=document.getElementById('fEmail').value.trim().toLowerCase();
+  const whatsapp=document.getElementById('fWhats').value.trim();
+  const dataNasc=document.getElementById('fData').value.trim();
+  const cidade=document.getElementById('fCidade').value.trim();
+  const hora=document.getElementById('fHora').value.trim();
+  const errMsg=document.getElementById('errMsg');
+
+  if(!nome||!email||dataNasc.length<10||!cidade){
+    errMsg.style.display='block';
+    return;
+  }
+  errMsg.style.display='none';
+
+  const btn=document.getElementById('btnSubmit');
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+
+  const orderId='VIP_'+Date.now();
+
+  try{
+    await fetch(WH_LEAD,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        nome, email, whatsapp,
+        data_nascimento:dataNasc,
+        hora_nascimento:hora||'Não informado',
+        cidade_nascimento:cidade,
+        estado_nascimento:''
+      })
+    });
+
+    show('s2');
+    runLoading();
+
+    await fetch(WH_MAPA,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        email,
+        order_id:orderId,
+        compra_compatibilidade:false
+      })
+    });
+  }catch(err){
+    console.error(err);
+  }
+});
+
+function runLoading(){
+  const msgs=['Calculando seu número de destino...','Mapeando sua posição nos astros...','Interpretando sua configuração natal...','Cruzando astrologia com numerologia...','Selando seu presente com carinho...'];
+  const fill=document.getElementById('lbFill'), msgEl=document.getElementById('lMsg');
+  let pct=0, step=0;
+  const iv=setInterval(()=>{
+    pct+=Math.random()*18+6; if(pct>100)pct=100;
+    fill.style.width=pct+'%';
+    if(step<msgs.length){msgEl.textContent=msgs[step];step++;}
+    if(pct>=100){
+      clearInterval(iv);
+      setTimeout(()=>{
+        const nome=document.getElementById('fNome').value.trim().split(' ')[0]||'você';
+        document.getElementById('cNome').textContent=nome;
+        show('s3');
+      },500);
+    }
+  },550);
+}
+</script>
+</body>
+</html>
