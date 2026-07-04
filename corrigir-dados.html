@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conexão Astral — Confirme seus dados</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0720;color:#FFFFFF;font-family:"DM Sans",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
+.topbar{background:#130A28;border-bottom:1px solid #2E1858;padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:10px}
+.t-logo{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;color:#FFFFFF}
+.t-logo span{color:#C084FC}
+.t-badge{background:#1C1035;border:1px solid #2E1858;border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;color:#F5C842;letter-spacing:1px}
+.main{max-width:560px;margin:0 auto;padding:40px 24px 60px}
+.loadWrap{text-align:center;padding:80px 0}
+.spin{width:48px;height:48px;border:3px solid #2E1858;border-top-color:#A855F7;border-radius:50%;margin:0 auto 20px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loadTxt{color:#B89FD0;font-size:15px}
+.errWrap{text-align:center;padding:60px 0;display:none}
+.errIco{width:72px;height:72px;background:#3B1030;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px}
+.errH{font-family:"Playfair Display",serif;font-size:24px;font-weight:700;color:#FFFFFF;margin-bottom:10px}
+.errP{font-size:15px;color:#B89FD0;line-height:1.6;max-width:400px;margin:0 auto}
+.impbox{background:#1C1035;border:1px solid #2E1858;border-left:3px solid #C084FC;border-radius:14px;padding:18px 20px;margin-bottom:24px}
+.imptit{font-size:14px;font-weight:700;color:#C084FC;margin-bottom:10px}
+h1{font-family:"Playfair Display",serif;font-size:clamp(24px,5vw,32px);font-weight:700;color:#FFFFFF;line-height:1.2;margin-bottom:10px}
+h1 em{font-style:italic;color:#C084FC}
+.msub{font-size:15px;color:#C4B5D8;line-height:1.65;margin-bottom:24px}
+.fcard{background:#1C1035;border:1px solid #2E1858;border-radius:20px;padding:28px 24px}
+.flabel{display:block;font-size:12px;font-weight:700;color:#C084FC;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px}
+.fg{margin-bottom:16px}
+.fi{width:100%;background:#0D0720;border:1.5px solid #2E1858;border-radius:11px;padding:13px 16px;color:#FFFFFF;font-family:"DM Sans",sans-serif;font-size:15px;outline:none;transition:border-color .25s;display:block}
+.fi:focus{border-color:#A855F7;background:#130A28}
+.btn-sub{width:100%;background:linear-gradient(135deg,#A855F7,#7C3AED);color:#FFFFFF;border:none;border-radius:13px;padding:18px;font-family:"DM Sans",sans-serif;font-size:17px;font-weight:700;cursor:pointer;margin-top:22px;transition:transform .2s;animation:glow 2.5s ease-in-out infinite}
+.btn-sub:disabled{opacity:.6;animation:none;cursor:not-allowed}
+.errmsg{font-size:13px;color:#F472B6;text-align:center;margin-top:10px;display:none}
+.lockmsg{font-size:12px;color:#7A5FA0;text-align:center;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px}
+.suc{text-align:center;padding:60px 0;display:none}
+.suc-ico{width:80px;height:80px;background:linear-gradient(135deg,#A855F7,#7C3AED);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 20px;box-shadow:0 0 40px #7C3AED80}
+.suc-h{font-family:"Playfair Display",serif;font-size:26px;font-weight:700;color:#fff;margin-bottom:10px}
+.suc-h em{font-style:italic;color:#C084FC}
+.suc-p{font-size:15px;color:#C4B5D8;line-height:1.7;max-width:420px;margin:0 auto}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 #7C3AED80}50%{box-shadow:0 0 0 10px #7C3AED00}}
+</style>
+</head>
+<body>
+<div class="topbar">
+<div class="t-logo">🌌 Conexão Astral <span>Correção</span></div>
+<div class="t-badge">🔒 Link pessoal e único</div>
+</div>
+
+<div class="main">
+
+  <div class="loadWrap" id="loadWrap">
+    <div class="spin"></div>
+    <div class="loadTxt">Verificando seu link...</div>
+  </div>
+
+  <div class="errWrap" id="errWrap">
+    <div class="errIco">⚠️</div>
+    <div class="errH" id="errH">Link inválido</div>
+    <div class="errP" id="errP">Este link não é mais válido. Se você acredita que isso é um engano, entre em contato com a gente.</div>
+  </div>
+
+  <div id="formWrap" style="display:none">
+    <h1>Vamos corrigir<br>seu <em>mapa</em> juntas 🌌</h1>
+    <p class="msub" id="greetMsg">Encontrei um detalhe nos seus dados que precisava de atenção. Confirme (ou corrija) as informações abaixo para gerar seu mapa correto.</p>
+
+    <div class="impbox">
+      <div class="imptit">⚠️ Por que isso importa?</div>
+      <div style="font-size:13px;color:#F0E8FF;line-height:1.6">Sua data de nascimento define a posição do Sol, da Lua e dos planetas no seu mapa. Um dado incorreto muda a leitura inteira — por isso pedimos essa conferência.</div>
+    </div>
+
+    <div class="fcard">
+      <div class="fg"><label class="flabel">Seu nome</label><input class="fi" type="text" id="fnome"></div>
+      <div class="fg"><label class="flabel">E-mail</label><input class="fi" type="email" id="femail" disabled style="opacity:.6"></div>
+      <div class="fg"><label class="flabel">Data de nascimento</label><input class="fi" type="date" id="fdata"></div>
+      <div class="fg"><label class="flabel">Cidade de nascimento</label><input class="fi" type="text" id="fcidade"></div>
+      <div class="fg"><label class="flabel">Horário de nascimento <span style="font-weight:400;text-transform:none;color:#7A5FA0">— opcional</span></label><input class="fi" type="time" id="fhora"></div>
+      <button class="btn-sub" id="btnSub" onclick="confirmar()">🌌 CONFIRMAR E GERAR MEU MAPA →</button>
+      <div class="errmsg" id="errmsg"></div>
+      <div class="lockmsg">🔒 Este link só pode ser usado uma vez</div>
+    </div>
+  </div>
+
+  <div class="suc" id="sucWrap">
+    <div class="suc-ico">🌌</div>
+    <h2 class="suc-h">Perfeito!<br>Seu mapa <em>corrigido</em> está a caminho</h2>
+    <p class="suc-p">Recebemos seus dados confirmados. Em até <strong style="color:#C084FC">10 minutos</strong> você recebe o mapa atualizado no seu e-mail. 💜</p>
+  </div>
+
+</div>
+
+<script>
+const API_BASE = "https://juinfo.app.n8n.cloud/webhook";
+const params = new URLSearchParams(window.location.search);
+const token = params.get("token");
+
+const loadWrap = document.getElementById("loadWrap");
+const errWrap = document.getElementById("errWrap");
+const formWrap = document.getElementById("formWrap");
+const sucWrap = document.getElementById("sucWrap");
+
+function showError(titulo, texto) {
+  loadWrap.style.display = "none";
+  document.getElementById("errH").textContent = titulo;
+  document.getElementById("errP").textContent = texto;
+  errWrap.style.display = "block";
+}
+
+async function init() {
+  if (!token) {
+    showError("Link incompleto", "Este link não contém as informações necessárias. Verifique se copiou o endereço completo do e-mail.");
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE}/validar-token-vip?token=${encodeURIComponent(token)}`);
+    const data = await res.json();
+    if (!data.valido) {
+      if (data.motivo === "token_ja_usado") {
+        showError("Este link já foi utilizado", "Este link é pessoal e só pode ser usado uma vez. Se você precisa de ajuda, entre em contato com a gente.");
+      } else {
+        showError("Link inválido", "Não encontramos esse link em nosso sistema. Verifique se copiou o endereço completo do e-mail.");
+      }
+      return;
+    }
+    document.getElementById("fnome").value = data.nome || "";
+    document.getElementById("femail").value = data.email || "";
+    document.getElementById("fdata").value = data.dataNascimento || "";
+    document.getElementById("fcidade").value = data.cidadeNascimento ? (data.cidadeNascimento + (data.estadoNascimento ? ", " + data.estadoNascimento : "")) : "";
+    document.getElementById("fhora").value = data.horaNascimento || "";
+    const primeiroNome = (data.nome || "").split(" ")[0];
+    if (primeiroNome) {
+      document.getElementById("greetMsg").textContent = `Olá, ${primeiroNome}! Encontrei um detalhe nos seus dados que precisava de atenção. Confirme (ou corrija) as informações abaixo para gerar seu mapa correto.`;
+    }
+    loadWrap.style.display = "none";
+    formWrap.style.display = "block";
+  } catch (e) {
+    showError("Não conseguimos verificar seu link", "Tente novamente em alguns instantes. Se o problema continuar, entre em contato com a gente.");
+  }
+}
+
+function validarDataNascimento(dataStr) {
+  if (!dataStr) return { valido: false, motivo: 'vazio' };
+  const partes = dataStr.split('-').map(Number);
+  const ano = partes[0], mes = partes[1], dia = partes[2];
+  const data = new Date(ano, mes - 1, dia);
+  if (data.getFullYear() !== ano || data.getMonth() + 1 !== mes || data.getDate() !== dia) {
+    return { valido: false, motivo: 'data_invalida' };
+  }
+  const hoje = new Date();
+  if (data > hoje) return { valido: false, motivo: 'futuro' };
+  let idade = hoje.getFullYear() - ano;
+  const aindaNao = (hoje.getMonth() + 1 < mes) || (hoje.getMonth() + 1 === mes && hoje.getDate() < dia);
+  if (aindaNao) idade--;
+  if (ano < 1920 || idade > 105) return { valido: false, motivo: 'suspeita', idade };
+  if (idade < 12) return { valido: false, motivo: 'muito_jovem', idade };
+  return { valido: true, idade };
+}
+
+async function confirmar() {
+  const nome = document.getElementById("fnome").value.trim();
+  const email = document.getElementById("femail").value.trim();
+  const data = document.getElementById("fdata").value;
+  const cidade = document.getElementById("fcidade").value.trim();
+  const hora = document.getElementById("fhora").value || "";
+  const err = document.getElementById("errmsg");
+  err.style.display = "none";
+
+  if (!nome) { err.textContent = "Por favor, informe seu nome."; err.style.display = "block"; return; }
+  if (!data) { err.textContent = "Informe sua data de nascimento."; err.style.display = "block"; return; }
+  const v = validarDataNascimento(data);
+  if (!v.valido) {
+    if (v.motivo === "suspeita") err.textContent = `Essa data indicaria ${v.idade} anos — confira se está correta.`;
+    else if (v.motivo === "futuro") err.textContent = "Essa data ainda não aconteceu — confira o ano digitado.";
+    else err.textContent = "Confira a data de nascimento digitada.";
+    err.style.display = "block";
+    return;
+  }
+  if (!cidade) { err.textContent = "Informe sua cidade de nascimento."; err.style.display = "block"; return; }
+
+  const btn = document.getElementById("btnSub");
+  btn.disabled = true;
+  btn.textContent = "Confirmando...";
+
+  try {
+    const res = await fetch(`${API_BASE}/confirmar-vip`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, nome, email, data_nascimento: data, hora_nascimento: hora, cidade_nascimento: cidade })
+    });
+    const result = await res.json();
+    if (!result.sucesso) {
+      btn.disabled = false;
+      btn.textContent = "🌌 CONFIRMAR E GERAR MEU MAPA →";
+      if (result.motivo === "token_ja_usado") {
+        err.textContent = "Este link já foi utilizado.";
+      } else if (result.motivo === "data_suspeita") {
+        err.textContent = "Confira a data de nascimento digitada.";
+      } else {
+        err.textContent = "Não foi possível confirmar. Tente novamente.";
+      }
+      err.style.display = "block";
+      return;
+    }
+    formWrap.style.display = "none";
+    sucWrap.style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = "🌌 CONFIRMAR E GERAR MEU MAPA →";
+    err.textContent = "Erro de conexão. Tente novamente.";
+    err.style.display = "block";
+  }
+}
+
+init();
+</script>
+</body>
+</html>
