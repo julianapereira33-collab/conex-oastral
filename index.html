@@ -313,6 +313,7 @@ fbq('track','PageView');
     <div class="a2 ff">
       <label class="fl" for="fdt">Data de nascimento</label>
       <input class="inp" type="text" id="fdt" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10">
+      <div id="fdtErr" style="display:none;color:var(--r2);font-size:.8rem;margin-top:.4rem"></div>
     </div>
     <div class="a3 ff">
       <label class="fl" for="fho">Hora de nascimento <span style="color:var(--fa);font-weight:400;text-transform:none;letter-spacing:0">(opcional — deixa a revelação mais exata)</span></label>
@@ -722,6 +723,25 @@ function togH(cb){
 
 function emailOk(v){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
 
+// ══ VALIDAÇÃO DE DATA DE NASCIMENTO SUSPEITA ══
+function validarDataNascimento(dataISOStr) {
+  if (!dataISOStr) return { valido: false, motivo: 'vazio' };
+  const partes = dataISOStr.split('-').map(Number);
+  const ano = partes[0], mes = partes[1], dia = partes[2];
+  const data = new Date(ano, (mes||1) - 1, dia||1);
+  if (data.getFullYear() !== ano || data.getMonth() + 1 !== mes || data.getDate() !== dia) {
+    return { valido: false, motivo: 'data_invalida' };
+  }
+  const hoje = new Date();
+  if (data > hoje) return { valido: false, motivo: 'futuro' };
+  let idade = hoje.getFullYear() - ano;
+  const aindaNaoFezAniversario = (hoje.getMonth() + 1 < mes) || (hoje.getMonth() + 1 === mes && hoje.getDate() < dia);
+  if (aindaNaoFezAniversario) idade--;
+  if (ano < 1920 || idade > 105) return { valido: false, motivo: 'suspeita', idade };
+  if (idade < 12) return { valido: false, motivo: 'muito_jovem', idade };
+  return { valido: true, idade };
+}
+
 // ══ NAVEGAÇÃO COM PIXEL ══
 function goNome(){
   if(selectedAreas.length===0){
@@ -745,7 +765,25 @@ function goData(){
 
 function goLocal(){
   const dt=document.getElementById('fdt').value.trim();
+  const errEl=document.getElementById('fdtErr');
+  errEl.style.display='none';
   if(!dt||dt.length<8){document.getElementById('fdt').classList.add('err');document.getElementById('fdt').focus();return;}
+  // TRAVA: valida data de nascimento suspeita antes de avançar
+  const resultado=validarDataNascimento(dataISO());
+  if(!resultado.valido){
+    document.getElementById('fdt').classList.add('err');
+    if(resultado.motivo==='suspeita'){
+      errEl.textContent=`Essa data indicaria ${resultado.idade} anos — confira se o dia, mês e ano estão corretos.`;
+    } else if(resultado.motivo==='futuro'){
+      errEl.textContent='Essa data ainda não aconteceu — confira o ano digitado.';
+    } else if(resultado.motivo==='muito_jovem'){
+      errEl.textContent='Confira a data digitada.';
+    } else {
+      errEl.textContent='Confira o formato da data: DD/MM/AAAA.';
+    }
+    errEl.style.display='block';
+    return;
+  }
   document.getElementById('fdt').classList.remove('err');
   px('Etapa3_Data');
   show('s3');
