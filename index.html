@@ -574,6 +574,30 @@ const WH_CHECKOUT='https://juinfo.app.n8n.cloud/webhook/conexao-astral-iniciou-c
 const CK='https://pay.cakto.com.br/67mzr3r_889561';
 let selectedAreas=[];
 
+// ══ ATRIBUICAO META ADS — fbc/fbp para o CAPI Purchase ══
+function getCookie(name){
+  const m=document.cookie.match('(^|;)\s*'+name+'\s*=\s*([^;]+)');
+  return m?decodeURIComponent(m.pop()):'';
+}
+function getFbParams(){
+  const params=new URLSearchParams(window.location.search);
+  const fbclid=params.get('fbclid')||'';
+  let fbc=getCookie('_fbc');
+  const fbp=getCookie('_fbp');
+  if(!fbc&&fbclid){
+    fbc='fb.1.'+Date.now()+'.'+fbclid;
+  }
+  return {fbc,fbp,fbclid};
+}
+// Persiste fbc/fbp assim que a pessoa chega (antes do pixel escrever os cookies, se for o caso)
+try{
+  const fb=getFbParams();
+  if(fb.fbc||fb.fbp){
+    const existing=JSON.parse(localStorage.getItem('ca_fb')||'{}');
+    localStorage.setItem('ca_fb',JSON.stringify({...existing,...fb}));
+  }
+}catch(e){}
+
 // Marca no leads_quiz que a pessoa iniciou o checkout (fire-and-forget, nao bloqueia o clique)
 function notificarIniciouCheckout(){
   try{
@@ -834,6 +858,13 @@ function finalSubmit(){
   const hora=document.getElementById('fho').value;
   const semH=document.getElementById('fnh').checked;
 
+  let fb={};
+  try{fb=JSON.parse(localStorage.getItem('ca_fb')||'{}');}catch(e){}
+  const fbAtual=getFbParams();
+  const fbc=fbAtual.fbc||fb.fbc||'';
+  const fbp=fbAtual.fbp||fb.fbp||'';
+  const fbclid=fbAtual.fbclid||fb.fbclid||'';
+
   const d={
     funil:'ca-quiz-v3',
     nome,email,whatsapp:wpp,
@@ -843,7 +874,8 @@ function finalSubmit(){
     hora_nascimento:semH?'Nao informado':(hora||'Nao informado'),
     areas:selectedAreas.join(','),
     order_id:'CA'+Date.now(),
-    timestamp:new Date().toISOString()
+    timestamp:new Date().toISOString(),
+    fbc,fbp,fbclid
   };
 
   try{localStorage.setItem('ca',JSON.stringify(d));}catch(e){}
