@@ -241,6 +241,25 @@ function setH(m){
 }
 setH("sim");
 
+// ── TRAVA: VALIDAÇÃO DE DATA DE NASCIMENTO SUSPEITA ──
+function validarDataNascimento(dataStr) {
+  if (!dataStr) return { valido: false, motivo: 'vazio' };
+  const partes = dataStr.split('-').map(Number);
+  const ano = partes[0], mes = partes[1], dia = partes[2];
+  const data = new Date(ano, mes - 1, dia);
+  if (data.getFullYear() !== ano || data.getMonth() + 1 !== mes || data.getDate() !== dia) {
+    return { valido: false, motivo: 'data_invalida' };
+  }
+  const hoje = new Date();
+  if (data > hoje) return { valido: false, motivo: 'futuro' };
+  let idade = hoje.getFullYear() - ano;
+  const aindaNaoFezAniversario = (hoje.getMonth() + 1 < mes) || (hoje.getMonth() + 1 === mes && hoje.getDate() < dia);
+  if (aindaNaoFezAniversario) idade--;
+  if (ano < 1920 || idade > 105) return { valido: false, motivo: 'suspeita', idade: idade };
+  if (idade < 12) return { valido: false, motivo: 'muito_jovem', idade: idade };
+  return { valido: true, idade: idade };
+}
+
 async function enviar(){
   const nome=document.getElementById("fnome").value.trim();
   const email=document.getElementById("femail").value.trim();
@@ -252,6 +271,20 @@ async function enviar(){
   if(!nome){err.style.display="block";err.textContent="Por favor, informe seu nome.";return}
   if(!email||!email.includes("@")){err.style.display="block";err.textContent="E-mail invalido.";return}
   if(!data){err.style.display="block";err.textContent="Informe sua data de nascimento.";return}
+  const validacaoData = validarDataNascimento(data);
+  if(!validacaoData.valido){
+    err.style.display="block";
+    if(validacaoData.motivo==="suspeita"){
+      err.textContent="Essa data indicaria "+validacaoData.idade+" anos — confira se o dia, mes e ano estao corretos.";
+    } else if(validacaoData.motivo==="futuro"){
+      err.textContent="Essa data ainda nao aconteceu — confira o ano digitado.";
+    } else if(validacaoData.motivo==="muito_jovem"){
+      err.textContent="Confira a data de nascimento digitada.";
+    } else {
+      err.textContent="Confira a data de nascimento digitada.";
+    }
+    return;
+  }
   if(!cidade){err.style.display="block";err.textContent="Informe sua cidade de nascimento.";return}
   if(hMode==="sim"&&!hora){err.style.display="block";err.textContent="Voce disse que sabe o horario — por favor, informe. Ou selecione Nao sei.";return}
   err.style.display="none";
