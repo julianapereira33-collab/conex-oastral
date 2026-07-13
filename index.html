@@ -310,8 +310,12 @@ fbq('track','PageView');
     </div>
 
     <div class="a2 ff">
-      <label class="fl" for="fdt">Data de nascimento</label>
-      <input class="inp" type="text" id="fdt" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10">
+      <label class="fl" for="fdtDia">Data de nascimento</label>
+      <div style="display:flex;gap:.5rem;align-items:flex-start">
+        <input class="inp" type="text" id="fdtDia" placeholder="DD" inputmode="numeric" maxlength="2" style="text-align:center;flex:0 0 20%">
+        <input class="inp" type="text" id="fdtMes" placeholder="MM" inputmode="numeric" maxlength="2" style="text-align:center;flex:0 0 20%">
+        <input class="inp" type="text" id="fdtAno" placeholder="AAAA" inputmode="numeric" maxlength="4" style="text-align:center;flex:1">
+      </div>
       <div id="fdtErr" style="display:none;color:var(--r2);font-size:.8rem;margin-top:.4rem"></div>
     </div>
     <div class="a3 ff">
@@ -576,7 +580,7 @@ let selectedAreas=[];
 
 // ══ ATRIBUICAO META ADS — fbc/fbp para o CAPI Purchase ══
 function getCookie(name){
-  const m=document.cookie.match('(^|;)\s*'+name+'\s*=\s*([^;]+)');
+  const m=document.cookie.match('(^;)\s*'+name+'\s*=\s*([^;]+)');
   return m?decodeURIComponent(m.pop()):'';
 }
 function getFbParams(){
@@ -788,14 +792,24 @@ function goData(){
 }
 
 function goLocal(){
-  const dt=document.getElementById('fdt').value.trim();
+  const dia=document.getElementById('fdtDia').value.trim();
+  const mes=document.getElementById('fdtMes').value.trim();
+  const ano=document.getElementById('fdtAno').value.trim();
   const errEl=document.getElementById('fdtErr');
   errEl.style.display='none';
-  if(!dt||dt.length<8){document.getElementById('fdt').classList.add('err');document.getElementById('fdt').focus();return;}
+  const camposData=[document.getElementById('fdtDia'),document.getElementById('fdtMes'),document.getElementById('fdtAno')];
+  camposData.forEach(c=>c.classList.remove('err'));
+  if(!dia||!mes||ano.length!==4){
+    camposData.forEach(c=>c.classList.add('err'));
+    (dia?(mes?document.getElementById('fdtAno'):document.getElementById('fdtMes')):document.getElementById('fdtDia')).focus();
+    errEl.textContent='Preencha dia, mês e ano completos.';
+    errEl.style.display='block';
+    return;
+  }
   // TRAVA: valida data de nascimento suspeita antes de avançar
   const resultado=validarDataNascimento(dataISO());
   if(!resultado.valido){
-    document.getElementById('fdt').classList.add('err');
+    camposData.forEach(c=>c.classList.add('err'));
     if(resultado.motivo==='suspeita'){
       errEl.textContent=`Essa data indicaria ${resultado.idade} anos — confira se o dia, mês e ano estão corretos.`;
     } else if(resultado.motivo==='futuro'){
@@ -803,12 +817,12 @@ function goLocal(){
     } else if(resultado.motivo==='muito_jovem'){
       errEl.textContent='Confira a data digitada.';
     } else {
-      errEl.textContent='Confira o formato da data: DD/MM/AAAA.';
+      errEl.textContent='Confira o dia e o mês digitados — parece que essa data não existe.';
     }
     errEl.style.display='block';
     return;
   }
-  document.getElementById('fdt').classList.remove('err');
+  camposData.forEach(c=>c.classList.remove('err'));
   px('Etapa3_Data');
   show('s3');
 }
@@ -822,84 +836,50 @@ function goContato(){
   show('s4');
 }
 
-// ══ MÁSCARA DE DATA — digitação livre DD/MM/AAAA ══
-// Reescrita completa: edição no meio da string (Backspace/Delete) é interceptada
-// no keydown e aplicada sobre a string de DÍGITOS PUROS, nunca sobre a string já
-// mascarada — isso elimina o bug de corrupção (mês virando "31", ano perdendo dígito)
-// que acontecia quando o navegador mutava a string mascarada antes do nosso código rodar.
+// ══ DATA DE NASCIMENTO — três campos independentes (dia/mês/ano) ══
+// Substitui a antiga máscara de campo único: apagar um dígito no mês agora é
+// FISICAMENTE incapaz de afetar o ano, porque são elementos <input> diferentes.
+// Isso elimina por construção o bug de dígito vazando pro segmento vizinho
+// (ex: apagar o "0" do mês roubando um dígito do ano) que a máscara única tinha.
 document.addEventListener('DOMContentLoaded',()=>{
-  const fd=document.getElementById('fdt');
-  if(!fd)return;
+  const fDia=document.getElementById('fdtDia');
+  const fMes=document.getElementById('fdtMes');
+  const fAno=document.getElementById('fdtAno');
+  if(!fDia||!fMes||!fAno)return;
 
-  function formatarDigitos(digitos){
-    let v=digitos.slice(0,8);
-    if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);
-    if(v.length>5)v=v.slice(0,5)+'/'+v.slice(5);
-    return v;
+  function apenasDigitos(el,max){
+    el.addEventListener('input',function(){
+      this.value=this.value.replace(/\D/g,'').slice(0,max);
+    });
   }
-  // Posição no valor mascarado (com barras) -> posição correspondente na string de dígitos puros
-  function maskParaDigitoPos(valorMascarado,maskPos){
-    return valorMascarado.slice(0,maskPos).replace(/\D/g,'').length;
-  }
-  // Posição na string de dígitos puros -> posição no valor mascarado final
-  function digitoParaMaskPos(digitos,digitoPos){
-    let pos=digitoPos;
-    if(digitoPos>2)pos++;
-    if(digitoPos>4)pos++;
-    return Math.min(pos,formatarDigitos(digitos).length);
-  }
+  apenasDigitos(fDia,2);
+  apenasDigitos(fMes,2);
+  apenasDigitos(fAno,4);
 
-  // Backspace/Delete: intercepta ANTES do navegador mexer no valor (preventDefault),
-  // remove o dígito certo da string de dígitos puros e reformata do zero.
-  fd.addEventListener('keydown',function(e){
-    if(e.key!=='Backspace'&&e.key!=='Delete')return;
-    const start=this.selectionStart,end=this.selectionEnd;
-    const digitosAtuais=this.value.replace(/\D/g,'');
-    e.preventDefault();
-
-    let novosDigitos,novoDigitoPos;
-    if(start!==end){
-      // ha selecao de intervalo: remove os digitos correspondentes ao trecho selecionado
-      const inicioDigito=maskParaDigitoPos(this.value,start);
-      const fimDigito=maskParaDigitoPos(this.value,end);
-      novosDigitos=digitosAtuais.slice(0,inicioDigito)+digitosAtuais.slice(fimDigito);
-      novoDigitoPos=inicioDigito;
-    }else if(e.key==='Backspace'){
-      const cursorDigito=maskParaDigitoPos(this.value,start);
-      if(cursorDigito===0)return;
-      novosDigitos=digitosAtuais.slice(0,cursorDigito-1)+digitosAtuais.slice(cursorDigito);
-      novoDigitoPos=cursorDigito-1;
-    }else{
-      const cursorDigito=maskParaDigitoPos(this.value,start);
-      if(cursorDigito>=digitosAtuais.length)return;
-      novosDigitos=digitosAtuais.slice(0,cursorDigito)+digitosAtuais.slice(cursorDigito+1);
-      novoDigitoPos=cursorDigito;
-    }
-    const formatado=formatarDigitos(novosDigitos);
-    this.value=formatado;
-    const novoMaskPos=digitoParaMaskPos(novosDigitos,novoDigitoPos);
-    this.setSelectionRange(novoMaskPos,novoMaskPos);
+  // Auto-avanço: ao completar o campo, pula pro próximo automaticamente
+  fDia.addEventListener('input',function(){
+    if(this.value.length===2)fMes.focus();
+  });
+  fMes.addEventListener('input',function(){
+    if(this.value.length===2)fAno.focus();
   });
 
-  // Digitação normal (inserção de dígito) — mantém reposicionamento de cursor
-  fd.addEventListener('input',function(){
-    const cursorAntes=this.selectionStart;
-    const digitosAntesDoCursor=this.value.slice(0,cursorAntes).replace(/\D/g,'').length;
-    const v=formatarDigitos(this.value.replace(/\D/g,''));
-    this.value=v;
-    let novoCursor=digitosAntesDoCursor;
-    if(digitosAntesDoCursor>2)novoCursor++;
-    if(digitosAntesDoCursor>4)novoCursor++;
-    novoCursor=Math.min(novoCursor,v.length);
-    this.setSelectionRange(novoCursor,novoCursor);
+  // Auto-retorno: Backspace num campo vazio volta o foco pro campo anterior
+  // (sem apagar nada do campo anterior — só move o foco, edição continua isolada)
+  fMes.addEventListener('keydown',function(e){
+    if(e.key==='Backspace'&&this.value===''){fDia.focus();}
+  });
+  fAno.addEventListener('keydown',function(e){
+    if(e.key==='Backspace'&&this.value===''){fMes.focus();}
   });
 });
 
 function dataISO(){
-  const v=document.getElementById('fdt').value;
-  const p=v.split('/');
-  if(p.length!==3||p[2].length!==4)return v;
-  return `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
+  const dia=document.getElementById('fdtDia').value.trim().padStart(2,'0');
+  const mes=document.getElementById('fdtMes').value.trim().padStart(2,'0');
+  const ano=document.getElementById('fdtAno').value.trim();
+  if(!dia||!mes||ano.length!==4)return '';
+  return `${ano}-${mes}-${dia}`;
 }
 
 // ══ SUBMIT FINAL ══
