@@ -960,7 +960,11 @@ function result(nome,data){
   const url=CK+(em?((CK.includes('?')?'&':'?')+'email='+encodeURIComponent(em)+'&nome='+encodeURIComponent(pn)):'');
   document.querySelectorAll('#soferta a[href*="cakto"]').forEach(a=>{
     a.href=url;
-    a.addEventListener('click',()=>{if(typeof fbq!=='undefined')fbq('track','InitiateCheckout');notificarIniciouCheckout();});
+    // Fix dedup: so anexa o listener se ainda nao tiver sido marcado (mesma flag que irOferta() usa)
+    if(!a.dataset.ckEvt){
+      a.dataset.ckEvt='1';
+      a.addEventListener('click',()=>{if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{value:97,currency:'BRL',num_items:1});notificarIniciouCheckout();});
+    }
   });
 
   show('sr');
@@ -1071,10 +1075,17 @@ const padr=sg=>({'Áries':{t:'Você começa tudo com força total e perde o fôl
 function closeExitPopup(){
   document.getElementById('exitPopup').style.display='none';
 }
-document.getElementById('exitCta')?.addEventListener('click',()=>{
-  if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{value:77.60,currency:'BRL'});
-  notificarIniciouCheckout();
-});
+(function(){
+  const exitCta=document.getElementById('exitCta');
+  if(!exitCta)return;
+  // Marca ckEvt ANTES de irOferta() rodar, pra evitar que o loop generico dela
+  // (document-wide, a[href*="cakto"]) anexe um segundo listener neste mesmo botao.
+  exitCta.dataset.ckEvt='1';
+  exitCta.addEventListener('click',()=>{
+    if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{value:77.60,currency:'BRL'});
+    notificarIniciouCheckout();
+  });
+})();
 </script>
 </body>
 </html>
