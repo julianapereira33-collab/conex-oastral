@@ -306,7 +306,7 @@ fbq('track','PageView');
         NA DATA DO SEU NASCIMENTO,<br>OS ASTROS ESTAVAM EM UMA<br><span class="vl">POSIÇÃO ÚNICA!</span>
       </h2>
       <p style="font-size:.92rem;color:var(--mu);line-height:1.6;max-width:380px;margin:0 auto">
-        Isso fala mais sobre você do que imagina. Para revelar com precisão, preencha corretamente abaixo:
+        Tudo está ligado à data e hora do seu nascimento. Informe corretamente para obter revelações precisas.
       </p>
     </div>
 
@@ -823,13 +823,24 @@ function goContato(){
 }
 
 // ══ MÁSCARA DE DATA — digitação livre DD/MM/AAAA ══
+// Fix: preserva a posição do cursor (antes pulava pro final a cada tecla, impedindo
+// corrigir um numero no meio da data sem apagar tudo de novo).
 document.addEventListener('DOMContentLoaded',()=>{
   const fd=document.getElementById('fdt');
-  if(fd)fd.addEventListener('input',function(){
-    let v=this.value.replace(/\D/g,'');
+  if(!fd)return;
+  fd.addEventListener('input',function(){
+    const cursorAntes=this.selectionStart;
+    const digitosAntesDoCursor=this.value.slice(0,cursorAntes).replace(/\D/g,'').length;
+    let v=this.value.replace(/\D/g,'').slice(0,8);
     if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);
     if(v.length>5)v=v.slice(0,5)+'/'+v.slice(5);
-    this.value=v.slice(0,10);
+    this.value=v;
+    // Recalcula onde o cursor deve ficar contando as barras que vem antes dele
+    let novoCursor=digitosAntesDoCursor;
+    if(digitosAntesDoCursor>2)novoCursor++;
+    if(digitosAntesDoCursor>4)novoCursor++;
+    novoCursor=Math.min(novoCursor,v.length);
+    this.setSelectionRange(novoCursor,novoCursor);
   });
 });
 
