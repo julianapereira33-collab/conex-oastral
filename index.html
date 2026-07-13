@@ -1035,20 +1035,11 @@ const padr=sg=>({'Áries':{t:'Você começa tudo com força total e perde o fôl
     <h3 style="font-family:var(--dp);font-size:1.4rem;font-weight:900;line-height:1.25;margin-bottom:.7rem;color:#fff">
       Tem certeza que não quer acessar seu Mapa Astral?
     </h3>
-    <p style="font-size:.88rem;color:var(--mu);line-height:1.55;margin-bottom:1rem">
-      Os números têm revelações importantes sobre você. Se fosse você, eu não perderia essa oportunidade — use o cupom abaixo antes de sair.
+    <p style="font-size:.88rem;color:var(--mu);line-height:1.55;margin-bottom:1.4rem">
+      Os números têm revelações importantes sobre você. Se fosse você, eu não perderia essa oportunidade.
     </p>
-    <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:14px;padding:1rem;margin-bottom:1rem">
-      <div style="font-size:.7rem;color:var(--g);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem">Cupom de resgate — só agora</div>
-      <div style="display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.06);border:1.5px dashed rgba(251,191,36,.5);border-radius:8px;padding:.4rem 1rem;margin:.3rem 0">
-        <span style="font-family:var(--dp);font-size:1.1rem;font-weight:900;letter-spacing:.05em;color:var(--g)">URGENCIA20</span>
-      </div>
-      <div style="font-size:.85rem;color:var(--fa);text-decoration:line-through;margin-top:.5rem">De R$ 97,00</div>
-      <div style="font-family:var(--dp);font-size:2.6rem;font-weight:900;background:linear-gradient(135deg,#fff,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin:.2rem 0">R$ 77,60</div>
-      <div style="font-size:.78rem;color:var(--tl);font-weight:700">Essa condição não aparece de novo</div>
-    </div>
-    <a href="https://pay.cakto.com.br/67mzr3r_889561?coupon=URGENCIA20" target="_blank" class="btn btn-gold" id="exitCta" style="font-size:1rem;padding:1rem">
-      Quero garantir meu mapa agora →
+    <a href="https://pay.cakto.com.br/67mzr3r_889561" target="_blank" class="btn btn-gold" id="exitCta" style="font-size:1rem;padding:1rem">
+      Quero acessar meu mapa agora →
     </a>
     <p style="font-size:.74rem;color:var(--fa);margin-top:.6rem">Seu mapa chega no e-mail em minutos após a compra</p>
   </div>
@@ -1093,7 +1084,7 @@ function closeExitPopup(){
   // (document-wide, a[href*="cakto"]) anexe um segundo listener neste mesmo botao.
   exitCta.dataset.ckEvt='1';
   exitCta.addEventListener('click',()=>{
-    if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{value:77.60,currency:'BRL'});
+    if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{value:97,currency:'BRL',num_items:1});
     notificarIniciouCheckout();
   });
 })();
