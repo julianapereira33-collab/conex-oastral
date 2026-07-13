@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Conexão Astral — Confirme seus dados</title>
+<title>Conexão Astral — Obrigada!</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -12,74 +12,23 @@ body{background:#0D0720;color:#FFFFFF;font-family:"DM Sans",sans-serif;min-heigh
 .t-logo{font-family:"Playfair Display",serif;font-size:18px;font-weight:700;color:#FFFFFF}
 .t-logo span{color:#C084FC}
 .t-badge{background:#1C1035;border:1px solid #2E1858;border-radius:100px;padding:4px 12px;font-size:11px;font-weight:700;color:#86EFAC;letter-spacing:1px}
-.steps-wrap{max-width:560px;margin:0 auto;padding:28px 24px 0;display:flex;align-items:center}
-.sdot{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
-.sdc{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
-.sdc.done{background:#A855F7;color:#fff}
-.sdc.active{background:linear-gradient(135deg,#A855F7,#7C3AED);color:#fff;box-shadow:0 0 16px #A855F780}
-.sdc.next{background:#1C1035;border:1px solid #2E1858;color:#6B5A80}
-.sl{font-size:11px;color:#6B5A80;text-align:center}
-.sl.albl{color:#C084FC;font-weight:700}
-.sline{flex:1;height:2px;background:#2E1858;margin-bottom:18px;max-width:60px}
-.sline.done{background:#A855F7}
-.main{max-width:560px;margin:0 auto;padding:32px 24px 60px}
-.confirmed{background:#0D1F14;border:1px solid #166534;border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:12px;margin-bottom:28px;animation:fadeUp .6s ease both}
-.cico{width:36px;height:36px;background:#166534;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.ctxt{font-size:14px;color:#86EFAC;font-weight:500;line-height:1.4}
-.ctxt strong{color:#FFFFFF;display:block;font-size:15px;margin-bottom:2px}
-h1{font-family:"Playfair Display",serif;font-size:clamp(24px,5vw,34px);font-weight:700;color:#FFFFFF;line-height:1.15;margin-bottom:10px;animation:fadeUp .6s .1s ease both}
-h1 em{font-style:italic;color:#C084FC}
-.msub{font-size:15px;color:#C4B5D8;line-height:1.65;margin-bottom:24px;animation:fadeUp .6s .15s ease both}
-.impbox{background:#1C1035;border:1px solid #2E1858;border-left:3px solid #C084FC;border-radius:14px;padding:18px 20px;margin-bottom:24px;animation:fadeUp .6s .2s ease both}
-.imptit{font-size:14px;font-weight:700;color:#C084FC;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.impitem{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#F0E8FF;line-height:1.55;padding:7px 0;border-bottom:1px solid #2E1858}
-.impitem:last-child{border:none;padding-bottom:0}
-.fcard{background:#1C1035;border:1px solid #2E1858;border-radius:20px;padding:28px 24px;animation:fadeUp .6s .25s ease both}
-.fcard-h{font-family:"Playfair Display",serif;font-size:20px;font-weight:700;color:#FFFFFF;margin-bottom:6px}
-.fcard-s{font-size:13px;color:#7A5FA0;margin-bottom:22px;line-height:1.5}
-.flabel{display:block;font-size:12px;font-weight:700;color:#C084FC;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px}
-.fopt{font-size:11px;color:#7A5FA0;font-weight:400;letter-spacing:0;text-transform:none;margin-left:8px}
-.fg{margin-bottom:16px}
-.fi{width:100%;background:#0D0720;border:1.5px solid #2E1858;border-radius:11px;padding:13px 16px;color:#FFFFFF;font-family:"DM Sans",sans-serif;font-size:15px;outline:none;transition:border-color .25s;display:block}
-.fi::placeholder{color:#4A3A60}
-.fi:focus{border-color:#A855F7;background:#130A28}
-.htoggle{background:#0D0720;border:1.5px solid #2E1858;border-radius:11px;overflow:hidden}
-.hopts{display:flex}
-.hopt{flex:1;background:none;border:none;padding:11px 6px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;color:#7A5FA0;cursor:pointer;transition:all .2s;text-align:center}
-.hopt.active{background:#250F50;color:#C084FC;font-weight:700}
-.hinp-wrap{padding:0 14px 14px;display:none}
-.hinp-wrap.show{display:block}
-.hhint{font-size:12px;color:#7A5FA0;margin-top:8px;line-height:1.4}
-.hhint span{color:#C084FC}
-.certip{background:#130A28;border:1px dashed #2E1858;border-radius:10px;padding:12px 14px;font-size:12px;color:#7A5FA0;line-height:1.55;margin-top:10px;display:none}
-.certip strong{color:#C4B5D8}
-.btn-sub{width:100%;background:linear-gradient(135deg,#A855F7,#7C3AED);color:#FFFFFF;border:none;border-radius:13px;padding:18px;font-family:"DM Sans",sans-serif;font-size:17px;font-weight:700;cursor:pointer;margin-top:22px;transition:transform .2s,box-shadow .25s;animation:glow 2.5s ease-in-out infinite}
-.btn-sub:hover{transform:translateY(-2px);box-shadow:0 14px 36px #5B21B6}
-.btn-sub:disabled{opacity:.6;animation:none;cursor:not-allowed}
-.errmsg{font-size:13px;color:#F472B6;text-align:center;margin-top:10px;display:none}
-.upsell{background:#1C1035;border:2px solid #A855F7;border-radius:18px;padding:26px 22px;margin-top:24px;text-align:center;display:none;animation:fadeUp .6s ease both}
-.utag{display:inline-block;background:#F472B6;color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:14px}
-.uh{font-family:"Playfair Display",serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.2}
-.up{font-size:14px;color:#C4B5D8;line-height:1.65;margin-bottom:16px}
-.ufrom{font-size:13px;color:#6B5A80;text-decoration:line-through;margin-bottom:4px}
-.uprice{font-family:"Playfair Display",serif;font-size:44px;font-weight:700;color:#C084FC;line-height:1;margin-bottom:18px}
-.uprice sup{font-size:20px;vertical-align:super}
-.btn-u{display:block;background:linear-gradient(135deg,#A855F7,#7C3AED);color:#fff;border:none;border-radius:12px;padding:15px;font-family:"DM Sans",sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;text-align:center;animation:glow 2.5s ease-in-out infinite}
-.btn-no{display:block;text-align:center;font-size:13px;color:#6B5A80;margin-top:10px;cursor:pointer;text-decoration:underline}
-.suc{display:none;text-align:center;padding:40px 0;animation:fadeUp .6s ease both}
-.suc-ico{width:80px;height:80px;background:linear-gradient(135deg,#A855F7,#7C3AED);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 20px;box-shadow:0 0 40px #7C3AED80;animation:pop .5s cubic-bezier(.34,1.56,.64,1) both}
-.suc-h{font-family:"Playfair Display",serif;font-size:28px;font-weight:700;color:#fff;margin-bottom:10px}
+.main{max-width:560px;margin:0 auto;padding:52px 24px 60px}
+.suc{text-align:center;animation:fadeUp .6s ease both}
+.suc-ico{width:88px;height:88px;background:linear-gradient(135deg,#A855F7,#7C3AED);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 22px;box-shadow:0 0 40px #7C3AED80;animation:pop .5s cubic-bezier(.34,1.56,.64,1) both}
+.suc-h{font-family:"Playfair Display",serif;font-size:clamp(26px,6vw,34px);font-weight:700;color:#fff;margin-bottom:14px;line-height:1.2}
 .suc-h em{font-style:italic;color:#C084FC}
-.suc-p{font-size:15px;color:#C4B5D8;line-height:1.7;max-width:420px;margin:0 auto 28px}
-.suc-steps{background:#1C1035;border:1px solid #2E1858;border-radius:14px;padding:20px;text-align:left;max-width:440px;margin:0 auto}
-.sstep{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #2E1858}
-.sstep:last-child{border:none;padding-bottom:0}
-.sstep-txt{font-size:14px;color:#F0E8FF;line-height:1.5}
-.sstep-txt strong{color:#fff;display:block;margin-bottom:2px}
+.suc-p{font-size:15px;color:#C4B5D8;line-height:1.75;max-width:440px;margin:0 auto 28px}
+.suc-p strong{color:#fff}
+.correcao{background:#1C1035;border:1px solid #2E1858;border-left:3px solid #C084FC;border-radius:14px;padding:20px 22px;text-align:left;max-width:460px;margin:0 auto}
+.correcao-tit{font-size:14px;font-weight:700;color:#C084FC;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.correcao-txt{font-size:13.5px;color:#F0E8FF;line-height:1.65;margin-bottom:16px}
+.canais{display:flex;flex-direction:column;gap:10px}
+.canal-btn{display:flex;align-items:center;gap:12px;background:#130A28;border:1.5px solid #2E1858;border-radius:12px;padding:13px 16px;text-decoration:none;color:#fff;font-size:14px;font-weight:600;transition:border-color .2s,background .2s}
+.canal-btn:hover{border-color:#A855F7;background:#1a0f38}
+.canal-ico{font-size:20px;flex-shrink:0}
+.canal-sub{font-size:11px;color:#7A5FA0;font-weight:400;display:block;margin-top:1px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
-@keyframes glow{0%,100%{box-shadow:0 0 0 0 #7C3AED80}50%{box-shadow:0 0 0 10px #7C3AED00}}
-@media(max-width:480px){.hopts{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -89,239 +38,28 @@ h1 em{font-style:italic;color:#C084FC}
   <div class="t-badge">✓ CONEXÃO ASTRAL CONFIRMADA</div>
 </div>
 
-<div class="steps-wrap">
-  <div class="sdot"><div class="sdc done">✓</div><div class="sl">Pagamento</div></div>
-  <div class="sline done"></div>
-  <div class="sdot"><div class="sdc active">2</div><div class="sl albl">Seus dados</div></div>
-  <div class="sline"></div>
-  <div class="sdot"><div class="sdc next">3</div><div class="sl">Mapa gerado</div></div>
-</div>
-
-<div class="main" id="mainForm">
-  <div class="confirmed">
-    <div class="cico">✓</div>
-    <div class="ctxt">
-      <strong>Compra confirmada com sucesso!</strong>
-      Agora precisamos dos seus dados para gerar seu mapa.
-    </div>
-  </div>
-
-  <h1>Um passo antes<br>de <em>revelar seu mapa</em> 🌌</h1>
-  <p class="msub">Para que sua análise seja precisa e personalizada, confirme seus dados de nascimento. Quanto mais exatos, mais fiel ao seu mapa real.</p>
-
-  <div class="impbox">
-    <div class="imptit">⚠️ Por que os dados precisam ser exatos?</div>
-    <div class="impitem"><span>🌙</span><span>O <strong>horário de nascimento</strong> define seu Ascendente — muda a cada 2 horas. Uma hora de diferença muda análises inteiras.</span></div>
-    <div class="impitem"><span>📍</span><span>A <strong>cidade de nascimento</strong> define as 12 casas astrológicas — as áreas da sua vida no mapa.</span></div>
-    <div class="impitem"><span>📅</span><span>A <strong>data exata</strong> determina a posição da Lua — que muda de signo a cada 2,5 dias.</span></div>
-  </div>
-
-  <div class="fcard">
-    <div class="fcard-h">✨ Seus dados de nascimento</div>
-    <div class="fcard-s">Preencha com calma. Você pode consultar sua certidão ou perguntar a um familiar.</div>
-
-    <div class="fg"><label class="flabel">Seu nome</label><input class="fi" type="text" id="fnome" placeholder="Como prefere ser chamada no mapa"></div>
-    <div class="fg"><label class="flabel">E-mail de entrega</label><input class="fi" type="email" id="femail" placeholder="Seu melhor e-mail"></div>
-    <div class="fg"><label class="flabel">Data de nascimento</label><input class="fi" type="date" id="fdata"></div>
-    <div class="fg"><label class="flabel">Cidade de nascimento</label><input class="fi" type="text" id="fcidade" placeholder="Ex: São Paulo, SP — Brasil"></div>
-
-    <div class="fg">
-      <label class="flabel">Horário de nascimento <span class="fopt">— opcional, mas aumenta muito a precisão</span></label>
-      <div class="htoggle">
-        <div class="hopts">
-          <button class="hopt active" id="h1" onclick="setH('sim')">✅ Sei o horário</button>
-          <button class="hopt" id="h2" onclick="setH('aprox')">🕐 Aproximado</button>
-          <button class="hopt" id="h3" onclick="setH('nao')">❓ Não sei</button>
-        </div>
-        <div class="hinp-wrap show" id="hWrap">
-          <input class="fi" type="time" id="fhora" style="margin-top:14px">
-          <div class="hhint" id="hHint"><span>Dica:</span> Você encontra o horário na certidão de nascimento.</div>
-        </div>
-      </div>
-      <div class="certip" id="ctip">
-        💡 <strong>Não sabe o horário?</strong> Tente perguntar à sua mãe, verificar a certidão de nascimento ou ligar para o hospital. Se não conseguir, tudo bem — faremos uma análise completa com os outros dados.
-      </div>
-    </div>
-
-    <button class="btn-sub" id="btnSub" onclick="enviar()">🌌 ACESSAR MINHA CONEXÃO ASTRAL → →</button>
-    <div class="errmsg" id="errmsg"></div>
-  </div>
-
-  <div class="upsell" id="upBox">
-    <div class="utag">⚡ Oferta exclusiva — só aparece aqui</div>
-    <div class="uh">Quer saber se vocês têm<br>contrato de alma?</div>
-    <p class="up">Adicione o <strong style="color:#fff">Mapa de Compatibilidade Amorosa</strong> — análise da sinastria entre você e a pessoa que você ama.</p>
-    <div class="ufrom">De R$97</div>
-    <div class="uprice"><sup>R$</sup>17,90</div>
-    <a href="https://pay.cakto.com.br/67mzr3r_889561_upsell" class="btn-u">💜 SIM — QUERO O MAPA DE COMPATIBILIDADE →</a>
-    <span class="btn-no" onclick="document.getElementById('upBox').style.display='none'">Não, obrigada</span>
-  </div>
-</div>
-
-<div class="main" id="sucScreen" style="display:none">
-  <div class="suc" id="sucDiv" style="display:block">
+<div class="main">
+  <div class="suc">
     <div class="suc-ico">🌌</div>
-    <h2 class="suc-h">Perfeito!<br>Seu mapa está sendo <em>gerado</em></h2>
-    <p class="suc-p" id="sucMsg">Recebemos seus dados! Nossa IA já está calculando seus planetas. Em até <strong style="color:#C084FC">10 minutos</strong> você recebe seu Conexão Astral no e-mail. 💜</p>
-    <div class="suc-steps">
-      <div class="sstep"><span style="font-size:20px">⚙️</span><div class="sstep-txt"><strong>IA calculando seu mapa</strong>Posições planetárias, aspectos e casas sendo processados.</div></div>
-      <div class="sstep"><span style="font-size:20px">✍️</span><div class="sstep-txt"><strong>Análise sendo escrita</strong>Interpretação personalizada com seu nome e configuração únicos.</div></div>
-      <div class="sstep"><span style="font-size:20px">📩</span><div class="sstep-txt"><strong>PDF + Áudio no e-mail</strong>Em até 10 minutos chega no seu e-mail.</div></div>
+    <h2 class="suc-h">Obrigada!<br>Sua <em>Conexão Astral</em> já está a caminho</h2>
+    <p class="suc-p">Em breve você vai receber, no seu e-mail, o seu <strong>Mapa Astral e Numerológico completo</strong> — gerado com os dados de nascimento que você nos passou no início.</p>
+
+    <div class="correcao">
+      <div class="correcao-tit">💜 Algum dado errado?</div>
+      <p class="correcao-txt">Se a data, o horário ou a cidade de nascimento estiverem incorretos, é só nos avisar por um dos canais abaixo. Corrigimos e reenviamos seu mapa certinho.</p>
+      <div class="canais">
+        <a class="canal-btn" href="https://wa.me/5514997107816?text=Oi!%20Comprei%20a%20Conex%C3%A3o%20Astral%20e%20preciso%20corrigir%20um%20dado%20do%20meu%20mapa." target="_blank">
+          <span class="canal-ico">💬</span>
+          <span>WhatsApp<span class="canal-sub">Resposta mais rápida</span></span>
+        </a>
+        <a class="canal-btn" href="mailto:conexaoastral33@gmail.com?subject=Corre%C3%A7%C3%A3o%20de%20dados%20-%20Conex%C3%A3o%20Astral">
+          <span class="canal-ico">✉️</span>
+          <span>conexaoastral33@gmail.com</span>
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="upsell" id="upBox2" style="margin-top:24px">
-    <div class="utag">⚡ Oferta exclusiva — só aparece aqui</div>
-    <div class="uh">Quer saber se vocês têm<br>contrato de alma?</div>
-    <p class="up">Adicione o <strong style="color:#fff">Mapa de Compatibilidade Amorosa</strong> — análise da sinastria entre você e a pessoa que você ama.</p>
-    <div class="ufrom">De R$97</div>
-    <div class="uprice"><sup>R$</sup>17,90</div>
-    <a href="https://pay.cakto.com.br/67mzr3r_889561_upsell" class="btn-u">💜 SIM — QUERO O MAPA DE COMPATIBILIDADE →</a>
-    <span class="btn-no" onclick="document.getElementById('upBox2').style.display='none'">Não, obrigada</span>
   </div>
 </div>
 
-<script>
-// ── RECOVER QUIZ DATA & PRE-FILL ──
-const qd = JSON.parse(localStorage.getItem("quizDados") || "{}");
-
-// Pre-fill all fields we already have
-if (qd.nome)    { document.getElementById("fnome").value = qd.nome; }
-if (qd.email)   { document.getElementById("femail").value = qd.email; }
-if (qd.data)    { document.getElementById("fdata").value = qd.data; }
-if (qd.cidade)  { document.getElementById("fcidade").value = qd.cidade; }
-if (qd.hora)    { document.getElementById("fhora").value = qd.hora; }
-if (qd.celular) { 
-  // Store celular in hidden field for submission
-  const hf = document.createElement('input');
-  hf.type = 'hidden'; hf.id = 'fcelular'; hf.value = qd.celular;
-  document.body.appendChild(hf);
-}
-
-// Show which fields are already filled — highlight completed ones
-function markFilled(id, fieldGroupId) {
-  const el = document.getElementById(id);
-  if (el && el.value && el.value.trim()) {
-    el.style.borderColor = '#A855F7';
-    el.style.background = '#130A28';
-  }
-}
-setTimeout(() => {
-  markFilled('fnome'); markFilled('femail');
-  markFilled('fdata'); markFilled('fcidade'); markFilled('fhora');
-}, 100);
-
-// Show a personalized greeting if we have the name
-if (qd.nome) {
-  const h1 = document.querySelector('h1');
-  if (h1) h1.innerHTML = 'Olá, <em>' + qd.nome + '</em>!<br>Só falta completar seus dados 🌌';
-}
-
-let hMode="sim";
-function setH(m){
-  hMode=m;
-  ["h1","h2","h3"].forEach(id=>document.getElementById(id).classList.remove("active"));
-  const wrap=document.getElementById("hWrap");
-  const hint=document.getElementById("hHint");
-  const ctip=document.getElementById("ctip");
-  if(m==="sim"){
-    document.getElementById("h1").classList.add("active");
-    wrap.classList.add("show");
-    hint.innerHTML="<span>Dica:</span> Digite o horário exato da certidão de nascimento.";
-    ctip.style.display="none";
-  } else if(m==="aprox"){
-    document.getElementById("h2").classList.add("active");
-    wrap.classList.add("show");
-    hint.innerHTML="<span>Tudo bem!</span> Estimativa aceita. Indicaremos que o Ascendente é aproximado.";
-    ctip.style.display="none";
-  } else {
-    document.getElementById("h3").classList.add("active");
-    wrap.classList.remove("show");
-    ctip.style.display="block";
-  }
-}
-setH("sim");
-
-// ── TRAVA: VALIDAÇÃO DE DATA DE NASCIMENTO SUSPEITA ──
-function validarDataNascimento(dataStr) {
-  if (!dataStr) return { valido: false, motivo: 'vazio' };
-  const partes = dataStr.split('-').map(Number);
-  const ano = partes[0], mes = partes[1], dia = partes[2];
-  const data = new Date(ano, mes - 1, dia);
-  if (data.getFullYear() !== ano || data.getMonth() + 1 !== mes || data.getDate() !== dia) {
-    return { valido: false, motivo: 'data_invalida' };
-  }
-  const hoje = new Date();
-  if (data > hoje) return { valido: false, motivo: 'futuro' };
-  let idade = hoje.getFullYear() - ano;
-  const aindaNaoFezAniversario = (hoje.getMonth() + 1 < mes) || (hoje.getMonth() + 1 === mes && hoje.getDate() < dia);
-  if (aindaNaoFezAniversario) idade--;
-  if (ano < 1920 || idade > 105) return { valido: false, motivo: 'suspeita', idade: idade };
-  if (idade < 12) return { valido: false, motivo: 'muito_jovem', idade: idade };
-  return { valido: true, idade: idade };
-}
-
-async function enviar(){
-  const nome=document.getElementById("fnome").value.trim();
-  const email=document.getElementById("femail").value.trim();
-  const data=document.getElementById("fdata").value;
-  const cidade=document.getElementById("fcidade").value.trim();
-  const hora=document.getElementById("fhora").value||"";
-  const err=document.getElementById("errmsg");
-  
-  if(!nome){err.style.display="block";err.textContent="Por favor, informe seu nome.";return}
-  if(!email||!email.includes("@")){err.style.display="block";err.textContent="E-mail invalido.";return}
-  if(!data){err.style.display="block";err.textContent="Informe sua data de nascimento.";return}
-  const validacaoData = validarDataNascimento(data);
-  if(!validacaoData.valido){
-    err.style.display="block";
-    if(validacaoData.motivo==="suspeita"){
-      err.textContent="Essa data indicaria "+validacaoData.idade+" anos — confira se o dia, mes e ano estao corretos.";
-    } else if(validacaoData.motivo==="futuro"){
-      err.textContent="Essa data ainda nao aconteceu — confira o ano digitado.";
-    } else if(validacaoData.motivo==="muito_jovem"){
-      err.textContent="Confira a data de nascimento digitada.";
-    } else {
-      err.textContent="Confira a data de nascimento digitada.";
-    }
-    return;
-  }
-  if(!cidade){err.style.display="block";err.textContent="Informe sua cidade de nascimento.";return}
-  if(hMode==="sim"&&!hora){err.style.display="block";err.textContent="Voce disse que sabe o horario — por favor, informe. Ou selecione Nao sei.";return}
-  err.style.display="none";
-
-  const btn=document.getElementById("btnSub");
-  btn.disabled=true;
-  btn.textContent="Enviando seus dados...";
-
-  try{
-    await fetch("/api/webhook",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        nome, email,
-        celular: (document.getElementById('fcelular') || {value:''}).value || qd.celular || '',
-        data_nascimento: data,
-        hora_nascimento: hora || 'nao informado',
-        tem_hora: hMode,
-        cidade_nascimento: cidade,
-        fonte: 'pos-pagamento',
-        timestamp: new Date().toISOString()
-      })
-    });
-  }catch(e){console.log("webhook err",e)}
-
-  document.getElementById("mainForm").style.display="none";
-  document.getElementById("sucScreen").style.display="block";
-  document.getElementById("sucMsg").innerHTML="Recebemos seus dados, <strong style='color:#C084FC'>"+nome+"</strong>! Nossa IA ja esta calculando seus planetas.<br><br>Em ate <strong style='color:#C084FC'>10 minutos</strong> voce recebe o Conexão Astral em <strong style='color:#fff''>"+email+"</strong> 💜";
-  
-  setTimeout(()=>{
-    document.getElementById("upBox2").style.display="block";
-    window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
-  },3000);
-  
-  localStorage.setItem("dadosMapa",JSON.stringify({nome,email,data,hora,cidade,hMode}));
-  localStorage.removeItem("quizDados");
-}
-</script>
 </body>
 </html>
