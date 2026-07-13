@@ -243,9 +243,8 @@ fbq('track','PageView');
 
     <div class="vid-wrap a1" id="vidWrap">
       <!-- autoplay mudo garantido (sem risco de bloqueio pelo navegador); botão visível para a pessoa ligar o som -->
-      <video class="vidph" id="vidEtapa1" autoplay muted playsinline loop preload="auto" poster="poster.jpg" style="background:#06031A">
+      <video class="vidph" id="vidEtapa1" autoplay muted playsinline loop preload="auto" style="background:#06031A">
         <source src="etapa1.mp4" type="video/mp4">
-        <track kind="captions" src="etapa1-pt.vtt" srclang="pt" label="Português" default>
       </video>
       <button class="vid-snd" id="vidSnd" onclick="toggleSom()">🔇 Ligar som</button>
       <div class="vid-cap" id="vidCap">O universo tem uma mensagem para você</div>
@@ -384,6 +383,7 @@ fbq('track','PageView');
     <div class="a2 ff">
       <label class="fl" for="fem">Seu melhor e-mail <span style="color:var(--r)">*obrigatório</span></label>
       <input class="inp" type="email" id="fem" placeholder="seu@email.com" autocomplete="email" inputmode="email">
+      <div id="femErr" style="display:none;color:var(--r2);font-size:.8rem;margin-top:.4rem">Digite um e-mail válido, ex: nome@email.com</div>
     </div>
     <div class="a3 ff">
       <label class="fl" for="fwp">WhatsApp <span style="color:var(--fa);font-weight:400;text-transform:none;letter-spacing:0">(opcional)</span></label>
@@ -823,19 +823,70 @@ function goContato(){
 }
 
 // ══ MÁSCARA DE DATA — digitação livre DD/MM/AAAA ══
-// Fix: preserva a posição do cursor (antes pulava pro final a cada tecla, impedindo
-// corrigir um numero no meio da data sem apagar tudo de novo).
+// Reescrita completa: edição no meio da string (Backspace/Delete) é interceptada
+// no keydown e aplicada sobre a string de DÍGITOS PUROS, nunca sobre a string já
+// mascarada — isso elimina o bug de corrupção (mês virando "31", ano perdendo dígito)
+// que acontecia quando o navegador mutava a string mascarada antes do nosso código rodar.
 document.addEventListener('DOMContentLoaded',()=>{
   const fd=document.getElementById('fdt');
   if(!fd)return;
+
+  function formatarDigitos(digitos){
+    let v=digitos.slice(0,8);
+    if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);
+    if(v.length>5)v=v.slice(0,5)+'/'+v.slice(5);
+    return v;
+  }
+  // Posição no valor mascarado (com barras) -> posição correspondente na string de dígitos puros
+  function maskParaDigitoPos(valorMascarado,maskPos){
+    return valorMascarado.slice(0,maskPos).replace(/\D/g,'').length;
+  }
+  // Posição na string de dígitos puros -> posição no valor mascarado final
+  function digitoParaMaskPos(digitos,digitoPos){
+    let pos=digitoPos;
+    if(digitoPos>2)pos++;
+    if(digitoPos>4)pos++;
+    return Math.min(pos,formatarDigitos(digitos).length);
+  }
+
+  // Backspace/Delete: intercepta ANTES do navegador mexer no valor (preventDefault),
+  // remove o dígito certo da string de dígitos puros e reformata do zero.
+  fd.addEventListener('keydown',function(e){
+    if(e.key!=='Backspace'&&e.key!=='Delete')return;
+    const start=this.selectionStart,end=this.selectionEnd;
+    const digitosAtuais=this.value.replace(/\D/g,'');
+    e.preventDefault();
+
+    let novosDigitos,novoDigitoPos;
+    if(start!==end){
+      // ha selecao de intervalo: remove os digitos correspondentes ao trecho selecionado
+      const inicioDigito=maskParaDigitoPos(this.value,start);
+      const fimDigito=maskParaDigitoPos(this.value,end);
+      novosDigitos=digitosAtuais.slice(0,inicioDigito)+digitosAtuais.slice(fimDigito);
+      novoDigitoPos=inicioDigito;
+    }else if(e.key==='Backspace'){
+      const cursorDigito=maskParaDigitoPos(this.value,start);
+      if(cursorDigito===0)return;
+      novosDigitos=digitosAtuais.slice(0,cursorDigito-1)+digitosAtuais.slice(cursorDigito);
+      novoDigitoPos=cursorDigito-1;
+    }else{
+      const cursorDigito=maskParaDigitoPos(this.value,start);
+      if(cursorDigito>=digitosAtuais.length)return;
+      novosDigitos=digitosAtuais.slice(0,cursorDigito)+digitosAtuais.slice(cursorDigito+1);
+      novoDigitoPos=cursorDigito;
+    }
+    const formatado=formatarDigitos(novosDigitos);
+    this.value=formatado;
+    const novoMaskPos=digitoParaMaskPos(novosDigitos,novoDigitoPos);
+    this.setSelectionRange(novoMaskPos,novoMaskPos);
+  });
+
+  // Digitação normal (inserção de dígito) — mantém reposicionamento de cursor
   fd.addEventListener('input',function(){
     const cursorAntes=this.selectionStart;
     const digitosAntesDoCursor=this.value.slice(0,cursorAntes).replace(/\D/g,'').length;
-    let v=this.value.replace(/\D/g,'').slice(0,8);
-    if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);
-    if(v.length>5)v=v.slice(0,5)+'/'+v.slice(5);
+    const v=formatarDigitos(this.value.replace(/\D/g,''));
     this.value=v;
-    // Recalcula onde o cursor deve ficar contando as barras que vem antes dele
     let novoCursor=digitosAntesDoCursor;
     if(digitosAntesDoCursor>2)novoCursor++;
     if(digitosAntesDoCursor>4)novoCursor++;
@@ -857,10 +908,12 @@ function finalSubmit(){
   const wpp=document.getElementById('fwp').value.trim();
   if(!emailOk(email)){
     document.getElementById('fem').classList.add('err');
+    document.getElementById('femErr').style.display='block';
     document.getElementById('fem').scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
   document.getElementById('fem').classList.remove('err');
+  document.getElementById('femErr').style.display='none';
 
   const nome=document.getElementById('fn1').value.trim();
   const data=dataISO();
@@ -984,6 +1037,9 @@ function result(nome,data){
 
 function irOferta(){
   px('QuerMapaCompleto');
+  // Cria uma entrada de historico artificial: sem isso, o "voltar" do navegador
+  // sai da pagina direto e o listener de popstate abaixo nunca dispara de verdade.
+  try{history.pushState({tela:'oferta'},'',location.href);}catch(e){}
   // ViewContent = pessoa viu a oferta (conversão de funil quente)
   if(typeof fbq!=='undefined')fbq('track','ViewContent',{content_name:'Mapa Astral Completo',value:97,currency:'BRL'});
   show('soferta');
@@ -1065,8 +1121,15 @@ const padr=sg=>({'Áries':{t:'Você começa tudo com força total e perde o fôl
   document.addEventListener('mouseout',e=>{
     if(e.clientY<=0)showExit();
   });
-  // Mobile: usuário tenta voltar (botão voltar do navegador)
-  window.addEventListener('popstate',()=>{showExit();});
+  // Mobile/desktop: usuário aperta "voltar" no navegador — reforça a entrada de
+  // história (senão o segundo "voltar" sai da página sem mostrar o popup de novo)
+  window.addEventListener('popstate',()=>{
+    const oferta=document.getElementById('soferta');
+    if(oferta&&oferta.classList.contains('on')){
+      try{history.pushState({tela:'oferta'},'',location.href);}catch(e){}
+    }
+    showExit();
+  });
   // Mobile: visibilidade da aba muda (troca de app / minimiza)
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden)showExit();
