@@ -580,7 +580,7 @@ let selectedAreas=[];
 
 // ══ ATRIBUICAO META ADS — fbc/fbp para o CAPI Purchase ══
 function getCookie(name){
-  const m=document.cookie.match('(^;)\s*'+name+'\s*=\s*([^;]+)');
+  const m=document.cookie.match('(^|;)\s*'+name+'\s*=\s*([^;]+)');
   return m?decodeURIComponent(m.pop()):'';
 }
 function getFbParams(){
@@ -620,9 +620,14 @@ function px(ev,data){
 
 // ══ CANVAS UNIVERSO — loading ══
 (function(){
+  // Registro dos loops ativos por canvas — permite cancelar o anterior antes de iniciar um novo
+  const framesAtivos={};
   function initUniverso(canvasId){
     const c=document.getElementById(canvasId);
     if(!c)return;
+    // Cancela qualquer loop anterior desse mesmo canvas antes de iniciar um novo
+    // (sem isso, reentrar na tela várias vezes empilhava loops infinitos rodando ao mesmo tempo)
+    if(framesAtivos[canvasId]){cancelAnimationFrame(framesAtivos[canvasId]);delete framesAtivos[canvasId];}
     const ctx=c.getContext('2d');
     let W,H,stars=[],nebulas=[],shootingStars=[];
     function resize(){
@@ -639,6 +644,9 @@ function px(ev,data){
     let mlkStars=[];
     for(let i=0;i<400;i++){const t=Math.random();mlkStars.push({t,x:.1+t*.8+(.5-Math.random())*.18,y:.2+t*.5+(.5-Math.random())*.12,r:.5+Math.random()*.5,a:.3+Math.random()*.5})}
     function draw(){
+      // Auto-encerra o loop se o canvas ficou oculto (tela trocada) — evita
+      // continuar desenhando pra sempre em segundo plano depois que a pessoa saiu da tela
+      if(c.offsetParent===null){delete framesAtivos[canvasId];return;}
       ctx.clearRect(0,0,W,H);
       const t=Date.now()*.001;
       const cx=W/2, cy=H/2;
@@ -672,9 +680,9 @@ function px(ev,data){
       stars.forEach(s=>{const a=s.twinkle?(.4+.55*Math.sin(t*s.da*80+s.x*10)):s.a;ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);ctx.globalAlpha=Math.max(.05,Math.min(1,a));ctx.fillStyle=s.col;ctx.fill()});
       ctx.restore();
       ctx.globalAlpha=1;
-      requestAnimationFrame(draw);
+      framesAtivos[canvasId]=requestAnimationFrame(draw);
     }
-    draw();
+    framesAtivos[canvasId]=requestAnimationFrame(draw);
   }
   // Inicia canvas do loading quando ele aparecer
   const obs=new MutationObserver(()=>{
