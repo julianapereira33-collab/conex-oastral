@@ -305,7 +305,7 @@ fbq('track','PageView');
         NA DATA DO SEU NASCIMENTO,<br>OS ASTROS ESTAVAM EM UMA<br><span class="vl">POSIÇÃO ÚNICA!</span>
       </h2>
       <p style="font-size:.92rem;color:var(--mu);line-height:1.6;max-width:380px;margin:0 auto">
-        Tudo está ligado à data e hora do seu nascimento. Informe corretamente para obter revelações precisas.
+        Tudo está ligado à data do seu nascimento. Informe corretamente para obter revelações precisas.
       </p>
     </div>
 
@@ -318,10 +318,19 @@ fbq('track','PageView');
       </div>
       <div id="fdtErr" style="display:none;color:var(--r2);font-size:.8rem;margin-top:.4rem"></div>
     </div>
-    <div class="a3 ff">
-      <label class="fl" for="fho">Hora de nascimento <span style="color:var(--fa);font-weight:400;text-transform:none;letter-spacing:0">(opcional — deixa a revelação mais exata)</span></label>
-      <input class="inp" type="time" id="fho">
-      <label class="htog" for="fnh"><input type="checkbox" id="fnh" onchange="togH(this)"> Não sei minha hora de nascimento</label>
+
+    <!-- ══ VÍDEO DE CONFIANÇA — por que pedimos sua data de nascimento ══
+         Placeholder: trocar o src abaixo pelo vídeo da Sofia assim que gravado.
+         Roteiro deste vídeo está documentado à parte (pedido pela Juliana). -->
+    <div class="a3" style="margin:1rem 0 1.4rem">
+      <div style="border-radius:14px;overflow:hidden;border:1px solid rgba(124,58,237,.35);background:#0d0d1a">
+        <video id="vidDataConfianca" controls playsinline preload="none" poster="" style="width:100%;display:block;background:#0d0d1a">
+          <source src="" type="video/mp4">
+        </video>
+      </div>
+      <p style="font-size:.78rem;color:var(--fa);line-height:1.6;margin-top:.5rem;text-align:center">
+        🔒 Usamos sua data só pra calcular seu mapa — nunca compartilhamos com ninguém.
+      </p>
     </div>
 
     <div class="a4" style="padding-bottom:2.5rem">
@@ -521,6 +530,20 @@ fbq('track','PageView');
       <div class="entrega-box">
         <div class="entrega-icon"></div>
         <div class="entrega-txt"><strong>Seu mapa chega no e-mail em minutos.</strong><br>Formato PDF premium, para salvar e reler sempre.</div>
+      </div>
+
+      <!-- ══ VÍDEO DE CONFIANÇA — segurança na hora de pagar ══
+           Placeholder: trocar o src abaixo pelo vídeo da Sofia assim que gravado.
+           Fica logo antes do botão de pagamento, no momento exato da decisão. -->
+      <div style="margin:1.1rem 0">
+        <div style="border-radius:14px;overflow:hidden;border:1px solid rgba(251,191,36,.35);background:#0d0d1a">
+          <video id="vidCheckoutConfianca" controls playsinline preload="none" poster="" style="width:100%;display:block;background:#0d0d1a">
+            <source src="" type="video/mp4">
+          </video>
+        </div>
+        <p style="font-size:.78rem;color:var(--fa);line-height:1.6;margin-top:.5rem;text-align:center">
+          🔒 Pagamento 100% seguro via Pix ou cartão — processado direto pela Cakto.
+        </p>
       </div>
 
       <!-- CTA -->
@@ -751,12 +774,6 @@ function show(id){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function togH(cb){
-  const el=document.getElementById('fho');
-  el.style.display=cb.checked?'none':'block';
-  if(cb.checked)el.value='';
-}
-
 function emailOk(v){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
 
 // ══ VALIDAÇÃO DE DATA DE NASCIMENTO SUSPEITA ══
@@ -907,9 +924,8 @@ function finalSubmit(){
   const data=dataISO();
   const cidade=document.getElementById('fci').value.trim();
   const estado=document.getElementById('fes').value.trim();
-  const hora=document.getElementById('fho').value;
-  const semH=document.getElementById('fnh').checked;
-
+  // Hora de nascimento nao e mais perguntada no quiz (saiu da Etapa 3 pra reduzir friccao) -
+  // e pedida de forma opcional apos a compra, via link no e-mail de confirmacao.
   let fb={};
   try{fb=JSON.parse(localStorage.getItem('ca_fb')||'{}');}catch(e){}
   const fbAtual=getFbParams();
@@ -923,7 +939,7 @@ function finalSubmit(){
     data_nascimento:data,
     cidade_nascimento:cidade,
     estado_nascimento:estado,
-    hora_nascimento:semH?'Nao informado':(hora||'Nao informado'),
+    hora_nascimento:'Nao informado',
     areas:selectedAreas.join(','),
     order_id:'CA'+Date.now(),
     timestamp:new Date().toISOString(),
