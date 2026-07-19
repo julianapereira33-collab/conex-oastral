@@ -302,10 +302,11 @@ fbq('track','PageView');
   <div class="w" style="padding-top:1.8rem">
 
     <div class="a3" style="margin:1rem 0 1.4rem;display:flex;justify-content:center">
-      <div style="border-radius:14px;overflow:hidden;border:1px solid rgba(124,58,237,.35);background:#0d0d1a;display:inline-block">
-        <video id="vidDataConfianca" autoplay muted playsinline preload="auto" style="max-height:300px;width:auto;max-width:100%;display:block;background:#0d0d1a">
+      <div style="position:relative;border-radius:14px;overflow:hidden;border:1px solid rgba(124,58,237,.35);background:#0d0d1a;width:240px;max-width:70vw;aspect-ratio:9/16">
+        <video id="vidDataConfianca" autoplay muted playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;background:#0d0d1a">
           <source src="data-sofia-mapa-astral.mp4" type="video/mp4">
         </video>
+        <button type="button" id="btnSom" onclick="toggleSomData()" aria-label="Ativar som" style="position:absolute;bottom:10px;right:10px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0">🔇</button>
       </div>
     </div>
 
@@ -799,6 +800,15 @@ function goData(){
   document.getElementById('fn1').classList.remove('err');
   px('Etapa2_Nome',{nome:nome});
   show('s2');
+}
+
+function toggleSomData(){
+  const v=document.getElementById('vidDataConfianca');
+  const b=document.getElementById('btnSom');
+  if(!v)return;
+  v.muted=!v.muted;
+  if(!v.muted)v.play().catch(()=>{});
+  if(b)b.textContent=v.muted?'🔇':'🔊';
 }
 
 function goLocal(){
