@@ -43,17 +43,20 @@ s.parentNode.insertBefore(t,s)}(window,document,'script',
 fbq('init','2442322969596570');
 fbq('init','1577968787176983');
 fbq('track','PageView');
-// Purchase — dispara so 1x por sessao pra evitar contagem duplicada em refresh da pagina
+// Purchase — SOMENTE no pixel 1577968787176983 (trackSingle).
+// O pixel 2442322969596570 ja recebe Purchase via Conversions API nativa da Cakto
+// (confirmado no painel: token de API de Conversao configurado + "Disparar evento
+// Purchase ao gerar pix/boleto" ativado). Disparar aqui pelos dois pixels causaria
+// contagem duplicada de Purchase nesse pixel.
 try{
   if(!sessionStorage.getItem('ca_purchase_fired')){
-    fbq('track','Purchase',{value:97,currency:'BRL',content_name:'Mapa Astral Completo',content_type:'product'});
+    fbq('trackSingle','1577968787176983','Purchase',{value:97,currency:'BRL',content_name:'Mapa Astral Completo',content_type:'product'});
     sessionStorage.setItem('ca_purchase_fired','1');
   }
 }catch(e){
-  fbq('track','Purchase',{value:97,currency:'BRL',content_name:'Mapa Astral Completo',content_type:'product'});
+  fbq('trackSingle','1577968787176983','Purchase',{value:97,currency:'BRL',content_name:'Mapa Astral Completo',content_type:'product'});
 }
 </script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2442322969596570&ev=Purchase&noscript=1"/></noscript>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1577968787176983&ev=Purchase&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
 </head>
