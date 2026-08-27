@@ -638,10 +638,14 @@ function px(ev,data){
     // (sem isso, reentrar na tela várias vezes empilhava loops infinitos rodando ao mesmo tempo)
     if(framesAtivos[canvasId]){cancelAnimationFrame(framesAtivos[canvasId]);delete framesAtivos[canvasId];}
     const ctx=c.getContext('2d');
-    let W,H,stars=[],nebulas=[],shootingStars=[];
+    let W,H,stars=[],nebulas=[],shootingStars=[],bgGrad=null;
     function resize(){
       W=c.width=c.offsetWidth||window.innerWidth;
       H=c.height=c.offsetHeight||window.innerHeight;
+      // Gradiente de fundo só muda quando o canvas muda de tamanho — cachear evita recriar
+      // esse objeto (caro) em todo frame, só pra redesenhar exatamente a mesma coisa
+      bgGrad=ctx.createLinearGradient(0,0,W,H);
+      bgGrad.addColorStop(0,'#020010');bgGrad.addColorStop(.5,'#06031A');bgGrad.addColorStop(1,'#0a0520');
     }
     resize();
     window.addEventListener('resize',resize);
@@ -660,18 +664,18 @@ function px(ev,data){
       const t=Date.now()*.001;
       const cx=W/2, cy=H/2;
       const rot=t*.04; // rotação lenta e contínua de todo o campo estelar
-      // Fundo gradiente espaço profundo
-      const bg=ctx.createLinearGradient(0,0,W,H);
-      bg.addColorStop(0,'#020010');bg.addColorStop(.5,'#06031A');bg.addColorStop(1,'#0a0520');
-      ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-      // Nebulosas — deriva lenta em órbita
+      // Fundo gradiente espaço profundo (cacheado em resize(), não recriado aqui)
+      ctx.fillStyle=bgGrad;ctx.fillRect(0,0,W,H);
+      // Nebulosas — deriva lenta em órbita. Preenche só a caixa do círculo (não a tela
+      // inteira) — fora dela o gradiente já vira 'transparent', então é trabalho
+      // de rasterização jogado fora; isso sozinho gerava a maior parte do custo do frame
       nebulas.forEach((n,i)=>{
         const ang=rot*0.6+i*1.7;
         const ox=n.x*W+Math.cos(ang)*30;
         const oy=n.y*H+Math.sin(ang)*30;
         const g=ctx.createRadialGradient(ox,oy,0,ox,oy,n.r);
         g.addColorStop(0,n.col+n.a+')');g.addColorStop(1,'transparent');
-        ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+        ctx.fillStyle=g;ctx.fillRect(ox-n.r,oy-n.r,n.r*2,n.r*2);
       });
       // Via Láctea — rotação contínua ao redor do centro
       ctx.save();
