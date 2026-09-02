@@ -26,7 +26,7 @@ async function gerarPdfMapa({ primeiroNome, mapaTexto }) {
   let y;
 
   function addFooter(p) {
-    p.drawText('Conexao Astral  -  conexaoastral.com.br', { x: MARGIN, y: 28, size: 8, font: fontRegular, color: COLOR_MUTED });
+    p.drawText('Conexao Astral  -  @conexaoastral33 (Instagram)', { x: MARGIN, y: 28, size: 8, font: fontRegular, color: COLOR_MUTED });
   }
 
   function addHeaderBand(p) {
