@@ -804,6 +804,11 @@ function goData(){
   document.getElementById('fn1').classList.remove('err');
   px('Etapa2_Nome',{nome:nome});
   show('s2');
+  const vidConf=document.getElementById('vidDataConfianca');
+  if(vidConf){
+    vidConf.muted=true;
+    vidConf.play().catch(()=>{});
+  }
 }
 
 function toggleSomData(){
