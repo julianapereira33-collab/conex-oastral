@@ -907,6 +907,12 @@ function dataISO(){
 }
 
 // ══ SUBMIT FINAL ══
+// Trava contra duplo-envio: clique duplo, duplo toque no mobile, ou o listener
+// disparando mais de uma vez pra mesma submissao gerava 2 linhas identicas no
+// leads_quiz (mesmo e-mail, mesmo milissegundo) porque cada chamada cria um
+// order_id novo (CA+Date.now()) e o upsert por e-mail nao pega a corrida entre
+// as duas chamadas quase simultaneas.
+let _finalSubmitEnviado=false;
 function finalSubmit(){
   const email=document.getElementById('fem').value.trim();
   const wpp=document.getElementById('fwp').value.trim();
@@ -918,6 +924,12 @@ function finalSubmit(){
   }
   document.getElementById('fem').classList.remove('err');
   document.getElementById('femErr').style.display='none';
+
+  // So a partir daqui a submissao e valida — trava contra reenvio duplicado
+  if(_finalSubmitEnviado)return;
+  _finalSubmitEnviado=true;
+  const btnFinal=document.querySelector('#s4 .btn');
+  if(btnFinal){btnFinal.disabled=true;btnFinal.style.opacity='.6';btnFinal.style.pointerEvents='none';}
 
   const nome=document.getElementById('fn1').value.trim();
   const data=dataISO();
@@ -1030,7 +1042,11 @@ function result(nome,data){
     // Fix dedup: so anexa o listener se ainda nao tiver sido marcado (mesma flag que irOferta() usa)
     if(!a.dataset.ckEvt){
       a.dataset.ckEvt='1';
-      a.addEventListener('click',()=>{if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{value:97,currency:'BRL',num_items:1});notificarIniciouCheckout();});
+      // InitiateCheckout NAO e mais disparado aqui: a Cakto ja dispara esse
+      // evento nativamente ao carregar a propria pagina de checkout (mesmo
+      // Pixel ID), e disparar tambem aqui duplicava a contagem no Meta.
+      // Mantido apenas o aviso interno (n8n) de que o checkout foi iniciado.
+      a.addEventListener('click',()=>{notificarIniciouCheckout();});
     }
   });
 
@@ -1047,14 +1063,14 @@ function irOferta(){
   if(typeof fbq!=='undefined')fbq('track','ViewContent',{content_name:'Mapa Astral Completo',value:97,currency:'BRL'});
   show('soferta');
   if(window._initOfertaCanvas)window._initOfertaCanvas();
-  // Garante InitiateCheckout em todos os links do Cakto
+  // Garante o aviso interno (n8n) em todos os links do Cakto.
+  // InitiateCheckout do Meta NAO e disparado aqui de proposito: a Cakto ja
+  // dispara esse evento nativamente ao carregar a propria pagina de checkout
+  // (mesmo Pixel ID), e disparar tambem aqui duplicava a contagem no Meta.
   document.querySelectorAll('a[href*="cakto"]').forEach(a=>{
     if(!a.dataset.ckEvt){
       a.dataset.ckEvt='1';
       a.addEventListener('click',()=>{
-        if(typeof fbq!=='undefined'){
-          fbq('track','InitiateCheckout',{value:97,currency:'BRL',num_items:1});
-        }
         notificarIniciouCheckout();
       });
     }
@@ -1149,8 +1165,8 @@ function closeExitPopup(){
   // Marca ckEvt ANTES de irOferta() rodar, pra evitar que o loop generico dela
   // (document-wide, a[href*="cakto"]) anexe um segundo listener neste mesmo botao.
   exitCta.dataset.ckEvt='1';
+  // InitiateCheckout do Meta NAO e mais disparado aqui — ver nota em irOferta().
   exitCta.addEventListener('click',()=>{
-    if(typeof fbq!=='undefined')fbq('track','InitiateCheckout',{value:97,currency:'BRL',num_items:1});
     notificarIniciouCheckout();
   });
 })();
