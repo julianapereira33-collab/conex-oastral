@@ -461,6 +461,11 @@ fbq('track','PageView');
     <!-- 3 revelações gratuitas — ganchos de identificação -->
     <div id="revealCards" class="a2" style="margin-bottom:.9rem"></div>
 
+    <!-- Ponte pós-cards: essas são só 3, o mapa completo tem muito mais -->
+    <p style="text-align:center;font-size:.92rem;color:rgba(245,240,255,.92);font-weight:600;line-height:1.6;margin-bottom:.9rem">
+      Essas são apenas 3 revelações. Agora, com seus dados, posso gerar o seu mapa completo e detalhado das áreas do seu interesse — informações que vão te surpreender sobre seus padrões, seus bloqueios e, principalmente, sobre o seu destino.
+    </p>
+
     <!-- CTA explícito após os ganchos gratuitos — sinal limpo pro pixel -->
     <div class="a5">
       <p style="text-align:center;font-size:.95rem;color:var(--g3);font-weight:800;line-height:1.5;letter-spacing:.01em;margin-bottom:.9rem;background:linear-gradient(135deg,rgba(251,191,36,.14),rgba(245,158,11,.08));border:1px solid rgba(251,191,36,.45);border-radius:14px;padding:.9rem 1rem">
@@ -1008,28 +1013,28 @@ function result(nome,data){
   const area1Calc=area1Meta.calc(sg,nv);
   const area2Calc=area2Meta.calc(sg,nv);
 
-  // REVELAÇÃO 1 — Número de Vida e missão (nome inserido diretamente)
+  // REVELAÇÃO 1 — Número de Vida e missão (nome inserido diretamente, cruzado com o signo)
   const card1=document.createElement('div');
   card1.className='revcard a2';
   card1.innerHTML=
     `<div class="revh"><div class="revnum">1</div><div><div class="revtit">${pn}, seu Número de Vida é ${nv}</div><div class="revsub">E isso diz muito sobre sua missão</div></div></div>`+
-    `<div class="revbody"><div class="vinheta">◆ ${propData.t}</div></div>`;
+    `<div class="revbody"><div class="vinheta">◆ ${propData.t}</div><div class="vinheta">✦ Isso bate com sua energia de ${sg}: ${signTouch(sg)}</div></div>`;
   wrap.appendChild(card1);
 
-  // REVELAÇÃO 2 — primeira área escolhida (identificação direta)
+  // REVELAÇÃO 2 — primeira área escolhida, cruzada com o Número de Vida
   const card2=document.createElement('div');
   card2.className='revcard a3';
   card2.innerHTML=
     `<div class="revh"><div class="revnum">2</div><div><div class="revtit">Sobre ${area1Label}</div><div class="revsub">${sg} — o que isso revela sobre você agora</div></div></div>`+
-    `<div class="revbody"><div class="vinheta">◆ ${area1Calc.t}</div></div>`;
+    `<div class="revbody"><div class="vinheta">◆ ${area1Calc.t}</div><div class="vinheta">✦ Seu Número de Vida ${nv} confirma: ${area1Calc.n}</div></div>`;
   wrap.appendChild(card2);
 
-  // REVELAÇÃO 3 — segunda área escolhida (identificação direta, diferente da 2)
+  // REVELAÇÃO 3 — segunda área escolhida, cruzada com o Número de Vida
   const card3=document.createElement('div');
   card3.className='revcard a4';
   card3.innerHTML=
     `<div class="revh"><div class="revnum">3</div><div><div class="revtit">Sobre ${areaLabelMap[area2Chave]}</div><div class="revsub">Informações importantes sobre o seu momento</div></div></div>`+
-    `<div class="revbody"><div class="vinheta">◆ ${area2Calc.t}</div></div>`;
+    `<div class="revbody"><div class="vinheta">◆ ${area2Calc.t}</div><div class="vinheta">✦ Seu Número de Vida ${nv} confirma: ${area2Calc.n}</div></div>`;
   wrap.appendChild(card3);
 
   // Link checkout com e-mail
@@ -1081,12 +1086,16 @@ function signo(m,d){if((m===3&&d>=21)||(m===4&&d<=19))return'Áries';if((m===4&&
 function numvida(data){const n=data.replace(/\D/g,'').split('').reduce((a,c)=>a+parseInt(c),0);let s=n;while(s>9&&s!==11&&s!==22&&s!==33)s=String(s).split('').reduce((a,c)=>a+parseInt(c),0);return s}
 
 // ══ CONTEÚDO DAS REVELAÇÕES ══
+// Camada extra que cruza signo + número em cada card, pra deixar a leitura mais específica e "real"
+const signTouch=sg=>({'Áries':'você não aguenta ficar esperando as coisas acontecerem — quando trava, é porque foi obrigada a esperar, não porque falta força','Touro':'você só avança quando sente segurança — e isso não é medo, é o seu jeito de proteger o que constrói','Gêmeos':'sua cabeça pula de uma possibilidade pra outra o tempo todo — o problema não é ter ideias, é escolher uma pra terminar','Câncer':'você sente tudo mais fundo do que demonstra, e isso influencia até as decisões mais práticas da sua vida','Leão':'você precisa que o que faz seja visto — fazer bem e ninguém perceber te esvazia por dentro','Virgem':'você quer fazer certo, mas às vezes trava tentando fazer perfeito antes de começar','Libra':'você pesa demais os dois lados antes de decidir, e isso pode te custar o timing certo','Escorpião':'você não faz nada pela metade — quando entra de verdade, vai até o fim, e isso vale pra tudo na sua vida','Sagitário':'você precisa sentir que está indo pra algum lugar — parada, a rotina te sufoca','Capricórnio':'você mede seu valor pelo que constrói, e isso pode te fazer esquecer de viver no caminho','Aquário':'você pensa diferente da maioria, e é exatamente isso que te trouxe até aqui','Peixes':'você sente as coisas antes de conseguir explicar racionalmente — e sua intuição raramente erra'}[sg]||'sua forma de ser tem uma lógica própria — e ela está diretamente ligada ao que seu mapa revela');
+const numTouch=nv=>({1:'quando você não está no controle da situação, a ansiedade aparece primeiro — e isso está ligado direto a esse padrão',2:'sua tendência a ceder demais pra manter a paz tem tudo a ver com isso',3:'quando você segura o que sente em vez de expressar, esse padrão fica mais forte',4:'sua dificuldade em confiar no processo sem controlar tudo alimenta exatamente isso',5:'sua inquietação pode tanto destravar isso quanto sabotar — depende de como você usa essa energia',6:'seu costume de cuidar dos outros antes de si mesma entra direto nesse padrão',7:'sua tendência a se isolar quando algo incomoda também aparece aqui',8:'seu jeito de medir tudo pelo resultado prático conecta direto com isso',9:'carregar mais peso do que deveria é parte do que sustenta esse padrão',11:'sua sensibilidade capta sinais que a maioria ignora — inclusive esse',22:'sua capacidade de pensar grande pode tanto resolver quanto adiar isso',33:'seu instinto de cuidar dos outros primeiro entra direto nesse padrão'}[nv]||'seu Número de Vida mostra que esse padrão não é aleatório — ele está ligado à sua missão');
+
 const AREAS_META={
-  dinheiro:{tit:'💸 Você e o Dinheiro',hico:'⚡',calc:(sg,nv)=>({...din(sg),sub:'Signo de '+sg+' e a energia financeira'})},
-  amor:{tit:'💕 Você e o Amor',hico:'🌹',calc:(sg,nv)=>({...amor(sg),sub:sg+' e os padrões afetivos'})},
-  proposito:{tit:'🌟 Seu Propósito de Vida',hico:'🔮',calc:(sg,nv)=>({...prop(nv),sub:'Número '+nv+' — sua missão de vida'})},
-  personalidade:{tit:'🎭 Sua Personalidade Verdadeira',hico:'👁️',calc:(sg,nv)=>({...pers(sg),sub:sg+' — o que poucos enxergam'})},
-  padroes:{tit:'🔄 Seus Padrões e Ciclos',hico:'🔁',calc:(sg,nv)=>({...padr(sg),sub:sg+' e o que se repete na sua vida'})}
+  dinheiro:{tit:'💸 Você e o Dinheiro',hico:'⚡',calc:(sg,nv)=>({...din(sg),sub:'Signo de '+sg+' e a energia financeira',n:numTouch(nv)})},
+  amor:{tit:'💕 Você e o Amor',hico:'🌹',calc:(sg,nv)=>({...amor(sg),sub:sg+' e os padrões afetivos',n:numTouch(nv)})},
+  proposito:{tit:'🌟 Seu Propósito de Vida',hico:'🔮',calc:(sg,nv)=>({...prop(nv),sub:'Número '+nv+' — sua missão de vida',n:signTouch(sg)})},
+  personalidade:{tit:'🎭 Sua Personalidade Verdadeira',hico:'👁️',calc:(sg,nv)=>({...pers(sg),sub:sg+' — o que poucos enxergam',n:numTouch(nv)})},
+  padroes:{tit:'🔄 Seus Padrões e Ciclos',hico:'🔁',calc:(sg,nv)=>({...padr(sg),sub:sg+' e o que se repete na sua vida',n:numTouch(nv)})}
 };
 
 const din=sg=>({'Áries':{t:'Você tem energia para gerar dinheiro — mas o problema não é ganhar. É guardar. Seu impulsionismo faz você gastar antes de acumular.',h:'Seu mapa revela o período exato em que a energia financeira muda para você — e o que fazer para não perder essa janela.'},'Touro':{t:'Você valoriza estabilidade, mas existe um bloqueio emocional que sabota oportunidades exatamente quando estão mais perto.',h:'Na revelação completa você descobre exatamente de onde vem essa trava e como se libertar dela de vez.'},'Gêmeos':{t:'Você tem muitas fontes possíveis de renda — mas dificuldade em focar em uma. Esse espalhamento é sua maior armadilha financeira.',h:'Seu mapa revela em qual área sua energia financeira é mais forte — e onde concentrar o foco agora.'},'Câncer':{t:'Você tem uma relação emocional com o dinheiro. Quando algo dói no coração, as finanças refletem isso.',h:'A revelação completa mostra o padrão emocional que mais afeta sua vida financeira e o caminho para quebrá-lo.'},'Leão':{t:'Você atrai dinheiro com facilidade — mas gasta para parecer próspera antes de ser, criando ciclos de abundância e escassez.',h:'Seu mapa revela onde está sua energia de prosperidade real — e como ativá-la sem depender da opinião dos outros.'},'Virgem':{t:'Você trabalha mais do que qualquer um — mas costuma receber menos do que merece. Você subestima seu valor.',h:'Na revelação completa descobrimos onde está o nó que faz você se subvalorizar — e como cobrar o que vale.'},'Libra':{t:'Você tem dificuldade para tomar decisões financeiras. Posterga, equilibra demais e perde oportunidades.',h:'Seu mapa revela o momento certo pra prosperar — e a decisão que você está evitando tomar.'},'Escorpião':{t:'Você recomeça do zero quando muitos desistem. Mas existe um padrão de autossabotagem: você destrói o que construiu antes de deixar crescer.',h:'A revelação completa revela o ciclo que está influenciando agora — e o que fazer nesse período.'},'Sagitário':{t:'Você tem facilidade para ganhar — mas dificuldade para planejar. Vive o presente e acaba sem reservas.',h:'Seu mapa revela quando a próxima onda de prosperidade chega — e como surfar ela da forma certa.'},'Capricórnio':{t:'Você é capaz de construir riqueza sólida — mas ao custo da sua qualidade de vida. Trabalha enquanto os outros dormem e sente que nunca chega.',h:'Na revelação completa descobrimos o bloqueio que está atrasando seu merecimento — e como acelerar esse processo.'},'Aquário':{t:'Você tem ideias à frente do tempo — mas dificuldade em monetizá-las. O talento existe. A estratégia é o que falta.',h:'Seu mapa revela qual dom seu tem alto valor agora — e como posicioná-lo.'},'Peixes':{t:'Você tem intuição única — mas tende a deixar outros decidirem pelas suas finanças. Entrega o controle e sofre depois.',h:'A revelação completa revela como ativar o lado pragmático do seu mapa e parar de depender dos outros.'}}[sg]||{t:'Você tem uma energia poderosa para atrair recursos — mas existe um bloqueio silencioso que sabota esse fluxo.',h:'Seu mapa revela exatamente onde está esse bloqueio — e como dissolvê-lo.'});
