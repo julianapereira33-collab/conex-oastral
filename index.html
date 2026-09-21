@@ -497,7 +497,15 @@ fbq('track','PageView');
       <p style="font-size:1rem;color:var(--mu);line-height:1.6">Em poucos minutos você descobre o porquê — e o que fazer a partir de agora. Essa página some assim que você sair dela.</p>
     </div>
 
-    <div class="obox a2">
+    <!-- Vídeo da oferta -->
+    <div class="vid-wrap a2" id="vidWrapOferta" style="max-width:300px;margin:0 auto 1.3rem;aspect-ratio:384/848">
+      <video class="vidph" id="vidOferta" autoplay muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;display:block;background:#000">
+        <source src="https://drive.google.com/uc?export=download&id=1v_yX9jL2rq5jHZyo6-8YrECJq2kwlG2w" type="video/mp4">
+      </video>
+      <button class="vid-snd" id="vidSndOferta" onclick="toggleSomOferta()">🔇 Ligar som</button>
+    </div>
+
+    <div class="obox a3">
       <div style="text-align:center;margin-bottom:1rem">
         <div class="otag">Oferta exclusiva — só para você que chegou até aqui</div>
       </div>
@@ -817,6 +825,15 @@ function toggleSomData(){
   if(b)b.textContent=v.muted?'🔇':'🔊';
 }
 
+function toggleSomOferta(){
+  const v=document.getElementById('vidOferta');
+  const b=document.getElementById('vidSndOferta');
+  if(!v)return;
+  v.muted=!v.muted;
+  if(!v.muted)v.play().catch(()=>{});
+  b.textContent=v.muted?'🔇 Ligar som':'🔊 Som ativado';
+}
+
 function goLocal(){
   const dia=document.getElementById('fdtDia').value.trim();
   const mes=document.getElementById('fdtMes').value.trim();
@@ -1065,6 +1082,8 @@ function irOferta(){
   if(typeof fbq!=='undefined')fbq('track','ViewContent',{content_name:'Mapa Astral Completo',value:47.90,currency:'BRL'});
   show('soferta');
   if(window._initOfertaCanvas)window._initOfertaCanvas();
+  const vidOferta=document.getElementById('vidOferta');
+  if(vidOferta){vidOferta.muted=true;vidOferta.play().catch(()=>{});}
   // Garante o aviso interno (n8n) em todos os links do Cakto.
   // InitiateCheckout do Meta NAO e disparado aqui de proposito: a Cakto ja
   // dispara esse evento nativamente ao carregar a propria pagina de checkout
