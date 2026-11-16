@@ -243,11 +243,9 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','2442322969596570');
-fbq('init','1577968787176983');
 fbq('track','PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2442322969596570&ev=PageView&noscript=1"/></noscript>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1577968787176983&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
 </head>
 <body>
@@ -420,7 +418,7 @@ fbq('track','PageView');
       <div id="femErr" style="display:none;color:var(--r2);font-size:.8rem;margin-top:.4rem">Digite um e-mail válido, ex: nome@email.com</div>
     </div>
     <div class="a3 ff">
-      <label class="fl" for="fwp">WhatsApp <span style="color:var(--fa);font-weight:400;text-transform:none;letter-spacing:0">(opcional)</span></label>
+      <label class="fl" for="fwp">WhatsApp <span style="color:var(--g);font-weight:700;text-transform:none;letter-spacing:0">(recomendado — seu mapa também chega por lá)</span></label>
       <input class="inp" type="tel" id="fwp" placeholder="(00) 00000-0000" inputmode="numeric">
     </div>
 
@@ -476,7 +474,7 @@ fbq('track','PageView');
 
     <!-- mini-headline: avisa que o mapa COMPLETO revela muito mais -->
     <p style="text-align:center;font-size:.82rem;color:var(--g);font-weight:700;letter-spacing:.02em;margin-bottom:1.1rem">
-      O que você vê abaixo é só uma amostra. Seu mapa completo revela muito mais sobre você.
+      Você viu só uma parte das suas revelações. O restante está no seu mapa completo.
     </p>
 
     <!-- 3 revelações gratuitas — ganchos de identificação -->
@@ -484,7 +482,7 @@ fbq('track','PageView');
 
     <!-- Ponte pós-cards: essas são só 3, o mapa completo tem muito mais -->
     <p style="text-align:center;font-size:.92rem;color:rgba(245,240,255,.92);font-weight:600;line-height:1.6;margin-bottom:.9rem">
-      Essas são apenas 3 revelações. Agora, com seus dados, posso gerar o seu mapa completo e detalhado das áreas do seu interesse — informações que vão te surpreender sobre seus padrões, seus bloqueios e, principalmente, sobre o seu destino.
+      Essas 3 revelações são só a porta de entrada. Enquanto você lê, talvez já esteja percebendo que elas tocam em algo que você sente há muito tempo — e é exatamente isso que seu mapa completo explica: <strong>por que isso acontece, desde quando, e o que muda quando você enxerga o padrão.</strong> Quanto mais você se permite ver, mais leve fica o próximo passo.
     </p>
 
     <!-- CTA explícito após os ganchos gratuitos — sinal limpo pro pixel -->
@@ -521,7 +519,7 @@ fbq('track','PageView');
     <!-- CTA logo abaixo do vídeo — visível sem precisar rolar -->
     <div class="hero-cta-wrap a1">
       <a class="btn btn-gold" href="https://pay.cakto.com.br/36op3gz" id="chkBtn" style="font-size:1.08rem">
-        Sim, eu quero meu mapa por R$47,90
+        Sim, eu quero meu mapa por R$97,00
       </a>
       <div class="hero-sub">💚 Pix ou cartão · chega em 3 a 5 min no e-mail e WhatsApp</div>
     </div>
@@ -530,11 +528,11 @@ fbq('track','PageView');
     <div class="w" style="padding-top:1.6rem;padding-bottom:4rem">
 
       <div class="urgbox a2">
-        🔥 Oferta por tempo limitado — garanta agora por R$47,90.
+        🔓 Sua revelação ficou aberta: finalize agora e receba seu mapa completo em 3 a 5 minutos por R$97,00.
       </div>
 
       <a class="btn btn-gold a2" href="https://pay.cakto.com.br/36op3gz" style="margin-top:.9rem;font-size:1.05rem">
-        Sim, eu quero meu mapa por R$47,90
+        Sim, eu quero meu mapa por R$97,00
       </a>
 
       <div class="gar-badge a3" style="margin-top:1.1rem">
@@ -556,13 +554,13 @@ fbq('track','PageView');
 
         <div class="pblock" style="margin-top:1.2rem">
           <div class="pdist">
-            <div class="pde">De R$ 397,00</div>
+            <div class="pde" style="text-decoration:none;opacity:.85">Pagamento único · sem mensalidade</div>
             <div class="pmain">
               <span class="pcur">R$</span>
-              <span class="pval">47</span>
-              <span class="pcents">,90</span>
+              <span class="pval">97</span>
+              <span class="pcents">,00</span>
             </div>
-            <div class="economia">Você economiza R$ 349,10</div>
+            <div class="economia">Mapa Astral + Numerologia completos · 7 dias de garantia</div>
           </div>
         </div>
 
@@ -585,7 +583,7 @@ fbq('track','PageView');
       <!-- Terceiro CTA -->
       <div style="margin-top:1.2rem">
         <a class="btn btn-gold" href="https://pay.cakto.com.br/36op3gz" style="font-size:1.05rem">
-          Sim, eu quero meu mapa por R$47,90
+          Sim, eu quero meu mapa por R$97,00
         </a>
       </div>
 
@@ -1003,6 +1001,18 @@ function finalSubmit(){
   }
   document.getElementById('fem').classList.remove('err');
   document.getElementById('femErr').style.display='none';
+  // WhatsApp: pede uma vez (soft-gate) - sem ele nao da pra avisar quando o mapa ficar pronto nem recuperar quem travar no pagamento
+  const _w=(wpp||'').replace(/\D/g,'');
+  if(_w.length<10 && !window._wppAvisado){
+    window._wppAvisado=true;
+    const e=document.getElementById('fwp');
+    e.classList.add('err');
+    let a=document.getElementById('fwpErr');
+    if(!a){a=document.createElement('div');a.id='fwpErr';a.style.cssText='color:var(--g);font-size:.82rem;margin-top:.4rem;line-height:1.4';e.insertAdjacentElement('afterend',a);}
+    a.textContent='Coloque seu WhatsApp com DDD para eu te avisar assim que seu mapa estiver pronto. Se preferir só e-mail, toque em continuar de novo.';
+    e.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
 
   // So a partir daqui a submissao e valida — trava contra reenvio duplicado
   if(_finalSubmitEnviado)return;
@@ -1139,7 +1149,7 @@ function irOferta(){
   // sai da pagina direto e o listener de popstate abaixo nunca dispara de verdade.
   try{history.pushState({tela:'oferta'},'',location.href);}catch(e){}
   // ViewContent = pessoa viu a oferta (conversão de funil quente)
-  if(typeof fbq!=='undefined')fbq('track','ViewContent',{content_name:'Mapa Astral Completo',value:47.90,currency:'BRL'});
+  if(typeof fbq!=='undefined')fbq('track','ViewContent',{content_name:'Mapa Astral Completo',value:97.00,currency:'BRL'});
   show('soferta');
   if(window._initOfertaCanvas)window._initOfertaCanvas();
   // Som ligado por padrão (pedido da Ju); cai pro mudo só se o navegador bloquear.
