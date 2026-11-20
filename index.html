@@ -230,6 +230,24 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fn);font-size:1rem;l
 
 @media(max-width:480px){.fcols{grid-template-columns:1fr 1fr}.obox{padding:1.4rem 1rem}.pblock{padding:1.2rem 1rem}}
 @media(max-width:340px){.fcols{grid-template-columns:1fr}}
+
+/* ══ REVELAÇÃO V2 ══ */
+.rv2sel{background:linear-gradient(145deg,rgba(14,9,39,.97),rgba(22,12,55,.93));border:1px dashed rgba(251,191,36,.45);border-radius:18px;padding:1.3rem 1.1rem;margin-bottom:.9rem;text-align:center}
+.rv2sel .t{font-size:1.05rem;font-weight:800;color:var(--g3);margin-bottom:.8rem}
+.rv2btn{width:100%;font-size:1.1rem;padding:1.15rem;border-radius:14px}
+.rv2orb{width:132px;height:132px;margin:.4rem auto 1rem;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;background:radial-gradient(circle,rgba(251,191,36,.35),rgba(139,92,246,.25) 55%,transparent 72%);box-shadow:0 0 42px rgba(251,191,36,.35),0 0 90px rgba(139,92,246,.35);animation:rv2pulse 3.2s ease-in-out infinite}
+.rv2orb::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1.5px solid rgba(251,191,36,.5);border-top-color:transparent;animation:rv2spin 7s linear infinite}
+.rv2orb span{font-family:var(--dp);font-size:3.6rem;font-weight:900;color:#fff;text-shadow:0 0 18px rgba(251,191,36,.9)}
+@keyframes rv2pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes rv2spin{to{transform:rotate(360deg)}}
+.rv2txt{font-size:1.05rem;line-height:1.65;color:rgba(245,240,255,.95);text-align:left}
+.rv2txt .vinheta{font-size:1.02rem}
+.rv2aud{margin-top:.7rem;width:100%;font-size:.98rem;padding:.8rem;border-radius:12px;background:rgba(139,92,246,.18);border:1px solid rgba(167,139,250,.4);color:#fff;font-weight:700;cursor:pointer}
+.rv2cut{font-size:1.05rem;line-height:1.7;color:rgba(245,240,255,.95);margin:.4rem 0 1rem;text-align:left}
+.rv2cut .fade{background:linear-gradient(90deg,rgba(245,240,255,.95) 55%,rgba(245,240,255,0));-webkit-background-clip:text;background-clip:text;color:transparent}
+.rv2vid{width:100%;border-radius:14px;background:#000;margin-bottom:.8rem}
+.rv2skip{display:block;margin:.2rem auto .8rem;background:none;border:0;color:var(--fa);font-size:.85rem;text-decoration:underline;cursor:pointer}
+@media(prefers-reduced-motion:reduce){.rv2orb,.rv2orb::before{animation:none}}
 </style>
 
 <!-- Meta Pixel -->
@@ -497,6 +515,13 @@ fbq('track','PageView');
     </div>
   </div>
   </div>
+</div>
+
+
+<!-- TELA REVELAÇÃO V2 (A/B) -->
+<div class="sc" id="sr2">
+  <div class="hdr"><span class="logo">✦ Conexão Astral</span></div>
+  <div class="w" style="padding-top:1.2rem;padding-bottom:2.5rem"><div id="rv2"></div></div>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -819,7 +844,7 @@ function goData(){
   const nome=document.getElementById('fn1').value.trim();
   if(!nome){document.getElementById('fn1').classList.add('err');document.getElementById('fn1').focus();return;}
   document.getElementById('fn1').classList.remove('err');
-  px('Etapa2_Nome',{nome:nome});
+  px('Etapa2_Nome');
   show('s2');
   const vidConf=document.getElementById('vidDataConfianca');
   if(vidConf){
@@ -933,7 +958,7 @@ function goContato(){
   const es=document.getElementById('fes').value.trim();
   if(!ci){document.getElementById('fci').classList.add('err');document.getElementById('fci').focus();return;}
   document.getElementById('fci').classList.remove('err');
-  px('Etapa4_Local',{cidade:ci,estado:es});
+  px('Etapa4_Local',{estado_preenchido:!!es});
   show('s4');
 }
 
@@ -1001,6 +1026,19 @@ function finalSubmit(){
   }
   document.getElementById('fem').classList.remove('err');
   document.getElementById('femErr').style.display='none';
+  // E-mail com dominio provavelmente digitado errado: avisa 1x (o mapa e enviado por e-mail)
+  const _dom=(email.split('@')[1]||'').toLowerCase();
+  const _typos={'gmayl.com':'gmail.com','gmayl.com.br':'gmail.com','gmial.com':'gmail.com','gamil.com':'gmail.com','gmai.com':'gmail.com','gmal.com':'gmail.com','gmail.com.br':'gmail.com','gmail.co':'gmail.com','gmail.con':'gmail.com','hotmial.com':'hotmail.com','hotmal.com':'hotmail.com','hotmail.con':'hotmail.com','outlok.com':'outlook.com','yahoo.con':'yahoo.com','yaho.com.br':'yahoo.com.br'};
+  if(_typos[_dom] && !window._emailAvisado){
+    window._emailAvisado=true;
+    const ee=document.getElementById('fem');
+    ee.classList.add('err');
+    let ea=document.getElementById('femTypo');
+    if(!ea){ea=document.createElement('div');ea.id='femTypo';ea.style.cssText='color:var(--g);font-size:.9rem;margin-top:.4rem;line-height:1.4';ee.insertAdjacentElement('afterend',ea);}
+    ea.textContent='Seu e-mail está certo? Parece que o final deveria ser @'+_typos[_dom]+'. É nele que seu mapa chega. Corrija, ou toque em continuar de novo se estiver certo.';
+    ee.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
   // WhatsApp: pede uma vez (soft-gate) - sem ele nao da pra avisar quando o mapa ficar pronto nem recuperar quem travar no pagamento
   const _w=(wpp||'').replace(/\D/g,'');
   if(_w.length<10 && !window._wppAvisado){
@@ -1035,7 +1073,7 @@ function finalSubmit(){
 
   const d={
     funil:'ca-quiz-v3',
-    nome,email,whatsapp:wpp,
+    nome,email,whatsapp:(wpp||'').replace(/\D/g,'').replace(/^0+/,''),
     data_nascimento:data,
     cidade_nascimento:cidade,
     estado_nascimento:estado,
@@ -1072,8 +1110,147 @@ function startLoading(nome,data){
   },1000);
 }
 
+
+// ══ REVELAÇÃO V2 (A/B) ══
+// REV_V2_PCT: 0 = desligado (so abre com ?rev=2); 0.5 = 50% do trafego; 1 = todos.
+const REV_V2_PCT=0;
+const REV_VIDEO='';            // ex.: 'media/sofia-revelacao.mp4' (vazio = intro so em texto)
+const REV_AUDIO_BASE='';       // ex.: 'media/nv-' -> media/nv-7.mp3 (vazio = sem botao de audio)
+function revVariante(){
+  try{
+    const q=new URLSearchParams(location.search).get('rev');
+    if(q==='1'||q==='2'){localStorage.setItem('ca_rev',q);return q;}
+    let v=localStorage.getItem('ca_rev');
+    if(v!=='1'&&v!=='2'){v=Math.random()<REV_V2_PCT?'2':'1';localStorage.setItem('ca_rev',v);}
+    return v;
+  }catch(e){return '1';}
+}
+function escH(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function revTipo(el,html,done){
+  // efeito de digitacao simples (respeita "reduzir movimento")
+  const reduz=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduz){el.innerHTML=html;if(done)done();return;}
+  const tmp=document.createElement('div');tmp.innerHTML=html.replace(/<\/div>/g,'</div> ');const txt=tmp.textContent.trim();
+  let i=0;el.textContent='';
+  const iv=setInterval(()=>{
+    i+=2;el.textContent=txt.slice(0,i);
+    if(i>=txt.length){clearInterval(iv);el.innerHTML=html;if(done)done();}
+  },22);
+}
+function renderRevV2(nome,data){
+  const pn=nome.split(' ')[0];
+  const nv=numvida(data);
+  const d=new Date(data+'T12:00:00');
+  const sg=signo(d.getMonth()+1,d.getDate());
+  const areaLabelMap={amor:'amor',dinheiro:'dinheiro e carreira',proposito:'propósito de vida',personalidade:'personalidade',padroes:'padrões de vida'};
+  const areas=selectedAreas.length?selectedAreas:['proposito','amor'];
+  const a1=areas[0]||'proposito';
+  const a2=areas[1]||(a1==='amor'?'dinheiro':'amor');
+  const c1=(AREAS_META[a1]||AREAS_META['proposito']).calc(sg,nv);
+  const c2=(AREAS_META[a2]||AREAS_META['amor']).calc(sg,nv);
+  const prd=prop(nv);
+  const root=document.getElementById('rv2');
+  const V={v:'2'};
+  window._revVar='2';
+
+  const cards=[
+    {tit:`${escH(pn)}, seu Número de Vida é ${nv}`,html:`<div class="vinheta">◆ ${prd.t}</div><div class="vinheta">✦ Isso bate com sua energia de ${sg}: ${signTouch(sg)}</div>`,orb:true,audio:true},
+    {tit:`Sobre ${areaLabelMap[a1]||'propósito de vida'}`,html:`<div class="vinheta">◆ ${c1.t}</div><div class="vinheta">✦ Seu Número de Vida ${nv} confirma: ${c1.n}</div>`},
+    {tit:`Sobre ${areaLabelMap[a2]||'amor'}`,html:`<div class="vinheta">◆ ${c2.t}</div>${c2.n===c1.n?'':`<div class="vinheta">✦ Seu Número de Vida ${nv} confirma: ${c2.n}</div>`}`}
+  ];
+
+  function intro(){
+    px('RevIntroVista',V);
+    const vid=REV_VIDEO?`<video class="rv2vid" id="rv2v" src="${REV_VIDEO}" playsinline controls preload="auto"></video><button class="rv2skip" id="rv2skip">Pular vídeo</button>`:'';
+    root.innerHTML=
+      `<h2 style="font-family:var(--dp);font-size:clamp(1.3rem,5vw,1.65rem);font-weight:900;line-height:1.25;text-align:center;margin-bottom:.9rem">${escH(pn)}, antes de revelar</h2>`+vid+
+      `<div class="rv2txt" style="margin-bottom:1.1rem">`+
+      `<p style="margin-bottom:.7rem">O que você vai ver agora é só uma <strong>amostra</strong> do seu Mapa Completo.</p>`+
+      `<p style="margin-bottom:.7rem">Um mapa cruza a sua data de nascimento com o seu nome e mostra padrões da sua personalidade, do seu amor, do seu dinheiro e do seu propósito.</p>`+
+      `<p>Vou revelar <strong>3 informações</strong> sobre você. Toque para abrir cada uma.</p></div>`+
+      `<button class="btn btn-gold rv2btn" id="rv2go">ENTENDI, QUERO REVELAR →</button>`;
+    const go=()=>{px('RevIntroOk',V);cartas(0);};
+    document.getElementById('rv2go').onclick=go;
+    const sk=document.getElementById('rv2skip');
+    if(sk)sk.onclick=()=>{px('RevIntroPulou',V);const v=document.getElementById('rv2v');if(v)v.pause();go();};
+    const v=document.getElementById('rv2v');
+    if(v){v.addEventListener('play',()=>px('RevVideoPlay',V),{once:true});v.addEventListener('ended',()=>px('RevVideoFim',V),{once:true});}
+  }
+
+  function cartas(i){
+    // monta o que ja foi revelado + o proximo selado
+    if(i>=cards.length){return corte();}
+    const c=cards[i];
+    const box=document.createElement('div');
+    box.className='rv2sel';
+    box.innerHTML=`<div class="t">Revelação ${i+1} de 3</div><button class="btn btn-gold rv2btn">TOQUE PARA REVELAR ✦</button>`;
+    if(i===0)root.innerHTML='';
+    root.appendChild(box);
+    box.scrollIntoView({behavior:'smooth',block:'center'});
+    box.querySelector('button').onclick=()=>{
+      px('RevCarta'+(i+1),V);
+      box.className='revcard a2';box.style.padding='';box.style.border='';
+      box.innerHTML=
+        `<div class="revh"><div class="revnum">${i+1}</div><div><div class="revtit">${c.tit}</div></div></div>`+
+        `<div class="revbody" style="padding:1rem 1.1rem">${c.orb?`<div class="rv2orb"><span>${nv}</span></div>`:''}<div class="rv2txt" id="rv2t${i}"></div></div>`;
+      const alvo=document.getElementById('rv2t'+i);
+      revTipo(alvo,c.html,()=>{
+        if(c.audio&&REV_AUDIO_BASE){
+          const b=document.createElement('button');b.className='rv2aud';b.textContent='🔊 Ouvir a Sofia contar';
+          const a=new Audio(REV_AUDIO_BASE+nv+'.mp3');
+          a.addEventListener('error',()=>b.remove());
+          b.onclick=()=>{px('RevAudioPlay',V);a.currentTime=0;a.play().catch(()=>{});};
+          alvo.parentNode.appendChild(b);
+        }
+        setTimeout(()=>cartas(i+1),700);
+      });
+    };
+  }
+
+  function corte(){
+    px('RevCorte',V);
+    const lbl=areaLabelMap[a2]||'amor';
+    const box=document.createElement('div');
+    box.innerHTML=
+      `<p class="rv2cut">${escH(pn)}, existe um detalhe no seu Número ${nv} que muda a forma de ler tudo isso. E ele aparece justamente na parte do seu mapa que ainda não foi aberta. Quando você olha para ${lbl}, ele explica por que esse padrão começou e o que muda quando você <span class="fade">passa a enxergá-lo, porque a maioria das pessoas só percebe isso depois de</span></p>`+
+      `<button class="btn btn-gold rv2btn" id="rv2cont">CONTINUE LENDO →</button>`+
+      `<p style="text-align:center;font-size:.8rem;color:var(--fa);margin-top:.55rem">Seu mapa personalizado chega hoje mesmo, por e-mail e WhatsApp</p>`;
+    root.appendChild(box);
+    box.scrollIntoView({behavior:'smooth',block:'center'});
+    document.getElementById('rv2cont').onclick=()=>{px('RevContinuar',V);irOferta();};
+  }
+
+  show('sr2');
+  intro();
+}
+
+function ligarCheckout(pn,nome){
+  // Link checkout com e-mail
+  let em='';
+  try{em=JSON.parse(localStorage.getItem('ca')||'{}').email||'';}catch(e){}
+  let _ph='';try{_ph=JSON.parse(localStorage.getItem('ca')||'{}').whatsapp||'';}catch(e){}
+  const url=CK+(em?((CK.includes('?')?'&':'?')+'email='+encodeURIComponent(em)+'&nome='+encodeURIComponent(pn)+'&name='+encodeURIComponent(nome)+(_ph?'&phone='+encodeURIComponent(_ph):'')):'');
+  document.querySelectorAll('#soferta a[href*="cakto"]').forEach(a=>{
+    a.href=url;
+    // Fix dedup: so anexa o listener se ainda nao tiver sido marcado (mesma flag que irOferta() usa)
+    if(!a.dataset.ckEvt){
+      a.dataset.ckEvt='1';
+      // InitiateCheckout NAO e mais disparado aqui: a Cakto ja dispara esse
+      // evento nativamente ao carregar a propria pagina de checkout (mesmo
+      // Pixel ID), e disparar tambem aqui duplicava a contagem no Meta.
+      // Mantido apenas o aviso interno (n8n) de que o checkout foi iniciado.
+      a.addEventListener('click',()=>{px('CliqueComprar',{v:window._revVar||'1'});notificarIniciouCheckout();});
+    }
+  });
+
+}
+
 // ══ RESULTADO ══
 function result(nome,data){
+  const _rv=revVariante();
+  window._revVar=_rv;
+  px('RevVista',{v:_rv});
+  if(_rv==='2'){ligarCheckout(nome.split(' ')[0],nome);renderRevV2(nome,data);return;}
   const pn=nome.split(' ')[0];
   const nv=numvida(data);
   const d=new Date(data+'T12:00:00');
@@ -1122,22 +1299,7 @@ function result(nome,data){
     `<div class="revbody"><div class="vinheta">◆ ${area2Calc.t}</div><div class="vinheta">✦ Seu Número de Vida ${nv} confirma: ${area2Calc.n}</div></div>`;
   wrap.appendChild(card3);
 
-  // Link checkout com e-mail
-  let em='';
-  try{em=JSON.parse(localStorage.getItem('ca')||'{}').email||'';}catch(e){}
-  const url=CK+(em?((CK.includes('?')?'&':'?')+'email='+encodeURIComponent(em)+'&nome='+encodeURIComponent(pn)):'');
-  document.querySelectorAll('#soferta a[href*="cakto"]').forEach(a=>{
-    a.href=url;
-    // Fix dedup: so anexa o listener se ainda nao tiver sido marcado (mesma flag que irOferta() usa)
-    if(!a.dataset.ckEvt){
-      a.dataset.ckEvt='1';
-      // InitiateCheckout NAO e mais disparado aqui: a Cakto ja dispara esse
-      // evento nativamente ao carregar a propria pagina de checkout (mesmo
-      // Pixel ID), e disparar tambem aqui duplicava a contagem no Meta.
-      // Mantido apenas o aviso interno (n8n) de que o checkout foi iniciado.
-      a.addEventListener('click',()=>{notificarIniciouCheckout();});
-    }
-  });
+  ligarCheckout(pn,nome);
 
   show('sr');
   if(window._initSrCanvas)window._initSrCanvas();
@@ -1162,6 +1324,7 @@ function irOferta(){
     if(!a.dataset.ckEvt){
       a.dataset.ckEvt='1';
       a.addEventListener('click',()=>{
+        px('CliqueComprar',{v:window._revVar||'1'});
         notificarIniciouCheckout();
       });
     }
